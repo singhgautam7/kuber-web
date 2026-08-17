@@ -18,7 +18,22 @@
   --k-radius-lg: 14px;
   --k-radius-xl: 20px;
   --k-radius-pill: 999px;
-  --k-maxw: 1160px;
+  /* Content width grows with the viewport instead of hard-capping at 1160px,
+     so wide screens are filled rather than leaving big empty margins. Matches
+     the design's ~1160px on typical laptops, expands up to 1400px on large
+     monitors; on small screens .container's width:100% takes over. */
+  --k-maxw: clamp(1160px, 92vw, 1400px);
+
+  /* Fluid type scale for the biggest headings, so text scales with the screen
+     rather than looking tiny on large monitors. Each clamp hits its design
+     size around a typical laptop width and grows/shrinks from there. */
+  /* Each hits its design size around a ~1440px laptop and grows on larger
+     monitors (and gently shrinks on small screens). */
+  --fs-hero: clamp(3.75rem, 5.85vw, 7rem); /* hero "Kuber" (~84px @1440) */
+  --fs-display: clamp(2.75rem, 3.9vw, 4rem); /* page hero titles (~56px @1440) */
+  --fs-h2: clamp(1.9rem, 2.9vw, 2.75rem); /* section headings (~42px @1440) */
+  --fs-tagline: clamp(1.5rem, 2vw, 2.1rem); /* hero tagline (~29px @1440) */
+  --fs-lead: clamp(1rem, 0.6vw + 0.8rem, 1.2rem); /* lead paragraphs (~17-19px) */
 }
 
 body {

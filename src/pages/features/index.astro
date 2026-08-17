@@ -48,8 +48,8 @@ const chips: Array<keyof typeof counts> = ['All', 'Free', 'Pro', 'Signature'];
 <style>
   .eyebrow { font: 700 12px var(--font-sans); letter-spacing: 1.6px; color: var(--k-accent-text); margin-bottom: 12px; }
   .feat-header { padding: 60px 22px 26px; }
-  .feat-title { font: 900 56px var(--font-sans); letter-spacing: -2.5px; line-height: 1; margin: 0; }
-  .feat-intro { font: 400 17px/1.6 var(--font-sans); color: var(--k-text-sec); margin: 16px 0 0; max-width: 520px; }
+  .feat-title { font-family: var(--font-sans); font-weight: 900; font-size: var(--fs-display); letter-spacing: -0.045em; line-height: 1; margin: 0; }
+  .feat-intro { font-family: var(--font-sans); font-weight: 400; font-size: var(--fs-lead); line-height: 1.6; color: var(--k-text-sec); margin: 16px 0 0; max-width: 520px; }
   .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
   .chip { display: inline-flex; align-items: center; gap: 8px; padding: 9px 15px; border-radius: 999px; font: 600 14px var(--font-sans); color: var(--k-text); background: var(--k-card); border: 1px solid var(--k-border); }
   .chip[aria-pressed='true'] { color: var(--k-on-accent); background: var(--k-accent); border-color: var(--k-accent); }
@@ -58,6 +58,6 @@ const chips: Array<keyof typeof counts> = ['All', 'Free', 'Pro', 'Signature'];
   .feat-section { padding: 14px 22px 70px; }
   .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   .grid > [hidden] { display: none; }
-  @media (max-width: 860px) { .grid { grid-template-columns: repeat(2, 1fr); } .feat-title { font-size: 44px; } }
+  @media (max-width: 860px) { .grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
 </style>

@@ -47,8 +47,8 @@ const fmt = (d: Date) => d.toLocaleDateString('en-IN', { month: 'long', year: 'n
 <style>
   .eyebrow { font: 700 12px var(--font-sans); letter-spacing: 1.6px; color: var(--k-accent-text); margin-bottom: 12px; }
   .cl-header { max-width: 820px; margin: 0 auto; padding: 56px 22px 20px; }
-  .cl-title { font: 900 52px var(--font-sans); letter-spacing: -2.2px; line-height: 1; margin: 0; }
-  .cl-intro { font: 400 17px/1.6 var(--font-sans); color: var(--k-text-sec); margin: 14px 0 0; max-width: 480px; }
+  .cl-title { font-family: var(--font-sans); font-weight: 900; font-size: var(--fs-display); letter-spacing: -0.042em; line-height: 1; margin: 0; }
+  .cl-intro { font-family: var(--font-sans); font-weight: 400; font-size: var(--fs-lead); line-height: 1.6; color: var(--k-text-sec); margin: 14px 0 0; max-width: 480px; }
   .cl-section { max-width: 820px; margin: 0 auto; padding: 20px 22px 60px; }
   .cl-entries { display: flex; flex-direction: column; }
   .cl-entry { display: grid; grid-template-columns: 150px 1fr; gap: 24px; padding: 26px 0; border-top: 1px solid var(--k-border); }
@@ -64,6 +64,5 @@ const fmt = (d: Date) => d.toLocaleDateString('en-IN', { month: 'long', year: 'n
   .cl-more-link { font: 600 14px var(--font-sans); color: var(--k-text); background: var(--k-card); border: 1px solid var(--k-border); border-radius: 10px; padding: 11px 22px; display: inline-block; }
   @media (max-width: 620px) {
     .cl-entry { grid-template-columns: 1fr; gap: 10px; }
-    .cl-title { font-size: 40px; }
   }
 </style>

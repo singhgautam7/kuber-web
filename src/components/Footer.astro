@@ -11,7 +11,10 @@ interface Props {
   variant?: 'full' | 'compact';
   maxWidth?: number;
 }
-const { variant = 'compact', maxWidth = 1160 } = Astro.props;
+const { variant = 'compact', maxWidth } = Astro.props;
+// Default to the fluid content width so the footer lines up with the page;
+// narrow content pages (docs, changelog) pass an explicit px width.
+const mw = maxWidth ? `${maxWidth}px` : 'var(--k-maxw)';
 const buildDate = new Date().toLocaleDateString('en-IN', {
   day: 'numeric',
   month: 'long',
@@ -21,7 +24,7 @@ const year = new Date().getFullYear();
 ---
 {variant === 'full' ? (
   <footer class="footer">
-    <div class="footer-grid" style={`max-width:${maxWidth}px`}>
+    <div class="footer-grid" style={`max-width:${mw}`}>
       <div>
         <div class="footer-brand">
           <BrandMark size={28} radius={7} />
@@ -54,7 +57,7 @@ const year = new Date().getFullYear();
         </div>
       </div>
     </div>
-    <div class="footer-legal" style={`max-width:${maxWidth}px`}>
+    <div class="footer-legal" style={`max-width:${mw}`}>
       <span>© {year} Kuber</span>
       <span>Last updated {buildDate}</span>
       <div class="nav-spacer" style="flex:1"></div>
@@ -63,7 +66,7 @@ const year = new Date().getFullYear();
   </footer>
 ) : (
   <footer class="footer">
-    <div class="footer-compact" style={`max-width:${maxWidth}px`}>
+    <div class="footer-compact" style={`max-width:${mw}`}>
       <div class="footer-brand">
         <BrandMark size={26} radius={6} />
         <span class="footer-word" style="font-size:17px">Kuber</span>

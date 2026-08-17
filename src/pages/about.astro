@@ -97,7 +97,7 @@ const tags = ['Fast', 'Offline', 'Private', 'Habit-friendly'];
   .ab-letter { border: 1px solid var(--k-accent-ring); border-radius: 20px; padding: 40px; position: relative; overflow: hidden; background: linear-gradient(180deg, var(--k-accent-subtle), transparent 34%, var(--k-card) 68%); }
   .ab-quote { position: absolute; top: 8px; right: 26px; font-weight: 700; font-size: 120px; line-height: 1; color: var(--k-accent); opacity: 0.16; pointer-events: none; }
   .ab-eyebrow { font: 700 11px var(--font-sans); letter-spacing: 1.4px; color: var(--k-accent-text); }
-  .ab-title { font: 800 40px var(--font-sans); letter-spacing: -1.2px; line-height: 1.08; margin: 10px 0 0; }
+  .ab-title { font-family: var(--font-sans); font-weight: 800; font-size: var(--fs-h2); letter-spacing: -0.03em; line-height: 1.08; margin: 10px 0 0; }
   .ab-body { margin-top: 28px; max-width: 600px; }
   .ab-body :global(p) { font: 400 16px/1.85 var(--font-sans); }
   .ab-body :global(p:first-child) { font-weight: 600; }
@@ -139,6 +139,5 @@ const tags = ['Fast', 'Offline', 'Private', 'Habit-friendly'];
 
   @media (max-width: 620px) {
     .ab-why, .ab-contact { grid-template-columns: 1fr; }
-    .ab-title { font-size: 32px; }
   }
 </style>

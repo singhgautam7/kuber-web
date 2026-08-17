@@ -90,6 +90,14 @@
     justify-self: center;
     position: relative;
   }
+  /* Scale the phone up on large screens so it keeps pace with the fluid hero
+     text (transform keeps the vector mock crisp and doesn't reflow layout). */
+  @media (min-width: 1500px) {
+    .hero-phone-wrap {
+      transform: scale(1.12);
+      transform-origin: center;
+    }
+  }
   .hero-phone-glow {
     position: absolute;
     inset: -8% -6%;

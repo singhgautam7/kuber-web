@@ -7,6 +7,21 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Quick fade-in on each page load, so navigating between pages feels animated
+   (every navigation is a full page load, which is reliable on static hosts).
+   Zeroed under reduced-motion by the reset. */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+main {
+  animation: page-enter 0.32s ease both;
+}
+
 body {
   background: var(--k-bg);
   color: var(--k-text);

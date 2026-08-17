@@ -108,8 +108,10 @@ const updated = lastUpdated
     margin-bottom: 10px;
   }
   .doc-title {
-    font: 800 42px var(--font-sans);
-    letter-spacing: -1.6px;
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    letter-spacing: -0.038em;
     margin: 0;
   }
   .doc-updated {
@@ -133,9 +135,6 @@ const updated = lastUpdated
     }
     .toc {
       display: none;
-    }
-    .doc-title {
-      font-size: 34px;
     }
   }
 </style>
