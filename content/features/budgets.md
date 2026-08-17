@@ -8,7 +8,7 @@ pro: false
 beta: false
 signature: false
 related:
-  - advanced-analytics
+  - detailed-analytics
   - money-stories
   - calculators
 iconName: "budgets"

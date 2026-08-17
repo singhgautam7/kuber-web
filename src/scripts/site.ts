@@ -69,8 +69,6 @@ function closeThemeMenus(): void {
 }
 
 function initThemeControls(): void {
-  syncLabel();
-
   // Variant + mode setters (delegated).
   document.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;
@@ -139,6 +137,8 @@ function initFilters(): void {
   const chipRow = document.querySelector<HTMLElement>('[data-filter-chips]');
   const grid = document.querySelector<HTMLElement>('[data-feature-grid]');
   if (!chipRow || !grid) return;
+  if (chipRow.dataset.filterInit) return; // guard against double-binding
+  chipRow.dataset.filterInit = '1';
 
   chipRow.addEventListener('click', (e) => {
     const chip = (e.target as HTMLElement).closest<HTMLElement>('[data-filter]');
@@ -199,16 +199,32 @@ function initEmailReveal(): void {
   });
 }
 
-function init(): void {
+// Document-level delegated listeners: attach exactly once for the session.
+let delegatesAttached = false;
+function attachDelegates(): void {
+  if (delegatesAttached) return;
+  delegatesAttached = true;
   initThemeControls();
   initDrawer();
-  initFilters();
   initCopy();
   initEmailReveal();
 }
 
+// Per-page work: runs on first load and after every view-transition swap.
+function perPage(): void {
+  syncLabel();
+  initFilters();
+}
+
+function boot(): void {
+  attachDelegates();
+  perPage();
+}
+
+// astro:page-load fires on first load and after each ClientRouter navigation.
+document.addEventListener('astro:page-load', boot);
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('DOMContentLoaded', boot);
 } else {
-  init();
+  boot();
 }

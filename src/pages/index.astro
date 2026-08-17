@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import { config } from '@/config';
 import { url, asset } from '@/lib/url';
 import { THEMES, PALETTES } from '@/lib/theme';
@@ -12,7 +12,28 @@ import FeatureIcon from '@/components/FeatureIcon.astro';
 import PlayStoreBadge from '@/components/PlayStoreBadge.astro';
 
 const features = (await getCollection('features')).sort((a, b) => a.data.order - b.data.order);
-const gridFeatures = features.slice(0, 6);
+const bySlug = new Map(features.map((f) => [f.data.slug, f]));
+
+// Curated "What Kuber does" grid: the six headline capabilities. Cards may
+// override the collection's title/description for the homepage highlight.
+const gridSlugs: Array<{ slug: string; title?: string; description?: string }> = [
+  { slug: 'expense-tracking' },
+  { slug: 'detailed-analytics', description: 'See where your money goes with category breakdowns, budget vs actual, trends and tag analytics.' },
+  { slug: 'sms-import' },
+  { slug: 'quick-add' },
+  { slug: 'voice-input', title: 'Voice Add' },
+  { slug: 'powerful-filtering' },
+];
+interface GridCard {
+  entry: CollectionEntry<'features'>;
+  title?: string;
+  description?: string;
+}
+const gridFeatures: GridCard[] = gridSlugs.flatMap((g) => {
+  const f = bySlug.get(g.slug);
+  return f ? [{ entry: f, title: g.title, description: g.description }] : [];
+});
+
 const signatureFeatures = features.filter((f) => f.data.signature).slice(0, 5);
 
 const trust = ['Offline', 'Private', 'Open Source', 'Made in India', 'Under 17 MB'];
@@ -65,15 +86,15 @@ const testimonials = [
     <div class="eyebrow">WHAT KUBER DOES</div>
     <h2 class="section-h2 wide">Everything you need to track money, nothing you don't.</h2>
     <div class="fgrid" data-fgrid>
-      {gridFeatures.map((f) => (
+      {gridFeatures.map(({ entry, title, description }) => (
         <FeatureCard
-          slug={f.data.slug}
-          title={f.data.title}
-          description={f.data.description}
-          iconName={f.data.iconName}
-          pro={f.data.pro}
-          beta={f.data.beta}
-          signature={f.data.signature}
+          slug={entry.data.slug}
+          title={title ?? entry.data.title}
+          description={description ?? entry.data.description}
+          iconName={entry.data.iconName}
+          pro={entry.data.pro}
+          beta={entry.data.beta}
+          signature={entry.data.signature}
         />
       ))}
     </div>
@@ -107,6 +128,20 @@ const testimonials = [
         <div class="eyebrow">MAKE IT YOURS</div>
         <h2 class="section-h2">Seven themes. Light and dark.</h2>
         <p class="showcase-p">Pick an accent family and Kuber recolors, income and expense included. Tap a theme below to try it. The whole site changes with you.</p>
+        <div class="showcase-mode" role="group" aria-label="Light or dark mode">
+          <span class="showcase-mode-label">MODE</span>
+          <div class="showcase-mode-toggle">
+            <button type="button" class="showcase-mode-btn" data-set-mode="light">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
+              Light
+            </button>
+            <button type="button" class="showcase-mode-btn" data-set-mode="dark">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+              Dark
+            </button>
+          </div>
+        </div>
+        <div class="showcase-cards-label">ACCENT</div>
         <div class="showcase-cards">
           {THEMES.map((t) => (
             <button
@@ -217,7 +252,16 @@ const testimonials = [
   .fgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
 
   .sig-section { padding: 36px 0 40px; }
-  .sig-strip { display: flex; gap: 16px; padding: 26px 22px 12px; scroll-snap-type: x mandatory; }
+  /* Full-bleed scroller whose edges line up with the centred container, so the
+     first card sits under the heading and scrollLeft:0 fully reveals it. */
+  .sig-strip {
+    display: flex;
+    gap: 16px;
+    padding: 26px max(22px, calc((100% - var(--k-maxw)) / 2 + 22px)) 12px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scroll-padding-left: max(22px, calc((100% - var(--k-maxw)) / 2 + 22px));
+  }
   .sig-card { scroll-snap-align: start; flex: 0 0 300px; background: var(--k-card); border: 1px solid var(--k-border); border-radius: 14px; padding: 24px; color: var(--k-text); position: relative; overflow: hidden; }
   .sig-glow { position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; background: radial-gradient(circle, var(--k-accent-subtle), transparent 70%); }
   .sig-icon { width: 46px; height: 46px; border-radius: 11px; background: var(--k-accent); display: flex; align-items: center; justify-content: center; color: var(--k-on-accent); position: relative; }
@@ -228,7 +272,20 @@ const testimonials = [
   .showcase { border-top: 1px solid var(--k-border); border-bottom: 1px solid var(--k-border); background: var(--k-card); }
   .showcase-grid { padding: 70px 22px; display: grid; grid-template-columns: 1fr 0.8fr; gap: 48px; align-items: center; }
   .showcase-p { font: 400 16px/1.6 var(--font-sans); color: var(--k-text-sec); margin: 16px 0 0; max-width: 440px; }
-  .showcase-cards { display: flex; flex-wrap: wrap; gap: 11px; margin-top: 26px; }
+  .showcase-mode { display: flex; align-items: center; gap: 14px; margin-top: 26px; }
+  .showcase-mode-label,
+  .showcase-cards-label { font: 700 11px var(--font-sans); letter-spacing: 1.4px; color: var(--k-text-sec); }
+  .showcase-mode-toggle { display: inline-flex; gap: 4px; background: var(--k-bg); border: 1px solid var(--k-border); border-radius: 12px; padding: 4px; }
+  .showcase-mode-btn { display: inline-flex; align-items: center; gap: 7px; padding: 8px 16px; border-radius: 9px; font: 600 13.5px var(--font-sans); color: var(--k-text-sec); background: transparent; border: 1px solid transparent; }
+  /* Active mode highlight (driven by the html attribute, no JS needed). */
+  :global(:root[data-mode='light']) .showcase-mode-btn[data-set-mode='light'],
+  :global(:root[data-mode='dark']) .showcase-mode-btn[data-set-mode='dark'] {
+    color: var(--k-accent-text);
+    background: var(--k-accent-subtle);
+    border-color: var(--k-accent-ring);
+  }
+  .showcase-cards-label { margin-top: 22px; margin-bottom: 12px; }
+  .showcase-cards { display: flex; flex-wrap: wrap; gap: 11px; }
   .showcase-card { display: flex; align-items: center; gap: 11px; padding: 12px 14px; border-radius: 12px; background: var(--k-bg); border: 2px solid var(--k-border); transition: border-color 0.2s; }
   .showcase-swatch { width: 26px; height: 26px; border-radius: 8px; background: var(--sw-dark); flex-shrink: 0; }
   .showcase-card-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }

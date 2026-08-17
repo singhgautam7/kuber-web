@@ -9,7 +9,7 @@ beta: false
 signature: false
 related:
   - sms-import
-  - advanced-analytics
+  - detailed-analytics
   - themes
 iconName: "pro-plans"
 ---

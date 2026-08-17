@@ -14,11 +14,11 @@ Yes. Kuber works fully offline. There is no account and no cloud. Your data neve
 
 ## Does Kuber cost anything?
 
-The core app is free. Kuber Pro is an optional upgrade that unlocks extra features like SMS Import, Advanced Analytics, Reminders and the accent themes. See [Kuber Pro](/kuber/features/pro-plans/).
+The core app is free. Kuber Pro is an optional upgrade that unlocks extra features like SMS Import, Advanced Analytics, Reminders and the accent themes. See [Kuber Pro](../../features/pro-plans/).
 
 ## How does SMS import work?
 
-Kuber reads only bank and payment transaction alerts, on your device, and only when you open the SMS Import screen. It parses the amount and merchant and shows them for your review. Nothing is imported without your approval, and no SMS content ever leaves your phone. Read the details in the [Privacy Policy](/kuber/docs/privacy-policy/).
+Kuber reads only bank and payment transaction alerts, on your device, and only when you open the SMS Import screen. It parses the amount and merchant and shows them for your review. Nothing is imported without your approval, and no SMS content ever leaves your phone. Read the details in the [Privacy Policy](../privacy-policy/).
 
 ## Where is my data stored?
 
@@ -30,7 +30,7 @@ Export a local JSON or CSV backup from inside the app. The file is yours, and yo
 
 ## How do I delete my data?
 
-Clear the app data from settings, or uninstall the app. Full steps are on the [Data Deletion](/kuber/docs/data-deletion/) page.
+Clear the app data from settings, or uninstall the app. Full steps are on the [Data Deletion](../data-deletion/) page.
 
 ## Which platforms are supported?
 

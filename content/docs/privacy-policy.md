@@ -69,7 +69,7 @@ Kuber may request permission to read SMS messages stored on your device. This pe
 
 ## Data deletion
 
-You can delete your data by clearing app data from device settings, or by uninstalling the app. There is nothing to request from us. See the [Data Deletion](/kuber/docs/data-deletion/) page for step-by-step instructions.
+You can delete your data by clearing app data from device settings, or by uninstalling the app. There is nothing to request from us. See the [Data Deletion](../data-deletion/) page for step-by-step instructions.
 
 ## Changes to this policy
 

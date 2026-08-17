@@ -22,7 +22,7 @@ bun install
 bun run dev
 ```
 
-The dev server runs at `http://localhost:4321/kuber/` (the site uses a `/kuber/` base path, see Deploy notes).
+The dev server runs at `http://localhost:4321/kuber-web/` (the site uses a `/kuber-web/` base path, see Deploy notes).
 
 ```bash
 bun run build
@@ -192,7 +192,7 @@ Files sharing a base name are grouped, and the one matching the current site mod
 
 ## Deploy notes (GitHub Pages)
 
-This site is configured as a **project site** at `https://singhgautam7.github.io/kuber/`, so `astro.config.mjs` sets `site` and `base: '/kuber'`.
+This site is configured as a **project site** at `https://singhgautam7.github.io/kuber-web/`, so `astro.config.mjs` sets `site` and `base: '/kuber-web'`. The base path must equal the repository name.
 
 1. Push to `main`. The workflow in `.github/workflows/deploy.yml` installs with Bun, builds, and deploys `dist/` to GitHub Pages.
 2. In the repo, go to **Settings -> Pages** and set **Source: GitHub Actions**.
@@ -226,7 +226,7 @@ bun run build && bun run preview
 ```
 
 ```bash
-npx lighthouse http://localhost:4321/kuber/ --view --preset=desktop
+npx lighthouse http://localhost:4321/kuber-web/ --view --preset=desktop
 ```
 
 Targets on the homepage: Performance, Accessibility, SEO, and Best Practices all 95+.

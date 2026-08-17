@@ -43,14 +43,27 @@
       <div class="sp-group"><span>YESTERDAY</span><span class="sp-group-line"></span><span>−₹720</span></div>
       <div class="sp-tx">
         <div class="sp-tx-ic sp-tx-ex"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v7a2 2 0 0 0 2 2h0V3M8 3v18M17 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9"/></svg></div>
+        <div class="sp-tx-main">
+          <div class="sp-tx-title">Tea/Coffee</div>
+          <div class="sp-tx-meta">Dining · Cash</div>
+          <div class="sp-tx-badges">
+            <span class="sp-badge sp-badge-attach"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg><span class="sp-badge-n">2</span></span>
+            <span class="sp-badge sp-badge-note"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg></span>
+            <span class="sp-tag">#work</span>
+          </div>
+        </div>
+        <div class="sp-tx-amt"><div class="sp-tx-val">-₹20</div><div class="sp-tx-time">5:11 PM</div></div>
+      </div>
+      <div class="sp-tx">
+        <div class="sp-tx-ic sp-tx-ex"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v7a2 2 0 0 0 2 2h0V3M8 3v18M17 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9"/></svg></div>
         <div class="sp-tx-main"><div class="sp-tx-title">Lunch / Dinner</div><div class="sp-tx-meta">Dining · Cash</div><div class="sp-tag">#work</div></div>
         <div class="sp-tx-amt"><div class="sp-tx-val">-₹700</div><div class="sp-tx-time">9:37 AM</div></div>
       </div>
       <div class="sp-group"><span>FRI, 15 AUG</span><span class="sp-group-line"></span><span>−₹200</span></div>
       <div class="sp-tx">
         <div class="sp-tx-ic sp-tx-ex"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v7a2 2 0 0 0 2 2h0V3M8 3v18M17 3c-1.5 0-2.5 2-2.5 5s1 4 2.5 4v9"/></svg></div>
-        <div class="sp-tx-main"><div class="sp-tx-title">Tea/Coffee</div><div class="sp-tx-meta">Dining · Cash</div></div>
-        <div class="sp-tx-amt"><div class="sp-tx-val">-₹20</div><div class="sp-tx-time">5:11 PM</div></div>
+        <div class="sp-tx-main"><div class="sp-tx-title">Lunch / Dinner</div><div class="sp-tx-meta">Dining · Cash</div></div>
+        <div class="sp-tx-amt"><div class="sp-tx-val">-₹200</div><div class="sp-tx-time">9:52 AM</div></div>
       </div>
     </div>
     <div class="sp-nav">
@@ -96,7 +109,13 @@
   .sp-tx-main { flex: 1; min-width: 0; }
   .sp-tx-title { font: 600 14px var(--font-sans); color: var(--k-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .sp-tx-meta { font: 400 11.5px var(--font-sans); color: var(--k-text-sec); }
-  .sp-tag { font: 600 11px var(--font-sans); color: var(--k-accent-text); margin-top: 2px; }
+  .sp-tag { font: 600 11px var(--font-sans); color: var(--k-accent-text); }
+  .sp-tx-badges { display: flex; align-items: center; gap: 5px; margin-top: 4px; }
+  .sp-badge { display: inline-flex; align-items: center; justify-content: center; gap: 3px; height: 18px; padding: 0 5px; border-radius: 5px; }
+  .sp-badge svg { flex-shrink: 0; }
+  .sp-badge-attach { background: color-mix(in srgb, #D4A017 12%, transparent); border: 1px solid color-mix(in srgb, #D4A017 25%, transparent); color: #D4A017; }
+  .sp-badge-note { background: var(--k-accent-subtle); border: 1px solid var(--k-accent-ring); color: var(--k-accent-text); }
+  .sp-badge-n { font: 700 9px var(--font-sans); }
   .sp-tx-amt { text-align: right; }
   .sp-tx-val { font: 700 14px var(--font-sans); color: var(--k-text); }
   .sp-tx-time { font: 400 10.5px var(--font-sans); color: var(--k-text-sec); margin-top: 1px; }

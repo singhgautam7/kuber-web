@@ -1,10 +1,10 @@
 ---
-title: "Advanced Analytics"
-slug: "advanced-analytics"
+title: "Detailed Analytics"
+slug: "detailed-analytics"
 category: "Insights"
 order: 8
 description: "Category breakdowns, budget vs actual, trends and tag analytics."
-pro: true
+pro: false
 beta: false
 signature: false
 related:

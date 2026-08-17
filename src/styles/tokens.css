@@ -22,7 +22,18 @@
   --k-warning: #F59E0B;
   --k-tile: #0f3676;
   color-scheme: dark;
+  --k-brand-circle: #3B82F6;
+  --k-brand-tile: #0f3676;
 }
+
+/* Brand mark colours: fixed per family, mode-independent. */
+:root[data-theme="signature"] { --k-brand-circle: #3B82F6; --k-brand-tile: #0f3676; }
+:root[data-theme="flewtube"] { --k-brand-circle: #E5484D; --k-brand-tile: #6d181b; }
+:root[data-theme="woofsapp"] { --k-brand-circle: #1FB855; --k-brand-tile: #1a6a37; }
+:root[data-theme="purrhub"] { --k-brand-circle: #FACC15; --k-brand-tile: #78630c; }
+:root[data-theme="honkpe"] { --k-brand-circle: #8B5CF6; --k-brand-tile: #2f1075; }
+:root[data-theme="squeakdin"] { --k-brand-circle: #4A7FD1; --k-brand-tile: #213b64; }
+:root[data-theme="oinkzon"] { --k-brand-circle: #FB923C; --k-brand-tile: #783d0c; }
 
 :root[data-theme="signature"][data-mode="dark"] {
   --k-bg: #000000;

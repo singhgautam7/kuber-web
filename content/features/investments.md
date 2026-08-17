@@ -9,7 +9,7 @@ beta: false
 signature: false
 related:
   - loans
-  - advanced-analytics
+  - detailed-analytics
   - multi-currency
 iconName: "investments"
 ---

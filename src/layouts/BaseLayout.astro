@@ -4,6 +4,7 @@
  * nav + footer, and the site controller. All pages extend this.
  */
 import '@/styles/global.css';
+import { ClientRouter } from 'astro:transitions';
 import Seo from '@/components/Seo.astro';
 import NavBar from '@/components/NavBar.astro';
 import Footer from '@/components/Footer.astro';
@@ -32,25 +33,32 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
 
-    <!-- FOUC prevention: set theme attributes before the body paints. -->
+    <ClientRouter />
+
+    <!-- FOUC prevention: set theme attributes before the body paints, and
+         re-apply after each view-transition swap so the theme persists. -->
     <script is:inline>
       (function () {
-        try {
-          var v = localStorage.getItem('kuber-theme-variant') || 'signature';
-          var valid = ['signature', 'flewtube', 'woofsapp', 'purrhub', 'honkpe', 'squeakdin', 'oinkzon'];
-          if (valid.indexOf(v) === -1) v = 'signature';
-          var m = localStorage.getItem('kuber-theme-mode');
-          if (m !== 'light' && m !== 'dark') {
-            m = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        function applyTheme() {
+          try {
+            var v = localStorage.getItem('kuber-theme-variant') || 'signature';
+            var valid = ['signature', 'flewtube', 'woofsapp', 'purrhub', 'honkpe', 'squeakdin', 'oinkzon'];
+            if (valid.indexOf(v) === -1) v = 'signature';
+            var m = localStorage.getItem('kuber-theme-mode');
+            if (m !== 'light' && m !== 'dark') {
+              m = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+            }
+            var r = document.documentElement;
+            r.setAttribute('data-theme', v);
+            r.setAttribute('data-mode', m);
+            r.style.colorScheme = m;
+          } catch (e) {
+            document.documentElement.setAttribute('data-theme', 'signature');
+            document.documentElement.setAttribute('data-mode', 'dark');
           }
-          var r = document.documentElement;
-          r.setAttribute('data-theme', v);
-          r.setAttribute('data-mode', m);
-          r.style.colorScheme = m;
-        } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'signature');
-          document.documentElement.setAttribute('data-mode', 'dark');
         }
+        applyTheme();
+        document.addEventListener('astro:after-swap', applyTheme);
       })();
     </script>
 

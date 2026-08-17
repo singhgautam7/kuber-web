@@ -10,7 +10,7 @@ signature: false
 related:
   - themes
   - money-stories
-  - advanced-analytics
+  - detailed-analytics
 iconName: "home-widgets"
 ---
 

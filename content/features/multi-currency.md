@@ -10,7 +10,7 @@ signature: false
 related:
   - investments
   - budgets
-  - advanced-analytics
+  - detailed-analytics
 iconName: "multi-currency"
 ---
 

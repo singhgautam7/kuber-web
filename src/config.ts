@@ -23,8 +23,8 @@ export interface SiteConfig {
   developerEmail: string;
   developerName: string;
   portfolioUrl: string;
-  /** Set to null to hide the promo banner everywhere. */
-  currentPromo: Promo | null;
+  /** Set to null, or omit entirely, to hide the promo banner everywhere. */
+  currentPromo?: Promo | null;
 }
 
 export const config: SiteConfig = {
@@ -36,11 +36,11 @@ export const config: SiteConfig = {
   developerEmail: 'hello@singhgautam.com',
   developerName: 'Gautam Rajeev Singh',
   portfolioUrl: 'https://www.singhgautam.com/',
-  currentPromo: {
-    code: 'KUBERLAUNCH',
-    description: 'Launch discount on Kuber Pro. Use this code at checkout.',
-    expiresOn: null,
-  },
+  // currentPromo: {
+  //   code: 'KUBERLAUNCH',
+  //   description: 'Launch discount on Kuber Pro. Use this code at checkout.',
+  //   expiresOn: null,
+  // },
 };
 
 export default config;
