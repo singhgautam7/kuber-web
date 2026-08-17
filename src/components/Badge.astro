@@ -1,0 +1,48 @@
+---
+/**
+ * Feature status badge: Free / Pro / Beta / Signature.
+ * Styles reproduced exactly from the design's badgeStyle() helper.
+ */
+type Kind = 'Free' | 'Pro' | 'Beta' | 'Signature';
+interface Props {
+  kind: Kind;
+  class?: string;
+}
+const { kind, class: className } = Astro.props;
+---
+<span class:list={['badge', `badge-${kind.toLowerCase()}`, className]}>{kind}</span>
+
+<style>
+  .badge {
+    font: 700 10px var(--font-sans);
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 6px;
+    display: inline-block;
+    white-space: nowrap;
+  }
+  .badge-free {
+    color: var(--k-text-sec);
+    border: 1px solid var(--k-border);
+    background: var(--k-muted);
+  }
+  .badge-pro {
+    color: var(--k-accent-text);
+    border: 1px solid var(--k-accent-ring);
+    background: var(--k-accent-subtle);
+  }
+  .badge-beta {
+    color: var(--k-warning);
+    border: 1px solid color-mix(in srgb, var(--k-warning) 40%, transparent);
+    background: color-mix(in srgb, var(--k-warning) 14%, transparent);
+  }
+  .badge-signature {
+    color: var(--k-accent-text);
+    border: 1px solid var(--k-accent-ring);
+    padding: 2px 5px;
+    letter-spacing: 0.6px;
+    font-size: 9px;
+    background: transparent;
+  }
+</style>

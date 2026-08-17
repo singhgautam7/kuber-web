@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,600;1,700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;padding:0}
+    a{color:var(--k-accent-text);text-decoration:none}a:hover{opacity:.82}
+    ::selection{background:var(--k-accent);color:var(--k-on-accent)}
+  @media(max-width:900px){[data-navlinks]{display:none!important}[data-navsep]{display:none!important}[data-hamburger]{display:flex!important}}@media(max-width:520px){[data-ddname]{display:none!important}}@media(max-width:620px){[data-why]{grid-template-columns:1fr!important}[data-contact]{grid-template-columns:1fr!important}}</style>
+</helmet>
+<div id="kuber-root" style="--k-bg:#000000;--k-card:#0D0D10;--k-muted:#18181B;--k-border:#27272A;--k-border-muted:#3F3F46;--k-text:#FAFAFA;--k-text-sec:#A1A1AA;--k-accent:#3B82F6;--k-accent-subtle:rgba(59,130,246,.14);--k-accent-ring:rgba(59,130,246,.30);--k-on-accent:#FFFFFF;--k-accent-text:#3B82F6;--k-income:#22C55E;--k-income-subtle:rgba(34,197,94,.14);--k-expense:#EF4444;--k-expense-subtle:rgba(239,68,68,.14);--k-warning:#F59E0B;--k-tile:#0E397C;font-family:'Inter',system-ui,sans-serif;background:var(--k-bg);color:var(--k-text);min-height:100vh;transition:background .35s,color .35s">
+
+  <nav style="position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--k-bg) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--k-border)">
+    <div style="max-width:1160px;margin:0 auto;padding:0 22px;height:64px;display:flex;align-items:center;gap:20px">
+      <a href="Homepage.dc.html" style="display:flex;align-items:center;gap:10px;color:var(--k-text)">
+        <svg width="30" height="30" viewBox="0 0 512 512" style="border-radius:8px"><rect width="512" height="512" fill="var(--k-tile)"/><circle cx="256" cy="256" r="190" fill="var(--k-accent)"/><path fill="var(--k-tile)" d="M176 150H335V172H176ZM176 150H303V178H176ZM259 177H306L316 199H281ZM176 199H335V222H176ZM283 222H315L307 246H259ZM202 245H306L293 260L276 270L247 275H202ZM202 275H247L326 360L280 361Z"/></svg>
+        <span style="font:800 19px Inter;letter-spacing:-.4px">Kuber</span>
+      </a>
+      <div style="flex:1"></div>
+      <div style="display:flex;align-items:center;gap:26px" data-navlinks>
+        <a href="Features.dc.html" style="font:600 14.5px Inter;color:var(--k-text-sec)">Features</a>
+        <a href="Docs.dc.html" style="font:600 14.5px Inter;color:var(--k-text-sec)">Docs</a>
+        <a href="Changelog.dc.html" style="font:600 14.5px Inter;color:var(--k-text-sec)">Changelog</a>
+        <a href="About.dc.html" style="font:600 14.5px Inter;color:var(--k-accent-text)">About</a>
+        <a href="Press.dc.html" style="font:600 14.5px Inter;color:var(--k-text-sec)">Press</a>
+      </div>
+      <div style="width:1px;height:24px;background:var(--k-border)" data-navsep></div>
+      <div style="position:relative" data-themedd>
+        <button onClick="{{ toggleThemeMenu }}" aria-label="Theme" style="display:flex;align-items:center;gap:9px;background:var(--k-muted);border:1px solid var(--k-border);border-radius:999px;padding:6px 11px 6px 9px;cursor:pointer;color:var(--k-text)">
+          <span style="width:16px;height:16px;border-radius:999px;background:{{ currentSwatch }};border:1px solid var(--k-border-muted)"></span>
+          <span style="font:600 13px Inter" data-ddname>{{ currentName }}</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+        <sc-if value="{{ themeMenuOpen }}" hint-placeholder-val="{{ false }}">
+          <div onClick="{{ closeThemeMenu }}" style="position:fixed;inset:0;z-index:65"></div>
+          <div style="position:absolute;top:46px;right:0;z-index:70;width:236px;background:var(--k-card);border:1px solid var(--k-border);border-radius:14px;padding:8px" data-ddpanel>
+            <div style="display:flex;gap:6px;margin-bottom:6px">
+              <button onClick="{{ setLight }}" style="{{ lightBtnStyle }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>Light</button>
+              <button onClick="{{ setDark }}" style="{{ darkBtnStyle }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>Dark</button>
+            </div>
+            <div style="height:1px;background:var(--k-border);margin:0 2px 6px"></div>
+            <sc-for list="{{ themes }}" as="t" hint-placeholder-count="7">
+              <button onClick="{{ t.select }}" style="{{ t.rowStyle }}">
+                <span style="width:16px;height:16px;border-radius:999px;background:{{ t.color }};flex-shrink:0"></span>
+                <span style="flex:1;text-align:left;font:600 13.5px Inter;color:var(--k-text)">{{ t.name }}</span>
+                <span style="font:500 11px Inter;color:var(--k-text-sec)">{{ t.label }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+      <button onClick="{{ toggleMenu }}" aria-label="Menu" style="display:none;background:var(--k-muted);border:1px solid var(--k-border);border-radius:8px;width:40px;height:40px;color:var(--k-text);cursor:pointer;align-items:center;justify-content:center" data-hamburger><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+    </div>
+  </nav>
+
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:60;background:color-mix(in srgb,var(--k-bg) 96%,transparent);backdrop-filter:blur(6px);padding:22px">
+      <div style="display:flex;align-items:center;margin-bottom:30px"><span style="font:800 19px Inter">Kuber</span><div style="flex:1"></div><button onClick="{{ closeMenu }}" aria-label="Close" style="background:var(--k-muted);border:1px solid var(--k-border);border-radius:8px;width:40px;height:40px;color:var(--k-text);cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="margin-top:2px"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+      <div style="display:flex;flex-direction:column;gap:6px"><a href="Features.dc.html" style="font:700 26px Inter;color:var(--k-text);padding:8px 0">Features</a><a href="Docs.dc.html" style="font:700 26px Inter;color:var(--k-text);padding:8px 0">Docs</a><a href="Changelog.dc.html" style="font:700 26px Inter;color:var(--k-text);padding:8px 0">Changelog</a><a href="About.dc.html" style="font:700 26px Inter;color:var(--k-text);padding:8px 0">About</a><a href="Press.dc.html" style="font:700 26px Inter;color:var(--k-text);padding:8px 0">Press</a></div>
+    </div>
+  </sc-if>
+
+  <!-- developer letter -->
+  <section style="max-width:760px;margin:0 auto;padding:52px 22px 0">
+    <div style="border:1px solid var(--k-accent-ring);border-radius:20px;padding:40px;position:relative;overflow:hidden;background:linear-gradient(180deg,var(--k-accent-subtle),transparent 34%,var(--k-card) 68%)">
+      <div style="position:absolute;top:8px;right:26px;font-family:'Playfair Display',serif;font-style:italic;font-weight:700;font-size:120px;line-height:1;color:var(--k-accent);opacity:.16;pointer-events:none">&ldquo;</div>
+      <div style="font:700 11px Inter;letter-spacing:1.4px;color:var(--k-accent-text)">A NOTE FROM THE MAKER</div>
+      <h1 style="font:800 40px Inter;letter-spacing:-1.2px;line-height:1.08;margin:10px 0 0">A Letter from the <span style="font-family:'Playfair Display',serif;font-style:italic;font-weight:700;color:var(--k-accent-text)">Developer</span></h1>
+      <div style="margin-top:28px;font:400 16px/1.85 Inter;color:var(--k-text);max-width:600px">
+        <p style="font-weight:600;margin:0 0 18px">Hey there,</p>
+        <p style="margin:0 0 18px">First of all, thank you for installing Kuber. Finance is one of the hardest things to stay consistent with. I realized this quite late myself how important it is to simply track where your money goes. Honestly, just building the habit already puts you ahead of most people.</p>
+        <p style="margin:0 0 18px">I tried many apps, but none of them truly fit my needs. Some were too complex, some too slow, some were too fancy to be an expense manager, and some just didn't feel right for everyday use.</p>
+        <p style="font-weight:600;margin:0 0 18px">So I decided to build one.</p>
+        <p style="margin:0 0 18px">Kuber is designed to be simple, fast, and focused, something you can open, log a transaction in seconds, and move on with your day. No clutter, no friction. Just clarity.</p>
+        <p style="margin:0 0 18px">This is my small attempt to make personal finance easier for you. Use it consistently, track every little transaction, and over time, you'll see the difference it makes.</p>
+        <p style="margin:0">Thank you for trusting on something I built with a lot of thoughts and care.</p>
+      </div>
+      <a href="{{ portUrl }}" target="_blank" rel="noopener" style="display:block;margin-top:26px;background:var(--k-muted);border:1px solid var(--k-border);border-radius:14px;overflow:hidden;color:var(--k-text)">
+        <div style="display:flex;align-items:center;gap:12px;padding:14px 16px">
+          <div style="width:44px;height:44px;border-radius:999px;background:linear-gradient(135deg,var(--k-accent),color-mix(in srgb,var(--k-accent) 60%,transparent));display:flex;align-items:center;justify-content:center;font:800 16px Inter;color:#fff">GS</div>
+          <div><div style="font:700 11px Inter;letter-spacing:.4px;color:var(--k-text-sec)">SIGNED</div><div style="font-family:'Playfair Display',serif;font-style:italic;font-weight:700;font-size:22px;color:var(--k-text);text-decoration:underline;text-decoration-color:var(--k-accent-ring)">Gautam</div></div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--k-card);border-top:1px solid var(--k-border)"><span style="font:500 12px 'JetBrains Mono',monospace;color:var(--k-text-sec)">singhgautam.com</span><span style="font:700 10px Inter;letter-spacing:1px;color:var(--k-accent-text)">VISIT →</span></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- why kuber -->
+  <section style="max-width:760px;margin:0 auto;padding:40px 22px 0">
+    <div style="font:700 12px Inter;letter-spacing:1.6px;color:var(--k-accent-text);margin-bottom:16px">WHY KUBER</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px" data-why>
+      <sc-for list="{{ why }}" as="w" hint-placeholder-count="4">
+        <div style="border:1px solid var(--k-border);border-radius:14px;padding:20px;background:linear-gradient(180deg,var(--k-accent-subtle),transparent 40%),var(--k-card)">
+          <div style="width:40px;height:40px;border-radius:10px;background:var(--k-accent-subtle);border:1px solid var(--k-accent-ring);display:flex;align-items:center;justify-content:center;color:var(--k-accent-text)" dangerouslySetInnerHTML="{{ w.icon }}"></div>
+          <div style="font:700 15px Inter;letter-spacing:-.2px;margin-top:14px">{{ w.title }}</div>
+          <div style="font:400 13px/1.5 Inter;color:var(--k-text-sec);margin-top:5px">{{ w.sub }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- what is kuber -->
+  <section style="max-width:760px;margin:0 auto;padding:40px 22px 0">
+    <div style="border:1px solid var(--k-border);border-radius:16px;padding:32px;background:var(--k-card)">
+      <div style="font:700 12px Inter;letter-spacing:1.6px;color:var(--k-accent-text);margin-bottom:14px">WHAT IS KUBER</div>
+      <p style="font:600 22px/1.5 Inter;letter-spacing:-.4px;margin:0">A simple way to <span style="color:var(--k-accent-text)">stay aware</span> of where your money goes.</p>
+      <p style="font:400 16px/1.7 Inter;color:var(--k-text-sec);margin:14px 0 0">Kuber is a fast, no-fuss expense tracker. Built for consistency, not complexity. Open it, log what you spent, move on.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:9px;margin-top:20px">
+        <sc-for list="{{ tags }}" as="t" hint-placeholder-count="4"><span style="font:600 13px Inter;color:var(--k-text);background:var(--k-muted);border:1px solid var(--k-border);border-radius:999px;padding:7px 14px">{{ t }}</span></sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- meaning -->
+  <section style="max-width:760px;margin:0 auto;padding:40px 22px 0">
+    <div style="border:1px solid var(--k-accent-ring);border-radius:16px;padding:34px;background:radial-gradient(90% 120% at 50% 0%,var(--k-accent-subtle),transparent 60%),var(--k-card);text-align:center">
+      <div style="font:700 11px Inter;letter-spacing:1.6px;color:var(--k-accent-text)">WHAT DOES 'KUBER' MEAN &middot; SANSKRIT</div>
+      <p style="font:400 16px/1.7 Inter;color:var(--k-text-sec);margin:16px auto 0;max-width:520px">In Indian mythology, Kuber is the guardian of wealth and prosperity. He represents not just riches, but the responsibility of managing wealth wisely.</p>
+      <p style="font-family:'Playfair Display',serif;font-style:italic;font-weight:600;font-size:26px;line-height:1.4;letter-spacing:-.3px;margin:22px auto 0;max-width:460px;color:var(--k-text)">Kuber is not about having more. It's about being aware of what you have.</p>
+    </div>
+  </section>
+
+  <!-- contact -->
+  <section style="max-width:760px;margin:0 auto;padding:40px 22px 70px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px" data-contact>
+      <a href="{{ ghUrl }}" target="_blank" rel="noopener" style="border:1px solid var(--k-border);border-radius:14px;padding:20px;background:var(--k-card);color:var(--k-text)">
+        <div style="font:700 11px Inter;letter-spacing:1.2px;color:var(--k-text-sec)">SOURCE</div>
+        <div style="font:700 18px Inter;letter-spacing:-.3px;margin-top:8px">GitHub</div>
+        <div style="font:500 13px 'JetBrains Mono',monospace;color:var(--k-accent-text);margin-top:4px">github.com/singhgautam7/Kuber</div>
+      </a>
+      <div style="border:1px solid var(--k-border);border-radius:14px;padding:20px;background:var(--k-card)">
+        <div style="font:700 11px Inter;letter-spacing:1.2px;color:var(--k-text-sec)">CONTACT</div>
+        <div style="font:700 18px Inter;letter-spacing:-.3px;margin-top:8px">Email the developer</div>
+        <button onClick="{{ revealEmail }}" style="font:500 13px 'JetBrains Mono',monospace;color:var(--k-accent-text);background:none;border:none;padding:0;margin-top:4px;cursor:pointer">{{ emailLabel }}</button>
+      </div>
+    </div>
+    <p style="font:500 12.5px Inter;color:var(--k-text-sec);text-align:center;margin:26px 0 0">Made in India <span style="color:var(--k-expense)">♥</span> by Gautam Rajeev Singh</p>
+  </section>
+
+  <footer style="border-top:1px solid var(--k-border);background:var(--k-card)">
+    <div style="max-width:760px;margin:0 auto;padding:34px 22px;display:flex;flex-wrap:wrap;gap:14px 20px;align-items:center">
+      <div style="display:flex;align-items:center;gap:10px"><svg width="26" height="26" viewBox="0 0 512 512" style="border-radius:6px"><rect width="512" height="512" fill="var(--k-tile)"/><circle cx="256" cy="256" r="190" fill="var(--k-accent)"/><path fill="var(--k-tile)" d="M176 150H335V172H176ZM176 199H335V222H176ZM202 245H306L247 275H202ZM202 275H247L326 360L280 361Z"/></svg><span style="font:800 17px Inter">Kuber</span></div>
+      <div style="flex:1"></div>
+      <a href="Docs.dc.html" style="font:500 13.5px Inter;color:var(--k-text-sec)">Privacy</a>
+      <a href="Press.dc.html" style="font:500 13.5px Inter;color:var(--k-text-sec)">Press</a>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { variant: 'signature', mode: 'dark', menuOpen: false, themeMenuOpen: false, emailShown: false };
+  LABELS = { signature: 'Blue', flewtube: 'Red', woofsapp: 'Green', purrhub: 'Yellow', honkpe: 'Purple', squeakdin: 'Navy', oinkzon: 'Orange' };
+  META = [
+    { id: 'signature', name: 'Kuber Signature', dark: '#3B82F6', light: '#3B82F6' },
+    { id: 'flewtube', name: 'FlewTube', dark: '#E5484D', light: '#C41E3A' },
+    { id: 'woofsapp', name: 'Woofsapp', dark: '#1FB855', light: '#15803D' },
+    { id: 'purrhub', name: 'Purrhub', dark: '#FACC15', light: '#A16207' },
+    { id: 'honkpe', name: 'Honkpe', dark: '#8B5CF6', light: '#6D28D9' },
+    { id: 'squeakdin', name: 'Squeakdin', dark: '#4A7FD1', light: '#1E3A8A' },
+    { id: 'oinkzon', name: 'Oinkzon', dark: '#FB923C', light: '#C2410C' },
+  ];
+  async componentDidMount() { try { const m = await import('./kuber-theme.js'); this._t = m; const p = m.readPref(); this.setState({ variant: p.variant, mode: p.mode }, () => this._apply()); } catch (e) {} }
+  _root() { return document.getElementById('kuber-root'); }
+  _apply() { if (this._t) this._t.applyTheme(this._root(), this.state.variant, this.state.mode); }
+  setVariant = (id) => this.setState({ variant: id, themeMenuOpen: false }, () => { this._apply(); this._save(); });
+  setMode = (mode) => this.setState({ mode }, () => { this._apply(); this._save(); });
+  _save() { if (this._t) this._t.savePref(this.state.variant, this.state.mode); }
+  toggleMenu = () => this.setState(s => ({ menuOpen: !s.menuOpen }));
+  closeMenu = () => this.setState({ menuOpen: false });
+  toggleThemeMenu = () => this.setState(s => ({ themeMenuOpen: !s.themeMenuOpen }));
+  closeThemeMenu = () => this.setState({ themeMenuOpen: false });
+  revealEmail = () => this.setState({ emailShown: true });
+  ic(p, filled) { const inner = filled ? `<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">${p}</svg>` : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`; return { __html: inner }; }
+  renderVals() {
+    const { variant, mode, menuOpen, emailShown } = this.state;
+    const modeBtn = (on) => `flex:1;display:flex;align-items:center;justify-content:center;gap:6px;font:600 12px Inter;padding:8px 6px;border-radius:9px;cursor:pointer;color:${on ? 'var(--k-accent-text)' : 'var(--k-text-sec)'};background:${on ? 'var(--k-accent-subtle)' : 'transparent'};border:1px solid ${on ? 'var(--k-accent-ring)' : 'var(--k-border)'}`;
+    const active0 = this.META.find(t => t.id === variant) || this.META[0];
+    const curColor = mode === 'light' ? active0.light : active0.dark;
+    const themes = this.META.map(t => { const color = mode === 'light' ? t.light : t.dark; const active = t.id === variant; return { id: t.id, name: t.name, color, select: () => this.setVariant(t.id), label: this.LABELS[t.id], rowStyle: `display:flex;align-items:center;gap:11px;width:100%;padding:9px 10px;border-radius:9px;cursor:pointer;border:1px solid ${active ? 'var(--k-accent-ring)' : 'transparent'};background:${active ? 'var(--k-accent-subtle)' : 'transparent'}`, dotStyle: `width:18px;height:18px;border-radius:999px;background:${color};cursor:pointer;padding:0;border:2px solid ${active ? 'var(--k-text)' : 'var(--k-border)'};${active ? 'transform:scale(1.18);' : ''}` }; });
+    return {
+      themes, menuOpen, toggleMenu: this.toggleMenu, closeMenu: this.closeMenu,
+      setLight: () => this.setMode('light'), setDark: () => this.setMode('dark'),
+      lightBtnStyle: modeBtn(mode === 'light'), darkBtnStyle: modeBtn(mode === 'dark'),
+      themeMenuOpen: this.state.themeMenuOpen, toggleThemeMenu: this.toggleThemeMenu, closeThemeMenu: this.closeThemeMenu, currentSwatch: curColor, currentName: active0.name,
+      ghUrl: 'https://github.com/singhgautam7/Kuber/',
+      portUrl: 'https://www.singhgautam.com/',
+      emailLabel: emailShown ? 'hello [at] singhgautam.com' : 'Tap to reveal email',
+      revealEmail: this.revealEmail,
+      tags: ['Fast', 'Offline', 'Private', 'Habit-friendly'],
+      why: [
+        { title: 'Fast transaction entry', sub: 'Log expenses in under 3 seconds.', icon: this.ic('<path d="M13 2L3 14h7l-1 8 10-12h-7z"/>') },
+        { title: 'Minimal design', sub: 'Focus on your data, not the interface.', icon: this.ic('<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>') },
+        { title: 'Works offline', sub: 'Full functionality without an active connection.', icon: this.ic('<path d="M2 8.8a15 15 0 0 1 20 0M5 12.5a10 10 0 0 1 14 0M8.5 16a5 5 0 0 1 7 0M12 20h0M2 2l20 20"/>') },
+        { title: 'Built for consistency', sub: 'Reliable tools for long-term habits.', icon: this.ic('<path d="M4 12a8 8 0 0 1 14-5l3 3M20 12a8 8 0 0 1-14 5l-3-3"/>') },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

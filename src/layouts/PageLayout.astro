@@ -1,0 +1,19 @@
+---
+/**
+ * Thin marketing-page wrapper over BaseLayout. Pages render their own bespoke
+ * sections inside the default slot; this just carries SEO + chrome + footer.
+ */
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  footer?: 'full' | 'compact';
+  footerMaxWidth?: number;
+}
+const { title, description, ogImage, footer = 'compact', footerMaxWidth } = Astro.props;
+---
+<BaseLayout title={title} description={description} ogImage={ogImage} footer={footer} footerMaxWidth={footerMaxWidth}>
+  <slot />
+</BaseLayout>

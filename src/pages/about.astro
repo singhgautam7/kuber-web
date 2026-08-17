@@ -1,0 +1,144 @@
+---
+import { getEntry, render } from 'astro:content';
+import { config } from '@/config';
+import { obfuscateEmail } from '@/lib/obfuscate-email';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import FeatureIcon from '@/components/FeatureIcon.astro';
+
+const about = await getEntry('pages', 'about');
+const { Content } = await render(about!);
+const email = obfuscateEmail(config.developerEmail);
+
+const why = [
+  { title: 'Fast transaction entry', sub: 'Log expenses in under 3 seconds.', icon: 'shortcuts' },
+  { title: 'Minimal design', sub: 'Focus on your data, not the interface.', icon: 'home-widgets' },
+  { title: 'Works offline', sub: 'Full functionality without an active connection.', icon: 'privacy-mode' },
+  { title: 'Built for consistency', sub: 'Reliable tools for long-term habits.', icon: 'recurring-transactions' },
+];
+const tags = ['Fast', 'Offline', 'Private', 'Habit-friendly'];
+---
+<BaseLayout title="About" description="A letter from the developer of Kuber, and what the app is about." ogType="article" footerMaxWidth={760}>
+  <!-- Developer letter -->
+  <section class="ab-letter-wrap">
+    <div class="ab-letter">
+      <div class="ab-quote serif-italic" aria-hidden="true">&ldquo;</div>
+      <div class="ab-eyebrow">A NOTE FROM THE MAKER</div>
+      <h1 class="ab-title">A Letter from the <span class="serif-italic ab-accent">Developer</span></h1>
+      <div class="ab-body prose">
+        <Content />
+      </div>
+      <a href={config.portfolioUrl} target="_blank" rel="noopener" class="ab-sign">
+        <div class="ab-sign-top">
+          <div class="ab-avatar">GS</div>
+          <div><div class="ab-signed">SIGNED</div><div class="serif-italic ab-name">Gautam</div></div>
+        </div>
+        <div class="ab-sign-foot"><span class="mono">singhgautam.com</span><span class="ab-visit">VISIT →</span></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Why Kuber -->
+  <section class="ab-sec">
+    <div class="eyebrow">WHY KUBER</div>
+    <div class="ab-why" data-why>
+      {why.map((w) => (
+        <div class="ab-why-card">
+          <div class="ab-why-icon"><FeatureIcon name={w.icon} size={20} /></div>
+          <div class="ab-why-title">{w.title}</div>
+          <div class="ab-why-sub">{w.sub}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- What is Kuber -->
+  <section class="ab-sec">
+    <div class="ab-what">
+      <div class="eyebrow">WHAT IS KUBER</div>
+      <p class="ab-what-lead">A simple way to <span class="ab-accent">stay aware</span> of where your money goes.</p>
+      <p class="ab-what-p">Kuber is a fast, no-fuss expense tracker. Built for consistency, not complexity. Open it, log what you spent, move on.</p>
+      <div class="ab-tags">
+        {tags.map((t) => <span class="ab-tag">{t}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Meaning -->
+  <section class="ab-sec">
+    <div class="ab-meaning">
+      <div class="ab-eyebrow ab-center">WHAT DOES 'KUBER' MEAN · SANSKRIT</div>
+      <p class="ab-meaning-p">In Indian mythology, Kuber is the guardian of wealth and prosperity. He represents not just riches, but the responsibility of managing wealth wisely.</p>
+      <p class="serif-italic ab-meaning-quote">Kuber is not about having more. It's about being aware of what you have.</p>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="ab-sec ab-contact-sec">
+    <div class="ab-contact" data-contact>
+      <a href={config.githubUrl} target="_blank" rel="noopener" class="ab-contact-card">
+        <div class="ab-contact-k">SOURCE</div>
+        <div class="ab-contact-v">GitHub</div>
+        <div class="mono ab-contact-sub">github.com/singhgautam7/Kuber</div>
+      </a>
+      <div class="ab-contact-card">
+        <div class="ab-contact-k">CONTACT</div>
+        <div class="ab-contact-v">Email the developer</div>
+        <button type="button" class="mono ab-contact-email" data-reveal-email={email.encoded}>Tap to reveal email</button>
+      </div>
+    </div>
+    <p class="ab-made">Made in India <span class="ab-heart">♥</span> by {config.developerName}</p>
+  </section>
+</BaseLayout>
+
+<style>
+  .eyebrow { font: 700 12px var(--font-sans); letter-spacing: 1.6px; color: var(--k-accent-text); margin-bottom: 16px; }
+  .ab-accent { color: var(--k-accent-text); }
+  .ab-letter-wrap { max-width: 760px; margin: 0 auto; padding: 52px 22px 0; }
+  .ab-letter { border: 1px solid var(--k-accent-ring); border-radius: 20px; padding: 40px; position: relative; overflow: hidden; background: linear-gradient(180deg, var(--k-accent-subtle), transparent 34%, var(--k-card) 68%); }
+  .ab-quote { position: absolute; top: 8px; right: 26px; font-weight: 700; font-size: 120px; line-height: 1; color: var(--k-accent); opacity: 0.16; pointer-events: none; }
+  .ab-eyebrow { font: 700 11px var(--font-sans); letter-spacing: 1.4px; color: var(--k-accent-text); }
+  .ab-title { font: 800 40px var(--font-sans); letter-spacing: -1.2px; line-height: 1.08; margin: 10px 0 0; }
+  .ab-body { margin-top: 28px; max-width: 600px; }
+  .ab-body :global(p) { font: 400 16px/1.85 var(--font-sans); }
+  .ab-body :global(p:first-child) { font-weight: 600; }
+  .ab-sign { display: block; margin-top: 26px; background: var(--k-muted); border: 1px solid var(--k-border); border-radius: 14px; overflow: hidden; color: var(--k-text); }
+  .ab-sign-top { display: flex; align-items: center; gap: 12px; padding: 14px 16px; }
+  .ab-avatar { width: 44px; height: 44px; border-radius: 999px; background: linear-gradient(135deg, var(--k-accent), color-mix(in srgb, var(--k-accent) 60%, transparent)); display: flex; align-items: center; justify-content: center; font: 800 16px var(--font-sans); color: #fff; }
+  .ab-signed { font: 700 11px var(--font-sans); letter-spacing: 0.4px; color: var(--k-text-sec); }
+  .ab-name { font-weight: 700; font-size: 22px; color: var(--k-text); text-decoration: underline; text-decoration-color: var(--k-accent-ring); }
+  .ab-sign-foot { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: var(--k-card); border-top: 1px solid var(--k-border); }
+  .ab-sign-foot .mono { font: 500 12px var(--font-mono); color: var(--k-text-sec); }
+  .ab-visit { font: 700 10px var(--font-sans); letter-spacing: 1px; color: var(--k-accent-text); }
+
+  .ab-sec { max-width: 760px; margin: 0 auto; padding: 40px 22px 0; }
+  .ab-why { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .ab-why-card { border: 1px solid var(--k-border); border-radius: 14px; padding: 20px; background: linear-gradient(180deg, var(--k-accent-subtle), transparent 40%), var(--k-card); }
+  .ab-why-icon { width: 40px; height: 40px; border-radius: 10px; background: var(--k-accent-subtle); border: 1px solid var(--k-accent-ring); display: flex; align-items: center; justify-content: center; color: var(--k-accent-text); }
+  .ab-why-title { font: 700 15px var(--font-sans); letter-spacing: -0.2px; margin-top: 14px; }
+  .ab-why-sub { font: 400 13px/1.5 var(--font-sans); color: var(--k-text-sec); margin-top: 5px; }
+
+  .ab-what { border: 1px solid var(--k-border); border-radius: 16px; padding: 32px; background: var(--k-card); }
+  .ab-what-lead { font: 600 22px/1.5 var(--font-sans); letter-spacing: -0.4px; margin: 0; }
+  .ab-what-p { font: 400 16px/1.7 var(--font-sans); color: var(--k-text-sec); margin: 14px 0 0; }
+  .ab-tags { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 20px; }
+  .ab-tag { font: 600 13px var(--font-sans); color: var(--k-text); background: var(--k-muted); border: 1px solid var(--k-border); border-radius: 999px; padding: 7px 14px; }
+
+  .ab-meaning { border: 1px solid var(--k-accent-ring); border-radius: 16px; padding: 34px; background: radial-gradient(90% 120% at 50% 0%, var(--k-accent-subtle), transparent 60%), var(--k-card); text-align: center; }
+  .ab-center { text-align: center; }
+  .ab-meaning-p { font: 400 16px/1.7 var(--font-sans); color: var(--k-text-sec); margin: 16px auto 0; max-width: 520px; }
+  .ab-meaning-quote { font-weight: 600; font-size: 26px; line-height: 1.4; letter-spacing: -0.3px; margin: 22px auto 0; max-width: 460px; color: var(--k-text); }
+
+  .ab-contact-sec { padding-bottom: 70px; }
+  .ab-contact { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .ab-contact-card { border: 1px solid var(--k-border); border-radius: 14px; padding: 20px; background: var(--k-card); color: var(--k-text); }
+  .ab-contact-k { font: 700 11px var(--font-sans); letter-spacing: 1.2px; color: var(--k-text-sec); }
+  .ab-contact-v { font: 700 18px var(--font-sans); letter-spacing: -0.3px; margin-top: 8px; }
+  .ab-contact-sub, .ab-contact-email { font: 500 13px var(--font-mono); color: var(--k-accent-text); margin-top: 4px; display: block; text-align: left; }
+  .ab-made { font: 500 12.5px var(--font-sans); color: var(--k-text-sec); text-align: center; margin: 26px 0 0; }
+  .ab-heart { color: var(--k-expense); }
+
+  @media (max-width: 620px) {
+    .ab-why, .ab-contact { grid-template-columns: 1fr; }
+    .ab-title { font-size: 32px; }
+  }
+</style>

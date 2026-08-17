@@ -1,0 +1,146 @@
+---
+import { getEntry, render } from 'astro:content';
+import { config } from '@/config';
+import { url, asset } from '@/lib/url';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import BrandMark from '@/components/BrandMark.astro';
+import CopyButton from '@/components/CopyButton.astro';
+
+const press = await getEntry('pages', 'press-kit');
+const { Content } = await render(press!);
+
+const boilerplate =
+  'Kuber is a fully offline personal finance app for India. It tracks income, expenses and transfers, imports bank SMS on-device, and reads your spending back with analytics and insights. There is no account, no cloud and no tracking. Your data never leaves your phone. Kuber is under 17 MB, supports 5 languages and ships with 7 themes across light and dark.';
+
+const shots = [
+  { src: '/assets/screens/home.jpg', name: 'Home' },
+  { src: '/assets/screens/more.jpg', name: 'Spaces' },
+  { src: '/assets/screens/add.jpg', name: 'Add transaction' },
+  { src: '/assets/screens/settings.jpg', name: 'Settings' },
+];
+const facts = [
+  { k: 'APP NAME', v: 'Kuber' },
+  { k: 'CATEGORY', v: 'Personal finance' },
+  { k: 'PLATFORM', v: 'Android' },
+  { k: 'APP SIZE', v: 'Under 17 MB' },
+  { k: 'PRICE', v: 'Free, with optional Pro' },
+  { k: 'DEVELOPER', v: config.developerName },
+];
+---
+<BaseLayout title="Press Kit" description="Logos, screenshots, boilerplate and the facts. Free to use in articles, videos and reviews." footerMaxWidth={1060}>
+  <header class="pk-header">
+    <div class="eyebrow">PRESS KIT</div>
+    <h1 class="pk-title">Everything to write about Kuber</h1>
+    <p class="pk-intro">Logos, screenshots, boilerplate and the facts. Free to use in articles, videos and reviews. Questions welcome.</p>
+  </header>
+
+  <section class="pk-sec">
+    <div class="pk-brand-grid" data-presskit>
+      <div class="pk-card pk-card-col">
+        <div class="pk-label">APP ICON</div>
+        <img src={asset('/assets/app-icon.png')} alt="Kuber app icon" width="120" height="120" class="pk-appicon" loading="lazy" />
+        <div class="pk-card-title">Kuber launcher icon</div>
+        <div class="pk-card-sub">PNG · 512×512 · Signature blue</div>
+        <a href={asset('/assets/app-icon.png')} download class="pk-btn pk-btn-accent">Download PNG
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 11l5 5 5-5M4 21h16"/></svg>
+        </a>
+      </div>
+      <div class="pk-card pk-card-col">
+        <div class="pk-label">WORDMARK</div>
+        <div class="pk-wordmark">
+          <BrandMark size={42} radius={11} />
+          <span class="pk-wordmark-text">Kuber</span>
+        </div>
+        <div class="pk-card-title">Logo + wordmark</div>
+        <div class="pk-card-sub">Theme-aware SVG mark. Recolors per theme.</div>
+        <a href={config.githubUrl} target="_blank" rel="noopener" class="pk-btn pk-btn-muted">Get from repo
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="pk-sec">
+    <div class="pk-label pk-label-mb">SCREENSHOT BUNDLE</div>
+    <div class="pk-shots" data-assets>
+      {shots.map((s) => (
+        <a href={asset(s.src)} download class="pk-shot">
+          <div class="pk-shot-img"><img src={asset(s.src)} alt={`Kuber ${s.name} screen`} loading="lazy" /></div>
+          <div class="pk-shot-foot"><span>{s.name}</span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--k-text-sec)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 11l5 5 5-5M4 21h16"/></svg></div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="pk-sec">
+    <div class="pk-boiler">
+      <div class="pk-boiler-head">
+        <div class="pk-label">BOILERPLATE DESCRIPTION</div>
+        <CopyButton text={boilerplate} label="Copy text" copiedLabel="Copied" />
+      </div>
+      <div class="prose pk-boiler-body">
+        <Content />
+      </div>
+    </div>
+  </section>
+
+  <section class="pk-sec pk-sec-facts">
+    <div class="pk-label pk-label-mb">FACT SHEET</div>
+    <div class="pk-facts" data-facts>
+      {facts.map((f) => (
+        <div class="pk-fact"><span class="pk-fact-k">{f.k}</span><span class="pk-fact-v">{f.v}</span></div>
+      ))}
+    </div>
+    <div class="pk-cta">
+      <a href={config.playStoreUrl} target="_blank" rel="noopener" class="pk-cta-btn">View on Play Store</a>
+      <a href={url('/about')} class="pk-cta-link">Contact the developer</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .eyebrow { font: 700 12px var(--font-sans); letter-spacing: 1.6px; color: var(--k-accent-text); margin-bottom: 12px; }
+  .pk-header { max-width: 1060px; margin: 0 auto; padding: 56px 22px 12px; }
+  .pk-title { font: 900 54px var(--font-sans); letter-spacing: -2.4px; line-height: 1; margin: 0; }
+  .pk-intro { font: 400 17px/1.6 var(--font-sans); color: var(--k-text-sec); margin: 16px 0 0; max-width: 540px; }
+  .pk-sec { max-width: 1060px; margin: 0 auto; padding: 26px 22px; }
+  .pk-sec-facts { padding-bottom: 70px; }
+  .pk-label { font: 700 11px var(--font-sans); letter-spacing: 1.3px; color: var(--k-text-sec); }
+  .pk-label-mb { margin-bottom: 16px; }
+  .pk-brand-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pk-card { border: 1px solid var(--k-border); border-radius: 16px; padding: 28px; background: var(--k-card); }
+  .pk-card-col { display: flex; flex-direction: column; align-items: flex-start; }
+  .pk-card .pk-label { margin-bottom: 18px; }
+  .pk-appicon { border-radius: 26px; border: 1px solid var(--k-border); }
+  .pk-card-title { font: 600 14px var(--font-sans); margin-top: 18px; }
+  .pk-card-sub { font: 400 12.5px var(--font-sans); color: var(--k-text-sec); margin-top: 4px; }
+  .pk-btn { margin-top: 16px; font: 600 13px var(--font-sans); border-radius: 9px; padding: 9px 16px; display: inline-flex; align-items: center; gap: 7px; }
+  .pk-btn-accent { color: var(--k-on-accent); background: var(--k-accent); }
+  .pk-btn-muted { color: var(--k-text); background: var(--k-muted); border: 1px solid var(--k-border); }
+  .pk-wordmark { display: flex; align-items: center; gap: 12px; background: var(--k-bg); border: 1px solid var(--k-border); border-radius: 14px; padding: 22px 26px; }
+  .pk-wordmark-text { font: 800 34px var(--font-sans); letter-spacing: -0.9px; }
+  .pk-shots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .pk-shot { display: block; background: var(--k-card); border: 1px solid var(--k-border); border-radius: 14px; padding: 10px; color: var(--k-text); transition: border-color 0.2s; }
+  .pk-shot:hover { border-color: var(--k-accent-ring); opacity: 1; }
+  .pk-shot-img { border-radius: 16px; overflow: hidden; border: 1px solid var(--k-border); background: #000; }
+  .pk-shot-img img { display: block; width: 100%; height: auto; }
+  .pk-shot-foot { display: flex; align-items: center; justify-content: space-between; padding: 10px 4px 2px; font: 600 12.5px var(--font-sans); }
+  .pk-boiler { border: 1px solid var(--k-border); border-radius: 16px; padding: 28px; background: var(--k-card); }
+  .pk-boiler-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+  .pk-boiler-body :global(p) { font: 400 15.5px/1.75 var(--font-sans); }
+  .pk-boiler-body :global(p:last-child) { color: var(--k-text-sec); }
+  .pk-facts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .pk-fact { display: flex; align-items: baseline; gap: 14px; border: 1px solid var(--k-border); border-radius: 12px; padding: 16px 18px; background: var(--k-card); }
+  .pk-fact-k { font: 700 11px var(--font-sans); letter-spacing: 1px; color: var(--k-text-sec); min-width: 120px; }
+  .pk-fact-v { font: 600 15px var(--font-sans); color: var(--k-text); }
+  .pk-cta { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+  .pk-cta-btn { font: 700 14px var(--font-sans); color: var(--k-on-accent); background: var(--k-accent); border-radius: 10px; padding: 11px 20px; }
+  .pk-cta-link { font: 600 14px var(--font-sans); color: var(--k-text-sec); }
+  @media (max-width: 820px) {
+    .pk-brand-grid { grid-template-columns: 1fr; }
+    .pk-shots { grid-template-columns: repeat(2, 1fr); }
+    .pk-facts { grid-template-columns: 1fr; }
+    .pk-title { font-size: 40px; }
+  }
+  @media (max-width: 520px) { .pk-shots { grid-template-columns: 1fr; } }
+</style>

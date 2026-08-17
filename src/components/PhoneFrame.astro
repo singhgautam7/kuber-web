@@ -1,0 +1,31 @@
+---
+/**
+ * Rounded phone bezel wrapper, per the design's phone mock frames.
+ */
+interface Props {
+  width?: number;
+  class?: string;
+}
+const { width = 238, class: className } = Astro.props;
+---
+<div class:list={['phone-frame', className]} style={`width:${width}px`}>
+  <div class="phone-screen">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .phone-frame {
+    padding: 9px;
+    background: var(--k-card);
+    border: 1px solid var(--k-border-muted);
+    border-radius: 36px;
+    flex-shrink: 0;
+  }
+  .phone-screen {
+    border-radius: 28px;
+    overflow: hidden;
+    border: 1px solid var(--k-border);
+    background: #000;
+  }
+</style>

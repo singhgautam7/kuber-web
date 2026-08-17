@@ -1,0 +1,43 @@
+---
+/**
+ * Per-page SEO: title, description, canonical, Open Graph, Twitter card.
+ */
+import { config } from '@/config';
+import { absolute, asset } from '@/lib/url';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Public path to the OG image (e.g. "/screenshots/hero/og-default.png"). */
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+}
+const {
+  title,
+  description = config.siteDescription,
+  ogImage = '/assets/app-icon.png',
+  ogType = 'website',
+} = Astro.props;
+
+const site = Astro.site;
+const canonical = new URL(Astro.url.pathname, site ?? Astro.url).toString();
+const fullTitle = title === config.siteTitle ? title : `${title} · ${config.siteTitle}`;
+const imageUrl = absolute(ogImage, site);
+---
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content={ogType} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={imageUrl} />
+<meta property="og:site_name" content={config.siteTitle} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+
+<link rel="icon" href={asset('/favicon.svg')} type="image/svg+xml" />

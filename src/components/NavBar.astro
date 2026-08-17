@@ -1,0 +1,206 @@
+---
+/**
+ * Sticky navigation: logo, primary links, theme switcher, mobile hamburger.
+ * Plus the full-screen mobile drawer. Active link is derived from the URL.
+ */
+import { url } from '@/lib/url';
+import { THEMES, PALETTES } from '@/lib/theme';
+import BrandMark from './BrandMark.astro';
+import ThemeSwitcher from './ThemeSwitcher.astro';
+
+const links = [
+  { label: 'Features', href: url('/features') },
+  { label: 'Docs', href: url('/docs/privacy-policy') },
+  { label: 'Changelog', href: url('/changelog') },
+  { label: 'About', href: url('/about') },
+  { label: 'Press', href: url('/press') },
+];
+
+const current = Astro.url.pathname;
+function isActive(href: string): boolean {
+  // Match the section, not the exact page (Docs link points at a doc).
+  if (href.includes('/docs/')) return current.includes('/docs/');
+  if (href.includes('/features')) return current.includes('/features');
+  return current.replace(/\/$/, '') === href.replace(/\/$/, '');
+}
+---
+<nav class="nav">
+  <div class="nav-inner">
+    <a href={url('/')} class="nav-logo" aria-label="Kuber home">
+      <BrandMark size={30} />
+      <span class="nav-wordmark">Kuber</span>
+    </a>
+    <div class="nav-spacer"></div>
+    <div class="nav-links" data-navlinks>
+      {links.map((l) => (
+        <a href={l.href} class:list={['nav-link', { active: isActive(l.href) }]} aria-current={isActive(l.href) ? 'page' : undefined}>{l.label}</a>
+      ))}
+    </div>
+    <div class="nav-sep" data-navsep></div>
+    <ThemeSwitcher id="theme-menu-desktop" />
+    <button type="button" class="nav-hamburger" data-drawer-open aria-label="Open menu" aria-controls="mobile-drawer" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile drawer -->
+<div class="drawer" id="mobile-drawer" data-drawer hidden>
+  <div class="drawer-head">
+    <span class="nav-wordmark">Kuber</span>
+    <div class="nav-spacer"></div>
+    <button type="button" class="nav-hamburger" data-drawer-close aria-label="Close menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" style="margin-top:2px"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+    </button>
+  </div>
+  <div class="drawer-links">
+    {links.map((l) => (
+      <a href={l.href} class="drawer-link">{l.label}</a>
+    ))}
+  </div>
+  <div class="drawer-theme-label">THEME</div>
+  <div class="drawer-chips">
+    {THEMES.map((t) => (
+      <button
+        type="button"
+        class="drawer-chip"
+        data-set-variant={t.id}
+        style={`--sw-dark:${PALETTES[t.id].dark.accent};--sw-light:${PALETTES[t.id].light.accent}`}
+      >
+        <span class="drawer-chip-swatch" aria-hidden="true"></span>{t.name}
+      </button>
+    ))}
+  </div>
+</div>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--k-bg) 88%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--k-border);
+  }
+  .nav-inner {
+    max-width: var(--k-maxw);
+    margin: 0 auto;
+    padding: 0 22px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--k-text);
+  }
+  .nav-wordmark {
+    font: 800 19px var(--font-sans);
+    letter-spacing: -0.4px;
+  }
+  .nav-spacer {
+    flex: 1;
+  }
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+  }
+  .nav-link {
+    font: 600 14.5px var(--font-sans);
+    color: var(--k-text-sec);
+  }
+  .nav-link.active {
+    color: var(--k-accent-text);
+  }
+  .nav-sep {
+    width: 1px;
+    height: 24px;
+    background: var(--k-border);
+  }
+  .nav-hamburger {
+    display: none;
+    background: var(--k-muted);
+    border: 1px solid var(--k-border);
+    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    color: var(--k-text);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    background: color-mix(in srgb, var(--k-bg) 96%, transparent);
+    backdrop-filter: blur(6px);
+    padding: 22px;
+    overflow-y: auto;
+  }
+  .drawer-head {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  .drawer-head .nav-hamburger {
+    display: flex;
+  }
+  .drawer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .drawer-link {
+    font: 700 26px var(--font-sans);
+    color: var(--k-text);
+    padding: 8px 0;
+  }
+  .drawer-theme-label {
+    margin-top: 32px;
+    font: 700 11px var(--font-sans);
+    letter-spacing: 1.4px;
+    color: var(--k-text-sec);
+  }
+  .drawer-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: 14px;
+  }
+  .drawer-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    font: 600 14px var(--font-sans);
+    color: var(--k-text);
+    background: var(--k-card);
+    border: 1.5px solid var(--k-border);
+  }
+  .drawer-chip-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: var(--sw-dark);
+    display: inline-block;
+  }
+  :global(:root[data-mode='light']) .drawer-chip-swatch {
+    background: var(--sw-light);
+  }
+
+  @media (max-width: 900px) {
+    .nav-links,
+    .nav-sep {
+      display: none;
+    }
+    .nav-hamburger {
+      display: flex;
+    }
+  }
+</style>

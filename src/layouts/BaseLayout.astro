@@ -1,0 +1,74 @@
+---
+/**
+ * Base document: <head>, global CSS, FOUC-prevention script, skip link,
+ * nav + footer, and the site controller. All pages extend this.
+ */
+import '@/styles/global.css';
+import Seo from '@/components/Seo.astro';
+import NavBar from '@/components/NavBar.astro';
+import Footer from '@/components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  footer?: 'full' | 'compact';
+  footerMaxWidth?: number;
+}
+const {
+  title,
+  description,
+  ogImage,
+  ogType,
+  footer = 'compact',
+  footerMaxWidth,
+} = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- FOUC prevention: set theme attributes before the body paints. -->
+    <script is:inline>
+      (function () {
+        try {
+          var v = localStorage.getItem('kuber-theme-variant') || 'signature';
+          var valid = ['signature', 'flewtube', 'woofsapp', 'purrhub', 'honkpe', 'squeakdin', 'oinkzon'];
+          if (valid.indexOf(v) === -1) v = 'signature';
+          var m = localStorage.getItem('kuber-theme-mode');
+          if (m !== 'light' && m !== 'dark') {
+            m = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+          }
+          var r = document.documentElement;
+          r.setAttribute('data-theme', v);
+          r.setAttribute('data-mode', m);
+          r.style.colorScheme = m;
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'signature');
+          document.documentElement.setAttribute('data-mode', 'dark');
+        }
+      })();
+    </script>
+
+    <Seo title={title} description={description} ogImage={ogImage} ogType={ogType} />
+
+    <link rel="preconnect" href="/" />
+    <slot name="head" />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+    <NavBar />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer variant={footer} maxWidth={footerMaxWidth} />
+
+    <script>
+      import '@/scripts/site.ts';
+    </script>
+  </body>
+</html>

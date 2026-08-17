@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://singhgautam7.github.io/kuber/sitemap-index.xml

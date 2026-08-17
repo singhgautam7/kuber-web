@@ -1,0 +1,29 @@
+---
+/**
+ * The Kuber brand mark: dark tile, accent circle, angular rupee glyph.
+ * Theme-aware via tokens (tile = --k-tile, circle = --k-accent).
+ * Traced 1:1 from the design prototypes.
+ */
+interface Props {
+  size?: number;
+  radius?: number;
+  class?: string;
+}
+const { size = 30, radius = 8, class: className } = Astro.props;
+---
+<svg
+  width={size}
+  height={size}
+  viewBox="0 0 512 512"
+  style={`border-radius:${radius}px;flex-shrink:0`}
+  class={className}
+  role="img"
+  aria-label="Kuber logo"
+>
+  <rect width="512" height="512" fill="var(--k-tile)"></rect>
+  <circle cx="256" cy="256" r="190" fill="var(--k-accent)"></circle>
+  <path
+    fill="var(--k-tile)"
+    d="M176 150H335V172H176ZM176 150H303V178H176ZM259 177H306L316 199H281ZM176 199H335V222H176ZM283 222H315L307 246H259ZM202 245H306L293 260L276 270L247 275H202ZM202 275H247L326 360L280 361Z"
+  ></path>
+</svg>

@@ -1,0 +1,28 @@
+---
+/**
+ * Renders a registry icon inside a 24x24 SVG, matching the design's ic() output.
+ */
+import { iconPath } from '@/lib/icons';
+interface Props {
+  name?: string;
+  size?: number;
+}
+const { name, size = 20 } = Astro.props;
+const { p, filled } = iconPath(name);
+---
+{filled ? (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" set:html={p} />
+) : (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.9"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+    set:html={p}
+  />
+)}

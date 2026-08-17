@@ -1,0 +1,63 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import FeatureCard from '@/components/FeatureCard.astro';
+
+const features = (await getCollection('features')).sort((a, b) => a.data.order - b.data.order);
+
+const counts = {
+  All: features.length,
+  Free: features.filter((f) => !f.data.pro).length,
+  Pro: features.filter((f) => f.data.pro).length,
+  Signature: features.filter((f) => f.data.signature).length,
+};
+const chips: Array<keyof typeof counts> = ['All', 'Free', 'Pro', 'Signature'];
+---
+<BaseLayout title="Features" description="A complete picture of what Kuber does. Free features are yours forever. Pro unlocks the rest. Everything runs offline.">
+  <header class="container feat-header">
+    <div class="eyebrow">FEATURES</div>
+    <h1 class="feat-title">Every tool, one app</h1>
+    <p class="feat-intro">A complete picture of what Kuber does. Free features are yours forever. Pro unlocks the rest. Everything runs offline.</p>
+    <div class="chips" data-filter-chips>
+      {chips.map((label, i) => (
+        <button type="button" class="chip" data-filter={label} aria-pressed={i === 0 ? 'true' : 'false'}>
+          {label}<span class="chip-count">{counts[label]}</span>
+        </button>
+      ))}
+    </div>
+  </header>
+
+  <section class="container feat-section">
+    <div class="grid" data-grid data-feature-grid>
+      {features.map((f) => (
+        <FeatureCard
+          slug={f.data.slug}
+          title={f.data.title}
+          description={f.data.description}
+          iconName={f.data.iconName}
+          pro={f.data.pro}
+          beta={f.data.beta}
+          signature={f.data.signature}
+          showSignature={true}
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .eyebrow { font: 700 12px var(--font-sans); letter-spacing: 1.6px; color: var(--k-accent-text); margin-bottom: 12px; }
+  .feat-header { padding: 60px 22px 26px; }
+  .feat-title { font: 900 56px var(--font-sans); letter-spacing: -2.5px; line-height: 1; margin: 0; }
+  .feat-intro { font: 400 17px/1.6 var(--font-sans); color: var(--k-text-sec); margin: 16px 0 0; max-width: 520px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+  .chip { display: inline-flex; align-items: center; gap: 8px; padding: 9px 15px; border-radius: 999px; font: 600 14px var(--font-sans); color: var(--k-text); background: var(--k-card); border: 1px solid var(--k-border); }
+  .chip[aria-pressed='true'] { color: var(--k-on-accent); background: var(--k-accent); border-color: var(--k-accent); }
+  .chip-count { font: 700 11px var(--font-sans); color: var(--k-text-sec); opacity: 0.85; }
+  .chip[aria-pressed='true'] .chip-count { color: var(--k-on-accent); }
+  .feat-section { padding: 14px 22px 70px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .grid > [hidden] { display: none; }
+  @media (max-width: 860px) { .grid { grid-template-columns: repeat(2, 1fr); } .feat-title { font-size: 44px; } }
+  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,47 @@
+---
+import { url } from '@/lib/url';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+<BaseLayout title="Page not found" description="The page you wanted is not here, but everything else still is.">
+  <div class="nf" data-404>
+    <div class="nf-inner">
+      <div class="nf-pill">
+        <span class="nf-pill-dot"></span>
+        <span class="nf-pill-text">Page not found</span>
+      </div>
+      <h1 class="nf-code">404</h1>
+      <p class="nf-lead">This page went <span class="serif-italic nf-accent">offline</span> for good</p>
+      <p class="nf-desc">Fitting for an offline app. The page you wanted is not here, but everything else still is.</p>
+      <div class="nf-actions">
+        <a href={url('/')} class="nf-home">Back to home<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href={url('/features')} class="nf-browse">Browse features</a>
+      </div>
+      <div class="nf-links" data-links>
+        <a href={url('/docs/privacy-policy')} class="nf-link">Docs</a>
+        <a href={url('/changelog')} class="nf-link">Changelog</a>
+        <a href={url('/about')} class="nf-link">About</a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .nf { flex: 1; display: flex; align-items: center; justify-content: center; padding: 60px 22px; }
+  .nf-inner { max-width: 560px; text-align: center; }
+  .nf-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--k-accent-subtle); border: 1px solid var(--k-accent-ring); border-radius: 999px; padding: 6px 13px; margin-bottom: 26px; }
+  .nf-pill-dot { width: 7px; height: 7px; border-radius: 999px; background: var(--k-expense); }
+  .nf-pill-text { font: 600 12.5px var(--font-sans); color: var(--k-accent-text); }
+  .nf-code { font: 900 180px var(--font-sans); letter-spacing: -8px; line-height: 0.85; margin: 0; background: linear-gradient(180deg, var(--k-text), var(--k-accent)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+  .nf-lead { font: 800 26px var(--font-sans); letter-spacing: -0.7px; margin: 18px 0 0; }
+  .nf-accent { font-weight: 700; color: var(--k-accent-text); }
+  .nf-desc { font: 400 16px/1.6 var(--font-sans); color: var(--k-text-sec); margin: 12px auto 0; max-width: 400px; }
+  .nf-actions { display: flex; gap: 12px; justify-content: center; margin-top: 30px; flex-wrap: wrap; }
+  .nf-home { font: 700 15px var(--font-sans); color: var(--k-on-accent); background: var(--k-accent); border-radius: 10px; padding: 12px 22px; display: inline-flex; align-items: center; gap: 8px; }
+  .nf-browse { font: 600 15px var(--font-sans); color: var(--k-text); background: var(--k-card); border: 1px solid var(--k-border); border-radius: 10px; padding: 12px 22px; }
+  .nf-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 36px; }
+  .nf-link { border: 1px solid var(--k-border); border-radius: 10px; padding: 14px; background: var(--k-card); color: var(--k-text); font: 600 13.5px var(--font-sans); }
+  @media (max-width: 520px) {
+    .nf-code { font-size: 120px; }
+    .nf-links { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,77 @@
+---
+/**
+ * Promo banner. Renders only when config.currentPromo is set. Shows the code,
+ * description, optional expiry, and a copy button. Set config.currentPromo to
+ * null to hide it everywhere.
+ */
+import { config } from '@/config';
+import CopyButton from './CopyButton.astro';
+
+const promo = config.currentPromo;
+const expiry = promo?.expiresOn
+  ? new Date(promo.expiresOn).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+  : null;
+---
+{promo && (
+  <div class="promo">
+    <div class="promo-inner">
+      <span class="promo-tag">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.3L12 14.9 7.2 17l.9-5.3L4.2 7.9l5.4-.8z"></path></svg>
+        Kuber Pro
+      </span>
+      <span class="promo-desc">{promo.description}</span>
+      <span class="promo-code mono">{promo.code}</span>
+      {expiry && <span class="promo-expiry">Ends {expiry}</span>}
+      <CopyButton text={promo.code} label="Copy code" />
+    </div>
+  </div>
+)}
+
+<style>
+  .promo {
+    background: var(--k-accent-subtle);
+    border-bottom: 1px solid var(--k-accent-ring);
+  }
+  .promo-inner {
+    max-width: var(--k-maxw);
+    margin: 0 auto;
+    padding: 12px 22px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+  }
+  .promo-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font: 700 11px var(--font-sans);
+    letter-spacing: 0.4px;
+    color: var(--k-accent-text);
+  }
+  .promo-desc {
+    font: 500 13.5px var(--font-sans);
+    color: var(--k-text);
+  }
+  .promo-code {
+    font: 600 13px var(--font-mono);
+    letter-spacing: 1px;
+    color: var(--k-accent-text);
+    background: var(--k-card);
+    border: 1px dashed var(--k-border-muted);
+    border-radius: 7px;
+    padding: 4px 10px;
+  }
+  .promo-expiry {
+    font: 500 12px var(--font-sans);
+    color: var(--k-text-sec);
+  }
+  .promo-inner :global(.copy-btn) {
+    margin-left: auto;
+  }
+  @media (max-width: 560px) {
+    .promo-inner :global(.copy-btn) {
+      margin-left: 0;
+    }
+  }
+</style>

@@ -1,0 +1,104 @@
+---
+/**
+ * Feature card used in the homepage grid and the /features grid.
+ * `layout="grid"` = the standard card; the filter grid also sets data-* hooks
+ * so the client filter can show/hide without re-rendering.
+ */
+import { url } from '@/lib/url';
+import FeatureIcon from './FeatureIcon.astro';
+import Badge from './Badge.astro';
+
+interface Props {
+  slug: string;
+  title: string;
+  description: string;
+  iconName?: string;
+  pro?: boolean;
+  beta?: boolean;
+  signature?: boolean;
+  showSignature?: boolean;
+}
+const {
+  slug,
+  title,
+  description,
+  iconName,
+  pro = false,
+  beta = false,
+  signature = false,
+  showSignature = false,
+} = Astro.props;
+
+const badge: 'Free' | 'Pro' | 'Beta' = beta ? 'Beta' : pro ? 'Pro' : 'Free';
+---
+<a
+  href={url(`/features/${slug}`)}
+  class="fcard"
+  data-feature
+  data-badge={badge}
+  data-signature={String(signature)}
+>
+  <div class="fcard-top">
+    <div class="fcard-icon">
+      <FeatureIcon name={iconName ?? slug} size={20} />
+    </div>
+    <Badge kind={badge} />
+  </div>
+  <div class="fcard-name-row">
+    <span class="fcard-name">{title}</span>
+    {showSignature && signature && <Badge kind="Signature" />}
+  </div>
+  <div class="fcard-desc">{description}</div>
+</a>
+
+<style>
+  .fcard {
+    display: flex;
+    flex-direction: column;
+    background: var(--k-card);
+    border: 1px solid var(--k-border);
+    border-radius: 12px;
+    padding: 22px;
+    color: var(--k-text);
+    transition: border-color 0.2s;
+    min-height: 172px;
+  }
+  .fcard:hover {
+    border-color: var(--k-accent-ring);
+    opacity: 1;
+  }
+  .fcard[hidden] {
+    display: none;
+  }
+  .fcard-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  .fcard-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--k-accent-subtle);
+    border: 1px solid var(--k-accent-ring);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--k-accent-text);
+  }
+  .fcard-name-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .fcard-name {
+    font: 700 18px var(--font-sans);
+    letter-spacing: -0.3px;
+  }
+  .fcard-desc {
+    font: 400 14px/1.55 var(--font-sans);
+    color: var(--k-text-sec);
+    margin-top: 7px;
+  }
+</style>

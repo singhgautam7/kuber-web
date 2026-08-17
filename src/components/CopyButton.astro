@@ -1,0 +1,39 @@
+---
+/**
+ * Copy-to-clipboard button. The site controller (site.ts) handles the click via
+ * the data-copy attribute and swaps the label to "Copied" briefly.
+ */
+interface Props {
+  text: string;
+  label?: string;
+  copiedLabel?: string;
+  variant?: 'accent' | 'muted';
+  class?: string;
+}
+const { text, label = 'Copy', copiedLabel = 'Copied', variant = 'accent', class: className } = Astro.props;
+---
+<button
+  type="button"
+  class:list={['copy-btn', `copy-${variant}`, className]}
+  data-copy={text}
+  data-label={label}
+  data-copied-label={copiedLabel}
+>{label}</button>
+
+<style>
+  .copy-btn {
+    font: 600 12px var(--font-sans);
+    border-radius: 8px;
+    padding: 8px 14px;
+    border: none;
+  }
+  .copy-accent {
+    color: var(--k-on-accent);
+    background: var(--k-accent);
+  }
+  .copy-muted {
+    color: var(--k-text);
+    background: var(--k-muted);
+    border: 1px solid var(--k-border);
+  }
+</style>

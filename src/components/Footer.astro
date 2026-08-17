@@ -1,0 +1,158 @@
+---
+/**
+ * Footer. `full` = the homepage four-column footer; `compact` = the single-row
+ * footer used on subpages. The "last updated" stamp is the build time.
+ */
+import { config } from '@/config';
+import { url } from '@/lib/url';
+import BrandMark from './BrandMark.astro';
+
+interface Props {
+  variant?: 'full' | 'compact';
+  maxWidth?: number;
+}
+const { variant = 'compact', maxWidth = 1160 } = Astro.props;
+const buildDate = new Date().toLocaleDateString('en-IN', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+const year = new Date().getFullYear();
+---
+{variant === 'full' ? (
+  <footer class="footer">
+    <div class="footer-grid" style={`max-width:${maxWidth}px`}>
+      <div>
+        <div class="footer-brand">
+          <BrandMark size={28} radius={7} />
+          <span class="footer-word">Kuber</span>
+        </div>
+        <p class="footer-tag">Fully offline personal finance. Your money, your device, your business.</p>
+      </div>
+      <div>
+        <div class="footer-head">PRODUCT</div>
+        <div class="footer-col">
+          <a href={url('/features')}>Features</a>
+          <a href={url('/changelog')}>Changelog</a>
+          <a href={url('/press')}>Press kit</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-head">LEGAL</div>
+        <div class="footer-col">
+          <a href={url('/docs/privacy-policy')}>Privacy Policy</a>
+          <a href={url('/docs/data-deletion')}>Data Deletion</a>
+          <a href={url('/about')}>About</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-head">CONNECT</div>
+        <div class="footer-col">
+          <a href={config.githubUrl} target="_blank" rel="noopener">GitHub</a>
+          <a href={config.portfolioUrl} target="_blank" rel="noopener">Developer</a>
+          <a href={config.playStoreUrl} target="_blank" rel="noopener">Play Store</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-legal" style={`max-width:${maxWidth}px`}>
+      <span>© {year} Kuber</span>
+      <span>Last updated {buildDate}</span>
+      <div class="nav-spacer" style="flex:1"></div>
+      <span>Made in India <span class="heart">♥</span></span>
+    </div>
+  </footer>
+) : (
+  <footer class="footer">
+    <div class="footer-compact" style={`max-width:${maxWidth}px`}>
+      <div class="footer-brand">
+        <BrandMark size={26} radius={6} />
+        <span class="footer-word" style="font-size:17px">Kuber</span>
+      </div>
+      <div style="flex:1"></div>
+      <a href={url('/docs/privacy-policy')} class="footer-mini">Privacy</a>
+      <a href={config.githubUrl} target="_blank" rel="noopener" class="footer-mini">GitHub</a>
+      <span class="footer-madein">Made in India <span class="heart">♥</span></span>
+    </div>
+  </footer>
+)}
+
+<style>
+  .footer {
+    border-top: 1px solid var(--k-border);
+    background: var(--k-card);
+  }
+  .footer-grid {
+    margin: 0 auto;
+    padding: 52px 22px 30px;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 32px;
+  }
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .footer-word {
+    font: 800 18px var(--font-sans);
+    color: var(--k-text);
+  }
+  .footer-tag {
+    font: 400 13.5px/1.6 var(--font-sans);
+    color: var(--k-text-sec);
+    margin-top: 14px;
+    max-width: 250px;
+  }
+  .footer-head {
+    font: 700 11px var(--font-sans);
+    letter-spacing: 1.2px;
+    color: var(--k-text-sec);
+    margin-bottom: 14px;
+  }
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .footer-col a {
+    font: 500 14px var(--font-sans);
+    color: var(--k-text);
+  }
+  .footer-legal {
+    margin: 0 auto;
+    padding: 22px;
+    border-top: 1px solid var(--k-border);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
+    align-items: center;
+  }
+  .footer-legal span {
+    font: 400 12.5px var(--font-sans);
+    color: var(--k-text-sec);
+  }
+  .footer-compact {
+    margin: 0 auto;
+    padding: 34px 22px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 20px;
+    align-items: center;
+  }
+  .footer-mini {
+    font: 500 13.5px var(--font-sans);
+    color: var(--k-text-sec);
+  }
+  .footer-madein {
+    font: 500 12.5px var(--font-sans);
+    color: var(--k-text-sec);
+  }
+  .heart {
+    color: var(--k-expense);
+  }
+  @media (max-width: 900px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,37 @@
+/* Self-hosted fonts (no Google Fonts CDN). */
+@import '@fontsource-variable/inter';
+@import '@fontsource/playfair-display/400-italic.css';
+@import '@fontsource/playfair-display/500-italic.css';
+@import '@fontsource/playfair-display/600-italic.css';
+@import '@fontsource/playfair-display/700-italic.css';
+@import '@fontsource/jetbrains-mono/500.css';
+@import '@fontsource/jetbrains-mono/600.css';
+
+:root {
+  --font-sans: 'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* radii + spacing tokens (recurring values from the design) */
+  --k-radius-sm: 8px;
+  --k-radius-md: 10px;
+  --k-radius-lg: 14px;
+  --k-radius-xl: 20px;
+  --k-radius-pill: 999px;
+  --k-maxw: 1160px;
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+/* The design leans on `font-family:'Playfair Display',serif;font-style:italic`.
+   Utility for the italic serif accent used across pages. */
+.serif-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}

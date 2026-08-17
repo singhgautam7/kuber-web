@@ -1,0 +1,70 @@
+---
+/**
+ * Screenshot with optional phone frame and theme-variant swap.
+ *
+ * Pass either a discovered `shot` (from getFeatureShots) or a raw `src`.
+ * When both obsidian (dark) and alabaster (light) variants exist, both are
+ * rendered and CSS shows the one matching the site mode; with a single image it
+ * is used for both. Images live in /public and are served as-is; lazy by default.
+ */
+import { asset } from '@/lib/url';
+import type { Shot } from '@/lib/screenshots';
+import PhoneFrame from './PhoneFrame.astro';
+
+interface Props {
+  shot?: Shot;
+  src?: string;
+  alt: string;
+  frame?: 'phone' | 'none';
+  width?: number;
+  eager?: boolean;
+}
+const { shot, src, alt, frame = 'phone', width = 238, eager = false } = Astro.props;
+
+const loading = eager ? 'eager' : 'lazy';
+const dark = shot?.obsidian ?? shot?.single ?? src ?? null;
+const light = shot?.alabaster ?? shot?.single ?? src ?? null;
+const hasVariants = !!(shot?.obsidian && shot?.alabaster);
+---
+{frame === 'phone' ? (
+  <PhoneFrame width={width}>
+    <Fragment>
+      {hasVariants ? (
+        <>
+          <img class="shot shot-dark" src={asset(dark!)} alt={alt} loading={loading} decoding="async" />
+          <img class="shot shot-light" src={asset(light!)} alt={alt} loading={loading} decoding="async" />
+        </>
+      ) : (
+        <img class="shot" src={asset(dark ?? light ?? '')} alt={alt} loading={loading} decoding="async" />
+      )}
+    </Fragment>
+  </PhoneFrame>
+) : hasVariants ? (
+  <>
+    <img class="shot shot-dark shot-raw" src={asset(dark!)} alt={alt} loading={loading} decoding="async" />
+    <img class="shot shot-light shot-raw" src={asset(light!)} alt={alt} loading={loading} decoding="async" />
+  </>
+) : (
+  <img class="shot shot-raw" src={asset(dark ?? light ?? '')} alt={alt} loading={loading} decoding="async" />
+)}
+
+<style>
+  .shot {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .shot-raw {
+    border-radius: 16px;
+  }
+  /* Variant swap driven by the site mode on <html>. */
+  .shot-light {
+    display: none;
+  }
+  :global(:root[data-mode='light']) .shot-dark {
+    display: none;
+  }
+  :global(:root[data-mode='light']) .shot-light {
+    display: block;
+  }
+</style>

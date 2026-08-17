@@ -1,0 +1,159 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { url } from '@/lib/url';
+import { getFeatureShots, getFeatureOgShot } from '@/lib/screenshots';
+import { config } from '@/config';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import FeatureIcon from '@/components/FeatureIcon.astro';
+import Badge from '@/components/Badge.astro';
+import Screenshot from '@/components/Screenshot.astro';
+import CopyButton from '@/components/CopyButton.astro';
+import MarkdownContent from '@/components/MarkdownContent.astro';
+
+export async function getStaticPaths() {
+  const features = await getCollection('features');
+  const bySlug = new Map(features.map((f) => [f.data.slug, f]));
+  return features.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: {
+      entry,
+      shots: getFeatureShots(entry.data.slug),
+      ogImage: getFeatureOgShot(entry.data.slug),
+      related: (entry.data.related ?? [])
+        .map((s) => bySlug.get(s))
+        .filter((x): x is CollectionEntry<'features'> => !!x),
+    },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<'features'>;
+  shots: ReturnType<typeof getFeatureShots>;
+  ogImage: string | null;
+  related: CollectionEntry<'features'>[];
+}
+const { entry, shots, ogImage, related } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+
+const badge: 'Free' | 'Pro' | 'Beta' = data.beta ? 'Beta' : data.pro ? 'Pro' : 'Free';
+const promo = config.currentPromo;
+---
+<BaseLayout
+  title={data.title}
+  description={data.description}
+  ogImage={ogImage ?? undefined}
+  ogType="article"
+  footerMaxWidth={1000}
+>
+  <div class="fd-crumb-wrap">
+    <div class="fd-crumb">
+      <a href={url('/features')}>Features</a>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
+      <span class="fd-crumb-current">{data.title}</span>
+    </div>
+  </div>
+
+  <header class="fd-header">
+    <div class="fd-icon"><FeatureIcon name={data.iconName ?? data.slug} size={28} /></div>
+    <div>
+      <div class="fd-title-row"><h1 class="fd-title">{data.title}</h1><Badge kind={badge} /></div>
+      <p class="fd-desc">{data.description}</p>
+    </div>
+  </header>
+
+  {shots.length > 0 && (
+    <section class="fd-shots-wrap">
+      <div class="fd-shots-head">
+        <span class="fd-shots-label">SCREENSHOTS</span>
+        <span class="fd-shots-note">Shown in your selected theme where available</span>
+      </div>
+      <div class="fd-shots scroll-x">
+        {shots.map((s, i) => (
+          <Screenshot shot={s} alt={`${data.title} screenshot: ${s.alt}`} frame="phone" width={238} eager={i === 0} />
+        ))}
+      </div>
+    </section>
+  )}
+
+  <section class="fd-body" data-body>
+    <article class="fd-article">
+      <MarkdownContent>
+        <Content />
+      </MarkdownContent>
+
+      {promo && (
+        <div class="fd-promo">
+          <h2 class="fd-promo-h">Try Pro free</h2>
+          <p class="fd-promo-p">{promo.description}</p>
+          <div class="fd-code">
+            <span class="mono fd-code-text">{promo.code}</span>
+            <CopyButton text={promo.code} label="Copy" />
+          </div>
+        </div>
+      )}
+
+      <div class="fd-actions">
+        <a href={config.playStoreUrl} target="_blank" rel="noopener" class="fd-try">Try it in Kuber
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href={url('/docs/privacy-policy')} class="fd-privacy">Read the privacy details</a>
+      </div>
+    </article>
+
+    {related.length > 0 && (
+      <aside class="fd-aside">
+        <div class="fd-aside-sticky">
+          <div class="fd-related-label">RELATED FEATURES</div>
+          <div class="fd-related">
+            {related.map((r) => (
+              <a href={url(`/features/${r.data.slug}`)} class="fd-related-card">
+                <div class="fd-related-icon"><FeatureIcon name={r.data.iconName ?? r.data.slug} size={16} /></div>
+                <div><div class="fd-related-name">{r.data.title}</div><div class="fd-related-badge">{r.data.beta ? 'Beta' : r.data.pro ? 'Pro' : 'Free'}</div></div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </aside>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  .fd-crumb-wrap { max-width: 1000px; margin: 0 auto; padding: 34px 22px 0; }
+  .fd-crumb { display: flex; align-items: center; gap: 8px; font: 500 13px var(--font-sans); color: var(--k-text-sec); }
+  .fd-crumb a { color: var(--k-text-sec); }
+  .fd-crumb-current { color: var(--k-text); }
+  .fd-header { max-width: 1000px; margin: 0 auto; padding: 26px 22px 8px; display: flex; gap: 20px; align-items: flex-start; }
+  .fd-icon { width: 60px; height: 60px; border-radius: 14px; background: var(--k-accent-subtle); border: 1px solid var(--k-accent-ring); display: flex; align-items: center; justify-content: center; color: var(--k-accent-text); flex-shrink: 0; }
+  .fd-title-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .fd-title { font: 800 40px var(--font-sans); letter-spacing: -1.5px; margin: 0; }
+  .fd-desc { font: 400 17px/1.5 var(--font-sans); color: var(--k-text-sec); margin: 12px 0 0; max-width: 560px; }
+  .fd-shots-wrap { max-width: 1000px; margin: 0 auto; padding: 26px 22px; }
+  .fd-shots-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+  .fd-shots-label { font: 700 11px var(--font-sans); letter-spacing: 1.3px; color: var(--k-text-sec); }
+  .fd-shots-note { font: 500 12px var(--font-sans); color: var(--k-text-sec); }
+  .fd-shots { display: flex; gap: 18px; padding-bottom: 8px; }
+  .fd-body { max-width: 1000px; margin: 0 auto; padding: 14px 22px 30px; display: grid; grid-template-columns: 1fr 260px; gap: 40px; }
+  .fd-article { min-width: 0; }
+  .fd-promo { margin-top: 32px; }
+  .fd-promo-h { font: 800 24px var(--font-sans); letter-spacing: -0.6px; margin: 0 0 12px; }
+  .fd-promo-p { font: 400 16px/1.75 var(--font-sans); color: var(--k-text); margin: 0 0 14px; }
+  .fd-code { display: inline-flex; align-items: center; gap: 12px; background: var(--k-muted); border: 1px dashed var(--k-border-muted); border-radius: 10px; padding: 12px 16px; }
+  .fd-code-text { font: 600 16px var(--font-mono); letter-spacing: 1px; color: var(--k-text); }
+  .fd-actions { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--k-border); display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+  .fd-try { display: inline-flex; align-items: center; gap: 10px; background: var(--k-accent); color: var(--k-on-accent); border-radius: 10px; padding: 12px 20px; font: 700 15px var(--font-sans); }
+  .fd-privacy { font: 600 14px var(--font-sans); color: var(--k-text-sec); }
+  .fd-aside-sticky { position: sticky; top: 84px; }
+  .fd-related-label { font: 700 11px var(--font-sans); letter-spacing: 1.3px; color: var(--k-text-sec); margin-bottom: 14px; }
+  .fd-related { display: flex; flex-direction: column; gap: 10px; }
+  .fd-related-card { display: flex; align-items: center; gap: 12px; background: var(--k-card); border: 1px solid var(--k-border); border-radius: 10px; padding: 12px 14px; color: var(--k-text); transition: border-color 0.2s; }
+  .fd-related-card:hover { border-color: var(--k-accent-ring); opacity: 1; }
+  .fd-related-icon { width: 34px; height: 34px; border-radius: 9px; background: var(--k-accent-subtle); border: 1px solid var(--k-accent-ring); display: flex; align-items: center; justify-content: center; color: var(--k-accent-text); flex-shrink: 0; }
+  .fd-related-name { font: 600 14px var(--font-sans); }
+  .fd-related-badge { font: 400 11.5px var(--font-sans); color: var(--k-text-sec); }
+  @media (max-width: 820px) {
+    .fd-body { grid-template-columns: 1fr; }
+    .fd-title { font-size: 32px; }
+  }
+</style>

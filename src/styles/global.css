@@ -1,0 +1,242 @@
+/* Load order matters: reset -> tokens (palettes) -> typography -> globals. */
+@import './reset.css';
+@import './tokens.css';
+@import './typography.css';
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--k-bg);
+  color: var(--k-text);
+  transition: background 0.35s, color 0.35s;
+}
+
+a {
+  color: var(--k-accent-text);
+  text-decoration: none;
+}
+a:hover {
+  opacity: 0.82;
+}
+
+::selection {
+  background: var(--k-accent);
+  color: var(--k-on-accent);
+}
+
+/* Visible focus for keyboard users, in the active accent. */
+:focus-visible {
+  outline: 2px solid var(--k-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Skip link: hidden until focused. */
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 200;
+  background: var(--k-accent);
+  color: var(--k-on-accent);
+  padding: 10px 16px;
+  border-radius: 10px;
+  font: 700 14px var(--font-sans);
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 12px;
+  opacity: 1;
+}
+
+/* Shared layout container. */
+.container {
+  max-width: var(--k-maxw);
+  margin: 0 auto;
+  padding: 0 22px;
+  width: 100%;
+}
+
+/* ============ Prose (MarkdownContent) ============ */
+.prose {
+  color: var(--k-text);
+}
+.prose > * + * {
+  margin-top: 1rem;
+}
+.prose h2 {
+  font: 800 24px var(--font-sans);
+  letter-spacing: -0.6px;
+  margin: 2rem 0 0.75rem;
+  scroll-margin-top: 84px;
+}
+.prose h3 {
+  font: 800 19px var(--font-sans);
+  letter-spacing: -0.4px;
+  margin: 1.5rem 0 0.5rem;
+  scroll-margin-top: 84px;
+}
+.prose p {
+  font: 400 16px/1.75 var(--font-sans);
+  color: var(--k-text);
+}
+.prose a {
+  color: var(--k-accent-text);
+  text-decoration: underline;
+  text-decoration-color: var(--k-accent-ring);
+  text-underline-offset: 2px;
+}
+.prose strong {
+  font-weight: 700;
+}
+.prose ul,
+.prose ol {
+  font: 400 16px/1.9 var(--font-sans);
+  color: var(--k-text);
+  padding-left: 22px;
+}
+.prose li::marker {
+  color: var(--k-text-sec);
+}
+.prose blockquote {
+  border-left: 3px solid var(--k-accent-ring);
+  padding-left: 16px;
+  color: var(--k-text-sec);
+  font-style: italic;
+}
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--k-border);
+  margin: 2rem 0;
+}
+.prose code {
+  font: 500 0.9em var(--font-mono);
+  background: var(--k-muted);
+  border: 1px solid var(--k-border);
+  border-radius: 5px;
+  padding: 2px 6px;
+}
+.prose pre {
+  background: var(--k-card);
+  border: 1px solid var(--k-border);
+  border-radius: 12px;
+  padding: 18px;
+  overflow-x: auto;
+  position: relative;
+}
+.prose pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 13.5px;
+}
+.prose img {
+  border-radius: 12px;
+  border: 1px solid var(--k-border);
+}
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font: 400 14.5px var(--font-sans);
+}
+.prose th,
+.prose td {
+  border: 1px solid var(--k-border);
+  padding: 8px 12px;
+  text-align: left;
+}
+.prose th {
+  background: var(--k-muted);
+  font-weight: 700;
+}
+
+/* Auto-linked heading anchors. */
+.prose :where(h2, h3) > a.anchor {
+  color: var(--k-text-sec);
+  opacity: 0;
+  margin-left: 8px;
+  font-size: 0.8em;
+  text-decoration: none;
+}
+.prose :where(h2, h3):hover > a.anchor {
+  opacity: 1;
+}
+
+/* Horizontal scroll containers must not break the page. */
+.scroll-x {
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+/* ============ Callouts ============ */
+/* Global so both <Callout> and remark-injected markdown callouts are styled. */
+.callout {
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin: 20px 0;
+  display: flex;
+  gap: 12px;
+}
+.callout-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.callout-title {
+  font: 700 13.5px var(--font-sans);
+  margin-bottom: 3px;
+}
+.callout-text {
+  font: 400 14.5px/1.6 var(--font-sans);
+  color: var(--k-text);
+}
+.callout-text p {
+  margin: 0;
+  font: inherit;
+}
+.callout-text p + p {
+  margin-top: 8px;
+}
+.callout-info {
+  border: 1px solid var(--k-accent-ring);
+  background: var(--k-accent-subtle);
+}
+.callout-info .callout-icon {
+  stroke: var(--k-accent-text);
+}
+.callout-info .callout-title {
+  color: var(--k-accent-text);
+}
+.callout-warning {
+  border: 1px solid color-mix(in srgb, var(--k-warning) 40%, transparent);
+  background: color-mix(in srgb, var(--k-warning) 12%, transparent);
+}
+.callout-warning .callout-icon {
+  stroke: var(--k-warning);
+}
+.callout-warning .callout-title {
+  color: var(--k-warning);
+}
+.callout-success {
+  border: 1px solid var(--k-income);
+  background: var(--k-income-subtle);
+}
+.callout-success .callout-icon {
+  stroke: var(--k-income);
+}
+.callout-success .callout-title {
+  color: var(--k-income);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

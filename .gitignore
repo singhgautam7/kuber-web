@@ -1,0 +1,30 @@
+# build output
+dist/
+.output/
+
+# dependencies
+node_modules/
+
+# astro
+.astro/
+
+# generated (regenerated at build time from src/lib/theme.ts)
+# src/styles/tokens.css is committed; do not ignore it.
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+bun-debug.log*
+
+# environment
+.env
+.env.production
+.env.*.local
+
+# macOS
+.DS_Store
+
+# editor
+.vscode/
+.idea/
