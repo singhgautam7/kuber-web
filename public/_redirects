@@ -1,0 +1,4 @@
+# Cloudflare Pages redirects. The site is now served at the root (/), but the
+# old GitHub Pages project site lived under /kuber-web/. Defensively map any old
+# subpath hit against this host back to the root equivalent.
+/kuber-web/*  /:splat  301

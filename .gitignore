@@ -8,6 +8,9 @@ node_modules/
 # astro
 .astro/
 
+# cloudflare / wrangler
+.wrangler/
+
 # generated (regenerated at build time from src/lib/theme.ts)
 # src/styles/tokens.css is committed; do not ignore it.
 

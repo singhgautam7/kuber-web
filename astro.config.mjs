@@ -3,15 +3,15 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { remarkCallouts } from './src/lib/remark-callouts.mjs';
 
-// Deploy target: GitHub Pages project site at https://singhgautam7.github.io/kuber-web/
-// The base path MUST equal the repository name for a project site.
-// If you move to a custom domain / user site, set `site` to that origin and `base` to '/'.
-const SITE = 'https://singhgautam7.github.io';
-const BASE = '/kuber-web';
+// Deploy target: Cloudflare Pages, served at the site root (no base path).
+// `site` is the production origin — it drives canonical, Open Graph, and sitemap
+// URLs. This is a *.pages.dev placeholder; update it to the real Cloudflare URL
+// (or a custom domain) after the first deploy, and mirror the change in
+// public/robots.txt's Sitemap: line.
+const SITE = 'https://kuber-web.pages.dev';
 
 export default defineConfig({
   site: SITE,
-  base: BASE,
   // 'ignore' (the default) so any unmatched path falls through to our custom
   // 404 page. With 'always', Astro's dev/preview server intercepts paths that
   // lack a trailing slash and shows its own built-in 404 instead of ours.

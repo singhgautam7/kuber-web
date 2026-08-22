@@ -10,7 +10,7 @@ The marketing and documentation website for [Kuber](https://play.google.com/stor
 - Hand-written CSS via CSS custom properties (no Tailwind, no framework)
 - Vanilla JS islands only (theme switcher, mobile nav, feature filter, copy buttons, email reveal). No React/Vue/Preact.
 - Self-hosted fonts (Inter, Playfair Display, JetBrains Mono) via `@fontsource*`. No Google Fonts CDN.
-- Deploys to **GitHub Pages** via GitHub Actions.
+- Deploys to **Cloudflare Pages** (connected via the Cloudflare dashboard, not a workflow file).
 
 ## Local development
 
@@ -22,7 +22,7 @@ bun install
 bun run dev
 ```
 
-The dev server runs at `http://localhost:4321/kuber-web/` (the site uses a `/kuber-web/` base path, see Deploy notes).
+The dev server runs at `http://localhost:4321/`. (The site is served at the root — there is no base path. It used a `/kuber-web/` base only while on GitHub Pages; see Deploy notes.)
 
 ```bash
 bun run build
@@ -190,20 +190,37 @@ Files sharing a base name are grouped, and the one matching the current site mod
 - The theme dropdown and mobile drawer are keyboard operable (Esc closes them) with ARIA attributes.
 - Colours are chosen so text meets WCAG AA across all 14 theme and mode combinations.
 
-## Deploy notes (GitHub Pages)
+## Deploy notes (Cloudflare Pages)
 
-This site is configured as a **project site** at `https://singhgautam7.github.io/kuber-web/`, so `astro.config.mjs` sets `site` and `base: '/kuber-web'`. The base path must equal the repository name.
+The site deploys to **Cloudflare Pages**, served at the **root** (`/`) — no base path. Cloudflare is connected directly to the GitHub repo through the Cloudflare dashboard and builds on every push; there is **no deploy workflow file**. Cloudflare runs the build in its own environment, auto-detecting Bun from the committed `bun.lock`.
 
-1. Push to `main`. The workflow in `.github/workflows/deploy.yml` installs with Bun, builds, and deploys `dist/` to GitHub Pages.
-2. In the repo, go to **Settings -> Pages** and set **Source: GitHub Actions**.
+`astro.config.mjs` sets `site` to the production origin (a `*.pages.dev` placeholder for now — update it after the first deploy) and sets **no** `base`. `public/_headers` (caching + security headers) and `public/_redirects` ship as part of `dist/`.
 
-### Custom domain (later)
+- **Preview deployments:** every non-production branch/PR push gets its own `*.pages.dev` preview URL automatically. `main` is the production branch.
+- **Custom domain (later):** add it in the Cloudflare Pages project (**Custom domains**), then update `site` in `astro.config.mjs` and the `Sitemap:` line in `public/robots.txt` to the new origin. No `CNAME` file is needed (that was a GitHub Pages mechanism).
 
-To serve from a custom domain or a user site (root path):
+### Cloudflare Pages Setup — First Time
 
-1. Set `SITE` to the domain and `BASE` to `/` in `astro.config.mjs`.
-2. Update the `Sitemap:` line in `public/robots.txt`.
-3. Add a `public/CNAME` file containing the domain (e.g. `kuber.app`), and configure the domain in **Settings -> Pages**.
+One-time steps to run in the Cloudflare dashboard after these changes are pushed:
+
+1. **Cloudflare dashboard → Workers & Pages → Create → Pages → Connect to Git.**
+2. Select the **`kuber-web`** GitHub repo.
+3. Configure the build:
+   - Framework preset: **Astro**
+   - Build command: **`bun run build`**
+   - Build output directory: **`dist`**
+   - Root directory: *(leave empty)*
+   - Environment variables: *(none)*
+   - Bun version: auto-detected from `bun.lock` (latest stable)
+4. **Save and Deploy.** The first build takes ~2–3 minutes.
+5. Note the assigned `*.pages.dev` URL (e.g. `kuber-web.pages.dev`).
+6. Update `SITE` in `astro.config.mjs` and the `Sitemap:` line in `public/robots.txt` to that URL (or your custom domain). Push — Cloudflare re-deploys automatically.
+7. Verify the site at the new URL: all pages, theme switcher, mobile responsive behaviour, screenshot loading, feature detail pages, OG/meta tags.
+8. Update external references (Play Store listing, Reddit posts, outreach templates) to the new URL once satisfied.
+
+### Rollback to GitHub Pages
+
+The old workflow is preserved but paused at `.github/workflows/deploy-github-pages.yml.disabled`. To resume GitHub Pages: rename it back to `.github/workflows/deploy.yml`, and restore `base: '/kuber-web'` (and the GitHub Pages `site` origin) in `astro.config.mjs`, then push. The header comment in that file documents the same. GitHub Pages is left live as a fallback mirror during the transition.
 
 ## Testing
 
@@ -226,7 +243,7 @@ bun run build && bun run preview
 ```
 
 ```bash
-npx lighthouse http://localhost:4321/kuber-web/ --view --preset=desktop
+npx lighthouse http://localhost:4321/ --view --preset=desktop
 ```
 
 Targets on the homepage: Performance, Accessibility, SEO, and Best Practices all 95+.
