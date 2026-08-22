@@ -5,10 +5,8 @@ import { remarkCallouts } from './src/lib/remark-callouts.mjs';
 
 // Deploy target: Cloudflare Pages, served at the site root (no base path).
 // `site` is the production origin — it drives canonical, Open Graph, and sitemap
-// URLs. This is a *.pages.dev placeholder; update it to the real Cloudflare URL
-// (or a custom domain) after the first deploy, and mirror the change in
-// public/robots.txt's Sitemap: line.
-const SITE = 'https://kuber-web.pages.dev';
+// URLs.
+const SITE = 'https://kuber.pages.dev';
 
 export default defineConfig({
   site: SITE,

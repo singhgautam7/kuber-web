@@ -1,5 +1,10 @@
 # Kuber Web
 
+[![Live Site](https://img.shields.io/badge/Live_Site-kuber.pages.dev-2563eb?style=for-the-badge&logo=cloudflare&logoColor=F38020)](https://kuber.pages.dev/)
+[![Astro](https://img.shields.io/badge/Astro-BC52EE?style=for-the-badge&logo=astro&logoColor=white)](https://astro.build)
+[![Bun](https://img.shields.io/badge/Bun-fbf0df?style=for-the-badge&logo=bun&logoColor=black)](https://bun.sh)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](./LICENSE)
+
 The marketing and documentation website for [Kuber](https://play.google.com/store/apps/details?id=com.grs.kuber), a fully offline personal finance app for India. Built with Astro, hand-written CSS driven by a token system, and content collections. No account, no cloud, no trackers, and no CSS framework. The whole site recolors across 7 themes and light or dark, matching the app.
 
 ## Tech stack
@@ -22,7 +27,7 @@ bun install
 bun run dev
 ```
 
-The dev server runs at `http://localhost:4321/`. (The site is served at the root — there is no base path. It used a `/kuber-web/` base only while on GitHub Pages; see Deploy notes.)
+The dev server runs at `http://localhost:4321/`.
 
 ```bash
 bun run build
@@ -192,35 +197,21 @@ Files sharing a base name are grouped, and the one matching the current site mod
 
 ## Deploy notes (Cloudflare Pages)
 
-The site deploys to **Cloudflare Pages**, served at the **root** (`/`) — no base path. Cloudflare is connected directly to the GitHub repo through the Cloudflare dashboard and builds on every push; there is **no deploy workflow file**. Cloudflare runs the build in its own environment, auto-detecting Bun from the committed `bun.lock`.
+The site deploys to **Cloudflare Pages**, served at the **root** (`/`) at [`https://kuber.pages.dev`](https://kuber.pages.dev/). Cloudflare is connected directly to the GitHub repo through the Cloudflare dashboard and automatically builds and deploys on every push to `main`.
 
-`astro.config.mjs` sets `site` to the production origin (a `*.pages.dev` placeholder for now — update it after the first deploy) and sets **no** `base`. `public/_headers` (caching + security headers) and `public/_redirects` ship as part of `dist/`.
+`astro.config.mjs` sets `site: 'https://kuber.pages.dev'` and sets **no** `base`. `public/_headers` (caching + security headers) and `public/_redirects` ship as part of `dist/`.
 
-- **Preview deployments:** every non-production branch/PR push gets its own `*.pages.dev` preview URL automatically. `main` is the production branch.
-- **Custom domain (later):** add it in the Cloudflare Pages project (**Custom domains**), then update `site` in `astro.config.mjs` and the `Sitemap:` line in `public/robots.txt` to the new origin. No `CNAME` file is needed (that was a GitHub Pages mechanism).
+- **Preview deployments:** Every non-production branch/PR push gets its own `*.pages.dev` preview URL automatically. `main` is the production branch.
+- **Custom domain (later):** Add it in the Cloudflare Pages project (**Custom domains**), then update `SITE` in `astro.config.mjs` and the `Sitemap:` line in `public/robots.txt` to the new origin.
 
-### Cloudflare Pages Setup — First Time
+### Build configuration summary
 
-One-time steps to run in the Cloudflare dashboard after these changes are pushed:
+- **Framework preset:** `Astro`
+- **Build command:** `bun run build`
+- **Build output directory:** `dist`
+- **Root directory:** *(empty)*
+- **Bun version:** Auto-detected from `bun.lock`
 
-1. **Cloudflare dashboard → Workers & Pages → Create → Pages → Connect to Git.**
-2. Select the **`kuber-web`** GitHub repo.
-3. Configure the build:
-   - Framework preset: **Astro**
-   - Build command: **`bun run build`**
-   - Build output directory: **`dist`**
-   - Root directory: *(leave empty)*
-   - Environment variables: *(none)*
-   - Bun version: auto-detected from `bun.lock` (latest stable)
-4. **Save and Deploy.** The first build takes ~2–3 minutes.
-5. Note the assigned `*.pages.dev` URL (e.g. `kuber-web.pages.dev`).
-6. Update `SITE` in `astro.config.mjs` and the `Sitemap:` line in `public/robots.txt` to that URL (or your custom domain). Push — Cloudflare re-deploys automatically.
-7. Verify the site at the new URL: all pages, theme switcher, mobile responsive behaviour, screenshot loading, feature detail pages, OG/meta tags.
-8. Update external references (Play Store listing, Reddit posts, outreach templates) to the new URL once satisfied.
-
-### Rollback to GitHub Pages
-
-The old workflow is preserved but paused at `.github/workflows/deploy-github-pages.yml.disabled`. To resume GitHub Pages: rename it back to `.github/workflows/deploy.yml`, and restore `base: '/kuber-web'` (and the GitHub Pages `site` origin) in `astro.config.mjs`, then push. The header comment in that file documents the same. GitHub Pages is left live as a fallback mirror during the transition.
 
 ## Testing
 
