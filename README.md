@@ -1,6 +1,7 @@
 # Kuber Web
 
 [![Live Site](https://img.shields.io/badge/Live_Site-kuber.pages.dev-2563eb?style=for-the-badge&logo=cloudflare&logoColor=F38020)](https://kuber.pages.dev/)
+
 [![Astro](https://img.shields.io/badge/Astro-BC52EE?style=for-the-badge&logo=astro&logoColor=white)](https://astro.build)
 [![Bun](https://img.shields.io/badge/Bun-fbf0df?style=for-the-badge&logo=bun&logoColor=black)](https://bun.sh)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge)](./LICENSE)
