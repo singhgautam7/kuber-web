@@ -21,10 +21,10 @@ const { id = 'theme-menu' } = Astro.props;
     aria-controls={id}
     aria-expanded="false"
     aria-haspopup="menu"
+    aria-label="Change theme"
   >
     <span class="theme-swatch" aria-hidden="true"></span>
-    <span class="visually-hidden">Theme:</span>
-    <span class="theme-current" data-theme-name data-ddname>Kuber Signature</span>
+    <span class="visually-hidden">Theme: <span data-theme-name>Kuber Signature</span></span>
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
   </button>
 
@@ -63,12 +63,17 @@ const { id = 'theme-menu' } = Astro.props;
   .theme-pill {
     display: flex;
     align-items: center;
-    gap: 9px;
+    gap: 7px;
     background: var(--k-muted);
     border: 1px solid var(--k-border);
     border-radius: 999px;
-    padding: 6px 11px 6px 9px;
+    padding: 6px 10px 6px 8px;
     color: var(--k-text);
+    cursor: pointer;
+    transition: border-color 0.18s ease;
+  }
+  .theme-pill:hover {
+    border-color: var(--k-accent-ring);
   }
   .theme-swatch {
     width: 16px;
@@ -76,9 +81,7 @@ const { id = 'theme-menu' } = Astro.props;
     border-radius: 999px;
     background: var(--k-accent);
     border: 1px solid var(--k-border-muted);
-  }
-  .theme-current {
-    font: 600 13px var(--font-sans);
+    flex-shrink: 0;
   }
   .theme-menu {
     position: absolute;
@@ -147,21 +150,5 @@ const { id = 'theme-menu' } = Astro.props;
   .theme-row-label {
     font: 500 11px var(--font-sans);
     color: var(--k-text-sec);
-  }
-
-  /* On narrow screens hide the name visually but keep it for assistive tech,
-     so the button always has an accessible name that matches its visible text. */
-  @media (max-width: 520px) {
-    [data-ddname] {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    }
   }
 </style>
