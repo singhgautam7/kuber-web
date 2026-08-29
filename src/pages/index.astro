@@ -54,30 +54,33 @@ const testimonials = [
 <BaseLayout title="Kuber" footer="full">
   <PromoBanner />
 
-  <!-- HERO -->
-  <header class="container hero" data-hero>
-    <div>
-      <div class="hero-pill">
-        <span class="hero-pill-dot"></span>
-        <span class="hero-pill-text">Local-first personal finance, made in India</span>
+  <!-- HERO & TRUST SCREEN -->
+  <div class="hero-screen-wrap">
+    <!-- HERO -->
+    <header class="container hero" data-hero>
+      <div>
+        <div class="hero-pill">
+          <span class="hero-pill-dot"></span>
+          <span class="hero-pill-text">Local-first personal finance, made in India</span>
+        </div>
+        <h1 class="hero-title">Kuber</h1>
+        <p class="hero-tagline">Fully offline. <span class="serif-italic hero-accent">Fully yours.</span></p>
+        <p class="hero-desc">Track expenses, read your spending and stay on top of your money. No account, no cloud, no tracking. Your data never leaves your phone.</p>
+        <div class="hero-cta">
+          <PlayStoreBadge />
+          <a href={url('/features')} class="hero-link">See all features
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
       </div>
-      <h1 class="hero-title">Kuber</h1>
-      <p class="hero-tagline">Fully offline. <span class="serif-italic hero-accent">Fully yours.</span></p>
-      <p class="hero-desc">Track expenses, read your spending and stay on top of your money. No account, no cloud, no tracking. Your data never leaves your phone.</p>
-      <div class="hero-cta">
-        <PlayStoreBadge />
-        <a href={url('/features')} class="hero-link">See all features
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-      </div>
-    </div>
-    <HeroPhone />
-  </header>
+      <HeroPhone />
+    </header>
 
-  <!-- TRUST ROW -->
-  <div class="trust">
-    <div class="container trust-inner">
-      {trust.map((t) => <span class="trust-item">{t}</span>)}
+    <!-- TRUST ROW -->
+    <div class="trust">
+      <div class="container trust-inner">
+        {trust.map((t) => <span class="trust-item">{t}</span>)}
+      </div>
     </div>
   </div>
 
@@ -233,7 +236,21 @@ const testimonials = [
   .section-h2.wide { max-width: 640px; }
   .section-h2.small { font-size: clamp(1.6rem, 2vw, 1.9rem); letter-spacing: -0.03em; }
 
-  .hero { padding: clamp(48px, 5vw, 80px) 22px 40px; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(32px, 4vw, 64px); align-items: center; }
+  .hero-screen-wrap {
+    min-height: calc(100vh - 64px);
+    min-height: calc(100dvh - 64px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .hero {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(32px, 4vw, 64px);
+    align-items: center;
+    padding: clamp(32px, 4vh, 64px) 22px;
+  }
   .hero-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--k-accent-subtle); border: 1px solid var(--k-accent-ring); border-radius: 999px; padding: 6px 13px; margin-bottom: 24px; }
   .hero-pill-dot { width: 7px; height: 7px; border-radius: 999px; background: var(--k-income); }
   .hero-pill-text { font: 600 12.5px var(--font-sans); color: var(--k-accent-text); }
@@ -244,7 +261,7 @@ const testimonials = [
   .hero-cta { display: flex; align-items: center; gap: 16px; margin-top: 30px; flex-wrap: wrap; }
   .hero-link { font: 600 15px var(--font-sans); color: var(--k-text); display: inline-flex; align-items: center; gap: 6px; }
 
-  .trust { border-top: 1px solid var(--k-border); border-bottom: 1px solid var(--k-border); }
+  .trust { border-top: 1px solid var(--k-border); border-bottom: 1px solid var(--k-border); margin-top: auto; width: 100%; }
   .trust-inner { padding: 18px 22px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 26px; }
   .trust-item { font: 700 12.5px var(--font-sans); letter-spacing: 1.3px; text-transform: uppercase; color: var(--k-text-sec); }
 
@@ -330,7 +347,10 @@ const testimonials = [
   .cta-badge { display: flex; justify-content: center; margin-top: 26px; }
 
   @media (max-width: 900px) {
-    .hero, .showcase-grid { grid-template-columns: 1fr; }
+    .hero-screen-wrap { min-height: auto; display: block; }
+    .hero { grid-template-columns: 1fr; padding: clamp(40px, 6vw, 64px) 22px 36px; }
+    .trust { margin-top: 0; }
+    .showcase-grid { grid-template-columns: 1fr; }
     .fgrid { grid-template-columns: repeat(2, 1fr); }
     .numbers { grid-template-columns: repeat(3, 1fr); }
     .testi-grid { grid-template-columns: 1fr; }

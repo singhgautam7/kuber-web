@@ -1,0 +1,420 @@
+---
+import { config } from '@/config';
+import { url } from '@/lib/url';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import DocCard from '@/components/DocCard.astro';
+---
+
+<BaseLayout
+  title="Documentation & Guides"
+  description="Guides, security deep-dives, and legal policies for Kuber. Transparent, open, and straightforward."
+  ogType="article"
+  footer="compact"
+  footerMaxWidth={1060}
+>
+  <!-- HERO HEADER -->
+  <header class="doc-hub-header">
+    <div class="doc-hub-header-inner">
+      <div class="eyebrow">DOCUMENTATION & GUIDES</div>
+      <h1 class="doc-hub-title">
+        Everything you need to <span class="serif-italic doc-hub-italic">know</span> about Kuber
+      </h1>
+      <p class="doc-hub-desc">
+        Guides, security deep-dives, and legal policies for Kuber. Because your data stays 100% on your device, our documentation is transparent, open, and straightforward.
+      </p>
+      <div class="doc-status-legend">
+        <span class="status-item">
+          <span class="status-dot dot-live"></span>
+          2 published
+        </span>
+        <span class="status-item">
+          <span class="status-dot dot-soon"></span>
+          8 in progress
+        </span>
+        <span class="status-version">v1.4.0 · docs</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN DOCS SECTIONS -->
+  <main class="doc-hub-main">
+    <!-- Section A: Privacy & Legal -->
+    <section class="doc-section">
+      <div class="sec-head">
+        <div>
+          <h2 class="sec-title">Privacy & Legal</h2>
+          <p class="sec-desc">What Kuber does with your data, and the terms you agree to.</p>
+        </div>
+        <span class="sec-counter">A · 3 docs</span>
+      </div>
+      <div class="cards-grid">
+        <DocCard
+          title="Privacy Policy"
+          description="How Kuber operates with zero cloud storage, zero tracking, and complete on-device privacy."
+          href={url('/docs/privacy-policy')}
+          pathText="/docs/privacy-policy"
+          status="live"
+          actionLabel="Read the policy"
+        >
+          <svg slot="icon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"></path>
+          </svg>
+        </DocCard>
+
+        <DocCard
+          title="Data Deletion Policy"
+          description="Step-by-step instructions on wiping local databases and managing on-device data retention."
+          pathText="/docs/data-deletion"
+          status="coming-soon"
+        >
+          <svg slot="icon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v5M14 11v5"></path>
+          </svg>
+        </DocCard>
+
+        <DocCard
+          title="Terms of Service & Disclaimer"
+          description="Personal budgeting tool disclaimers and open-source usage terms."
+          pathText="/docs/terms"
+          status="coming-soon"
+        >
+          <svg slot="icon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"></path>
+            <path d="M14 2v6h6M9 13h6M9 17h4"></path>
+          </svg>
+        </DocCard>
+      </div>
+    </section>
+
+    <!-- Section B: User Guides & How-Tos -->
+    <section class="doc-section">
+      <div class="sec-head">
+        <div>
+          <h2 class="sec-title">User Guides & How-Tos</h2>
+          <p class="sec-desc">Practical walkthroughs for the features people ask about most.</p>
+        </div>
+        <span class="sec-counter">B · 3 docs</span>
+      </div>
+      <div class="cards-grid">
+        <DocCard
+          title="Backup, Restore & Migration Guide"
+          description="How to export encrypted JSON/CSV backups, transfer records to a new phone, and set auto-backups."
+          pathText="/docs/backup-and-restore"
+          status="coming-soon"
+        >
+          <svg slot="icon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 12a9 9 0 1 1-3-6.7L21 8"></path>
+            <path d="M21 3v5h-5"></path>
+          </svg>
+        </DocCard>
+
+        <DocCard
+          title="SMS Import & Bank Setup"
+          description="How on-device SMS parsing works, list of supported Indian banks (HDFC, SBI, ICICI, etc.), and permissions."
+          pathText="/docs/sms-import-guide"
+          status="coming-soon"
+        >
+          <svg slot="icon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"></path>
+            <path d="M8 9h8M8 13h5"></path>
+          </svg>
+        </DocCard>
+
+        <DocCard
+          title="Budgets & Rollover Cycles"
+          description="Configuring weekly/monthly budget caps, category limits, and rollover savings rules."
+          pathText="/docs/budgets-guide"
+          status="coming-soon"
+        >
+          <svg slot="icon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 3v18h18"></path>
+            <path d="M7 15l4-5 3 3 4-6"></path>
+          </svg>
+        </DocCard>
+      </div>
+    </section>
+
+    <!-- Section C: Architecture & Security -->
+    <section class="doc-section">
+      <div class="sec-head">
+        <div>
+          <h2 class="sec-title">Architecture & Security</h2>
+          <p class="sec-desc">Under the hood: where data lives and how it is locked down.</p>
+        </div>
+        <span class="sec-counter">C · 2 docs</span>
+      </div>
+      <div class="cards-grid">
+        <DocCard
+          title="On-Device Storage & Isar Database"
+          description="Under the hood: local schema storage, encryption at rest, and zero-network sandboxing."
+          pathText="/docs/security"
+          status="coming-soon"
+        >
+          <svg slot="icon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <ellipse cx="12" cy="5" rx="8" ry="3"></ellipse>
+            <path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"></path>
+          </svg>
+        </DocCard>
+
+        <DocCard
+          title="Biometrics & App Lock"
+          description="Hardware-backed fingerprint and face unlock protection for confidential financial views."
+          pathText="/docs/biometrics"
+          status="coming-soon"
+        >
+          <svg slot="icon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 11c2 0 3 1.3 3 3v5"></path>
+            <path d="M9 19v-5c0-1.7 1.3-3 3-3M5 12a7 7 0 0 1 14 0M2 12a10 10 0 0 1 20 0"></path>
+          </svg>
+        </DocCard>
+      </div>
+    </section>
+
+    <!-- Section D: Help & Support -->
+    <section class="doc-section">
+      <div class="sec-head">
+        <div>
+          <h2 class="sec-title">Help & Support</h2>
+          <p class="sec-desc">Questions, bug reports, and feature requests go straight to the developer.</p>
+        </div>
+        <span class="sec-counter">D · 2 docs</span>
+      </div>
+      <div class="cards-grid">
+        <DocCard
+          title="Frequently Asked Questions"
+          description="Answers to the most common questions regarding Pro features, offline usage, and pricing."
+          pathText="/docs/faq"
+          status="coming-soon"
+        >
+          <svg slot="icon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M9.2 9a3 3 0 0 1 5.6 1.2c0 2-2.8 2.3-2.8 4"></path>
+            <path d="M12 17.5h.01"></path>
+          </svg>
+        </DocCard>
+
+        <DocCard
+          title="Community & Direct Support"
+          description="Reach out directly to the developer, report issues on GitHub, or request new features."
+          href={config.githubUrl}
+          pathText="github.com/singhgautam7/Kuber"
+          status="live"
+          actionLabel="Get in touch"
+          isExternal={true}
+        >
+          <svg slot="icon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9.5" cy="7" r="4"></circle>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.9"></path>
+          </svg>
+        </DocCard>
+      </div>
+    </section>
+
+    <!-- Missing something callout -->
+    <div class="doc-missing-box">
+      <div class="doc-missing-text">
+        <div class="doc-missing-title">Missing something?</div>
+        <p class="doc-missing-p">
+          Docs marked Coming Soon are being written now. Tell us which one you need first and it moves up the queue.
+        </p>
+      </div>
+      <a href={url('/about')} class="doc-missing-btn">
+        Request a doc
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6"></path>
+        </svg>
+      </a>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .doc-hub-header {
+    border-bottom: 1px solid var(--k-border);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--k-accent) 5%, transparent), transparent);
+  }
+
+  .doc-hub-header-inner {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 64px 22px 56px;
+  }
+
+  .eyebrow {
+    font: 700 12px var(--font-sans);
+    letter-spacing: 1.6px;
+    color: var(--k-accent-text);
+    margin-bottom: 14px;
+  }
+
+  .doc-hub-title {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: clamp(2rem, 4vw, 48px);
+    line-height: 1.08;
+    letter-spacing: -2px;
+    margin: 0;
+    max-width: 18ch;
+    text-wrap: pretty;
+  }
+
+  .doc-hub-italic {
+    font-weight: 500;
+    letter-spacing: -1px;
+  }
+
+  .doc-hub-desc {
+    font: 400 17.5px/1.7 var(--font-sans);
+    color: var(--k-text-sec);
+    margin: 20px 0 0;
+    max-width: 60ch;
+    text-wrap: pretty;
+  }
+
+  .doc-status-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    margin-top: 28px;
+    align-items: center;
+  }
+
+  .status-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font: 500 12.5px var(--font-sans);
+    color: var(--k-text-sec);
+  }
+
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+  }
+  .dot-live {
+    background: var(--k-income);
+  }
+  .dot-soon {
+    background: var(--k-warning);
+  }
+
+  .status-version {
+    font: 500 12.5px var(--font-mono);
+    color: var(--k-text-sec);
+    border: 1px dashed var(--k-border-muted);
+    border-radius: 6px;
+    padding: 4px 9px;
+  }
+
+  .doc-hub-main {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 52px 22px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+
+  .doc-section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sec-head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--k-border);
+    margin-bottom: 22px;
+  }
+
+  .sec-title {
+    font: 800 24px var(--font-sans);
+    letter-spacing: -0.7px;
+    margin: 0;
+    color: var(--k-text);
+  }
+
+  .sec-desc {
+    font: 400 14.5px/1.6 var(--font-sans);
+    color: var(--k-text-sec);
+    margin: 6px 0 0;
+  }
+
+  .sec-counter {
+    font: 600 11.5px var(--font-mono);
+    color: var(--k-text-sec);
+    letter-spacing: 0.4px;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .doc-missing-box {
+    border: 1px dashed var(--k-border-muted);
+    border-radius: 14px;
+    padding: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px 24px;
+    background: var(--k-muted);
+  }
+
+  .doc-missing-text {
+    min-width: 240px;
+    flex: 1;
+  }
+
+  .doc-missing-title {
+    font: 700 16px var(--font-sans);
+    margin-bottom: 6px;
+    color: var(--k-text);
+  }
+
+  .doc-missing-p {
+    font: 400 14px/1.6 var(--font-sans);
+    color: var(--k-text-sec);
+    margin: 0;
+  }
+
+  .doc-missing-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font: 600 14px var(--font-sans);
+    background: var(--k-accent);
+    color: var(--k-on-accent);
+    border-radius: 10px;
+    padding: 11px 18px;
+    text-decoration: none;
+    transition: opacity 0.18s ease;
+  }
+
+  .doc-missing-btn:hover {
+    opacity: 0.88;
+  }
+
+  @media (max-width: 860px) {
+    .cards-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .sec-head {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .cards-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

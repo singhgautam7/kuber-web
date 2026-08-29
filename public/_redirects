@@ -2,3 +2,7 @@
 # old GitHub Pages project site lived under /kuber-web/. Defensively map any old
 # subpath hit against this host back to the root equivalent.
 /kuber-web/*  /:splat  301
+/doc          /docs    301
+/doc/*        /docs/:splat 301
+/data         /docs/data-deletion 301
+/data/*       /docs/data-deletion 301

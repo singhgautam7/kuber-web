@@ -11,7 +11,7 @@ import ThemeSwitcher from './ThemeSwitcher.astro';
 const links = [
   { label: 'Home', href: url('/') },
   { label: 'Features', href: url('/features') },
-  { label: 'Docs', href: url('/docs/privacy-policy') },
+  { label: 'Docs', href: url('/docs') },
   { label: 'Changelog', href: url('/changelog') },
   { label: 'About', href: url('/about') },
   { label: 'Press', href: url('/press') },
@@ -19,8 +19,8 @@ const links = [
 
 const current = Astro.url.pathname;
 function isActive(href: string): boolean {
-  // Match the section, not the exact page (Docs link points at a doc).
-  if (href.includes('/docs/')) return current.includes('/docs/');
+  // Match the section, not the exact page (Docs/Features match any subpage).
+  if (href.includes('/docs')) return current.includes('/docs');
   if (href.includes('/features')) return current.includes('/features');
   return current.replace(/\/$/, '') === href.replace(/\/$/, '');
 }
