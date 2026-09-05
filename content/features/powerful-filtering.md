@@ -3,12 +3,27 @@ title: "Powerful Filtering"
 slug: "powerful-filtering"
 category: "Productivity"
 order: 6.5
-description: "One command bar for search, quick filters and advanced queries, with a live transaction count."
+description: "Filter your finances any way you want—by keyword search, accounts, categories, tags, amount ranges (min/max), transaction types, or custom date ranges."
 pro: false
 beta: false
 signature: false
 related: [expense-tracking, detailed-analytics, quick-add]
-iconName: "filtering"
+iconName: "powerful-filtering"
+navigation:
+  - title: "History tab filters"
+    steps: ["History tab", "Filter button (top bar)"]
+  - title: "Quick search"
+    steps: ["History tab", "Search icon"]
+  - title: "Analytics filter"
+    steps: ["Analytics tab", "Filter button"]
 ---
 
-Find anything fast. A single command bar handles search, quick Expense and Income filters, and advanced queries, and the transaction count updates in real time as you narrow things down.
+Drill into your spending with total precision. Kuber lets you filter your transactions however you want, combining multiple criteria without friction:
+
+- **Instant Keyword Search**: Search across transaction names, notes, and merchant labels.
+- **Account & Category Filters**: Multi-select specific accounts (Cash, Bank, Credit Card) and categories to view exact spending slices.
+- **Min / Max Amount Range**: Set minimum and maximum thresholds to isolate big-ticket items or inspect small recurring charges.
+- **Tag Filtering**: Isolate specific events or projects with custom tags like `#trip`, `#renovation`, or `#medical`.
+- **Custom Date Ranges**: Select any date interval to compare past periods and audit specific timeframes.
+- **Type Toggles**: Switch between Expenses, Incomes, Transfers, and Recurring items with one tap.
+- **Live Net Totals**: As you filter, the summary header recalculates in real time—showing the exact transaction count, total expenses, total income, and net balance.

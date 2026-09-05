@@ -12,6 +12,11 @@ related:
   - privacy-mode
   - sms-import
 iconName: "kuber-cards"
+navigation:
+  - title: "Direct menu"
+    steps: ["More tab", "Kuber Cards"]
+  - title: "In-app search"
+    steps: ["More tab", "Search icon", "Type \"Cards\""]
 ---
 
-A private vault for your card details. Everything is encrypted and stored on your device, locked behind biometric access. Kuber never sends card data over any network.
+A private vault for all your card details. You can store as many cards as desired. Free tier allows just two cards to be added, but there is no such limit on the Pro version of the app. Everything is encrypted and stored on your device, locked behind biometric access. Kuber never sends card data over any network.

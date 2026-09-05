@@ -12,6 +12,18 @@ related:
   - kuber-cards
   - themes
 iconName: "privacy-mode"
+navigation:
+  - title: "Home screen quick toggle"
+    steps: ["Home tab", "Tap Eye icon at top right"]
+    note: "instantly masks all amounts"
+  - title: "In-app search"
+    steps: ["More tab", "Search icon", "Type \"Privacy\""]
 ---
 
-Blur balances and amounts with a tap so you can open Kuber in public without showing your numbers. Everything stays exactly where it is: on your device.
+Conceal your financial figures in an instant with Kuber Privacy Mode:
+
+- **One-Tap Instant Masking**: Tap the eye icon in the top header on your Home tab to replace balances, income, expenses, and daily averages with asterisks (`****`).
+- **Shoulder-Surfer Protection**: Safely open the app in crowded public spaces, coffee shops, or public transit without revealing sensitive account balances.
+- **Persistent Local State**: Your privacy preference stays active as you navigate between screens until you choose to reveal numbers again.
+- **Zero Cloud, Total Privacy**: Masking is handled purely in the local UI presentation layer without altering your underlying financial records.
+

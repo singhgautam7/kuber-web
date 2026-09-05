@@ -12,6 +12,15 @@ related:
   - quick-add
   - sms-import
 iconName: "ask-kuber"
+navigation:
+  - title: "Direct menu"
+    steps: ["More tab", "Ask Kuber"]
+  - title: "Home widget"
+    steps: ["Home tab", "Ask Kuber widget"]
+    note: "if enabled in home widgets"
+  - title: "In-app search"
+    steps: ["More tab", "Search icon", "Type \"Ask Kuber\""]
 ---
 
-Type something like "250 on groceries yesterday" and Ask Kuber turns it into a ready transaction. The parsing runs entirely on your device, so nothing you type ever leaves your phone. You always review and confirm before anything is saved.
+- Ask Questions about your money, or about the app, or add any transaction, Ask Kuber does it all.
+- The parsing runs entirely on your device, so nothing you type ever leaves your phone.

@@ -12,6 +12,14 @@ related:
   - kuber-cards
   - automatic-backups
 iconName: "sms-import"
+navigation:
+  - title: "Direct menu"
+    steps: ["More tab", "Import from SMS"]
+  - title: "Home widget"
+    steps: ["Home tab", "SMS Import widget"]
+    note: "if enabled in home widgets"
+  - title: "In-app search"
+    steps: ["More tab", "Search icon", "Type \"SMS\""]
 ---
 
 Kuber scans messages from recognised Indian bank and payment sender IDs, reads only transaction alerts, and parses the amount, type, date and merchant. You review the list and pick what to import. SMS is read on-device and on-demand only, never in the background.

@@ -15,6 +15,12 @@ export const FEATURE_CATEGORIES = [
 
 const md = (dir: string) => glob({ pattern: '**/*.md', base: `./content/${dir}` });
 
+const navigationRouteSchema = z.object({
+  title: z.string().optional(),
+  steps: z.array(z.string()),
+  note: z.string().optional(),
+});
+
 const features = defineCollection({
   loader: md('features'),
   schema: z.object({
@@ -28,6 +34,7 @@ const features = defineCollection({
     signature: z.boolean().default(false),
     related: z.array(z.string()).optional(),
     iconName: z.string().optional(),
+    navigation: z.array(navigationRouteSchema).optional(),
   }),
 });
 

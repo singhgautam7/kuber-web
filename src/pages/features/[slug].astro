@@ -9,6 +9,7 @@ import Badge from '@/components/Badge.astro';
 import Screenshot from '@/components/Screenshot.astro';
 import CopyButton from '@/components/CopyButton.astro';
 import MarkdownContent from '@/components/MarkdownContent.astro';
+import WhereToFindModal from '@/components/WhereToFindModal.astro';
 
 export async function getStaticPaths() {
   const features = await getCollection('features');
@@ -62,16 +63,26 @@ const promo = config.currentPromo;
     </div>
   </header>
 
+  {data.navigation && data.navigation.length > 0 && (
+    <div class="fd-nav-bar">
+      <button type="button" class="fd-nav-btn" data-open-where-to-find>
+        <span class="fd-nav-btn-icon">
+          <FeatureIcon name="compass" size={15} />
+        </span>
+        <span class="fd-nav-btn-text">Where to find in app</span>
+        <span class="fd-nav-btn-count">{data.navigation.length} {data.navigation.length === 1 ? 'way' : 'ways'}</span>
+      </button>
+    </div>
+  )}
+
   {shots.length > 0 && (
     <section class="fd-shots-wrap">
-      <div class="fd-shots-head">
-        <span class="fd-shots-label">SCREENSHOTS</span>
-        <span class="fd-shots-note">Shown in your selected theme where available</span>
-      </div>
-      <div class="fd-shots scroll-x">
-        {shots.map((s, i) => (
-          <Screenshot shot={s} alt={`${data.title} screenshot: ${s.alt}`} frame="phone" width={238} eager={i === 0} />
-        ))}
+      <div class="fd-shots-scroll scroll-x">
+        <div class="fd-shots">
+          {shots.map((s, i) => (
+            <Screenshot shot={s} alt={`${data.title} screenshot: ${s.alt}`} frame="phone" width={238} eager={i === 0} />
+          ))}
+        </div>
       </div>
     </section>
   )}
@@ -117,6 +128,10 @@ const promo = config.currentPromo;
       </aside>
     )}
   </section>
+
+  {data.navigation && data.navigation.length > 0 && (
+    <WhereToFindModal featureTitle={data.title} routes={data.navigation} />
+  )}
 </BaseLayout>
 
 <style>
@@ -129,11 +144,15 @@ const promo = config.currentPromo;
   .fd-title-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .fd-title { font-family: var(--font-sans); font-weight: 800; font-size: clamp(2rem, 2.8vw, 2.6rem); letter-spacing: -0.038em; margin: 0; }
   .fd-desc { font: 400 17px/1.5 var(--font-sans); color: var(--k-text-sec); margin: 12px 0 0; max-width: 560px; }
+  .fd-nav-bar { max-width: 1000px; margin: 0 auto; padding: 10px 22px 4px; display: flex; align-items: center; }
+  .fd-nav-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--k-card); border: 1px solid var(--k-border); border-radius: 999px; padding: 7px 14px; font: 600 13px var(--font-sans); color: var(--k-text); cursor: pointer; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15); transition: all 0.18s ease; }
+  .fd-nav-btn:hover { background: var(--k-muted); border-color: var(--k-accent-ring); transform: translateY(-1px); box-shadow: 0 4px 12px var(--k-accent-subtle); }
+  .fd-nav-btn-icon { display: inline-flex; align-items: center; color: var(--k-accent-text); }
+  .fd-nav-btn-text { line-height: 1; }
+  .fd-nav-btn-count { font: 700 11px var(--font-mono); color: var(--k-accent-text); background: var(--k-accent-subtle); padding: 2px 7px; border-radius: 999px; margin-left: 2px; }
   .fd-shots-wrap { max-width: 1000px; margin: 0 auto; padding: 26px 22px; }
-  .fd-shots-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
-  .fd-shots-label { font: 700 11px var(--font-sans); letter-spacing: 1.3px; color: var(--k-text-sec); }
-  .fd-shots-note { font: 500 12px var(--font-sans); color: var(--k-text-sec); }
-  .fd-shots { display: flex; gap: 18px; padding-bottom: 8px; }
+  .fd-shots-scroll { overflow-x: auto; scrollbar-width: thin; padding-bottom: 10px; width: 100%; }
+  .fd-shots { display: flex; gap: 18px; width: max-content; min-width: 100%; justify-content: center; justify-content: safe center; margin: 0 auto; }
   .fd-body { max-width: 1000px; margin: 0 auto; padding: 14px 22px 30px; display: grid; grid-template-columns: 1fr 260px; gap: 40px; }
   .fd-article { min-width: 0; }
   .fd-promo { margin-top: 32px; }

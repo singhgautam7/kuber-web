@@ -29,7 +29,7 @@ export default defineConfig({
     },
   },
   image: {
-    // Screenshots live in /public and are served as-is (drop-in workflow).
-    // Astro still optimizes any images imported from src/.
+    // Feature screenshots live in src/assets/screenshots/features/ and are
+    // automatically discovered and optimized to WebP/AVIF via Sharp at build time.
   },
 });
