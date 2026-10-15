@@ -1,0 +1,50 @@
+[
+ {
+  "id": "s1",
+  "n": "01-home",
+  "h": "Your money. Fully offline.",
+  "s": "No account. No cloud. Everything stays on your phone."
+ },
+ {
+  "id": "s2",
+  "n": "02-sms-import",
+  "h": "Bank SMS to transactions",
+  "s": "Read on your phone. Never uploaded."
+ },
+ {
+  "id": "s3",
+  "n": "03-add",
+  "h": "Add in seconds",
+  "s": "Smart suggestions from your past entries."
+ },
+ {
+  "id": "s4",
+  "n": "04-analytics",
+  "h": "See where every rupee goes",
+  "s": "Charts, trends, and advanced analytics."
+ },
+ {
+  "id": "s5",
+  "n": "05-history",
+  "h": "Find any transaction",
+  "s": "Filter by account, category, tag, date, and more."
+ },
+ {
+  "id": "s6",
+  "n": "06-loans-investments",
+  "h": "Loans, lending, investments",
+  "s": "All tracked in one place."
+ },
+ {
+  "id": "s7",
+  "n": "07-budgets-bills",
+  "h": "Stay ahead of every bill",
+  "s": "Budgets, recurring payments, and reminders."
+ },
+ {
+  "id": "s8",
+  "n": "08-signature",
+  "h": "More than a tracker",
+  "s": "Ask Kuber. Smart notes that do the maths. EMI, GST, and split calculators."
+ }
+]
