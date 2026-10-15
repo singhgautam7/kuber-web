@@ -3,8 +3,8 @@ title: "Budgets"
 slug: "budgets"
 category: "Money"
 order: 23
-description: "Category-based spending limits with live progress tracking, customizable threshold alerts, and historical trend reviews."
-pro: false
+description: "Category spending limits with live progress, custom alerts and a history of past months."
+plan: "free"
 beta: false
 signature: false
 related:

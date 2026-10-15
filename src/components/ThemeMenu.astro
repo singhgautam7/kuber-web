@@ -1,0 +1,218 @@
+---
+/**
+ * Mode and accent pickers. `variant="menu"` is the nav popover (Light, Dark,
+ * System, compact tiles); `variant="tiles"` is the Home Themes section (Light,
+ * Dark, tiles with the family blurb). Buttons carry data-set-mode /
+ * data-set-fam; site.ts applies them and keeps aria-pressed in sync.
+ */
+import { FAMILIES } from '@/lib/themes';
+import Icon from './Icon.astro';
+
+interface Props {
+  variant?: 'menu' | 'tiles';
+}
+const { variant = 'menu' } = Astro.props;
+const menu = variant === 'menu';
+const modes = [
+  ['light', 'Light', 'light_mode'],
+  ['dark', 'Dark', 'dark_mode'],
+  ...(menu ? [['system', 'System', 'contrast']] : []),
+];
+---
+<div class:list={['tm', `tm-${variant}`]}>
+  <div class="tm-group">
+    <div class="eyebrow muted">Mode</div>
+    <div class="seg" role="group" aria-label="Mode">
+      {modes.map(([id, label, icon]) => (
+        <button type="button" class="seg-btn" data-set-mode={id} aria-pressed="false">
+          <Icon name="check" size={18} class="seg-check" />
+          <Icon name={icon} size={18} class="seg-icon" />
+          <span>{label}</span>
+        </button>
+      ))}
+    </div>
+  </div>
+  <div class="tm-group">
+    <div class="eyebrow muted">Accent</div>
+    <div class="tiles" role="group" aria-label="Accent">
+      {FAMILIES.map((f) => (
+        <button type="button" class="tile-btn sl" data-set-fam={f.id} aria-pressed="false" aria-label={`${f.name}, ${f.blurb}`}>
+          <span class="sw" style={`background:var(--k-swatch-${f.id})`}></span>
+          <span class="tile-name">{f.name}</span>
+          {!menu && <span class="tile-blurb">{f.blurb}</span>}
+          <Icon name="check_circle" fill size={menu ? 16 : 18} class="tile-check" />
+        </button>
+      ))}
+    </div>
+  </div>
+  {menu && <p class="t-cap muted tm-note">Saved on this device only. In the app, Kuber Signature is free and the other fifteen come with Pro.</p>}
+</div>
+
+<style>
+  .tm {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .tm-menu {
+    gap: 12px;
+  }
+  .tm-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .tm-menu .eyebrow {
+    padding: 0 4px;
+  }
+  .seg {
+    display: flex;
+    height: 40px;
+    border: 1px solid var(--k-outline);
+    border-radius: var(--k-r-full);
+    overflow: hidden;
+    width: max-content;
+    max-width: 100%;
+  }
+  .tm-menu .seg {
+    width: 100%;
+  }
+  .seg-btn {
+    flex: 1;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font: 600 14px/20px var(--k-font);
+    color: var(--k-on-surface);
+    white-space: nowrap;
+  }
+  .tm-menu .seg-btn {
+    padding: 0 8px;
+  }
+  .seg-btn + .seg-btn {
+    border-left: 1px solid var(--k-outline);
+  }
+  .seg-btn :global(.seg-icon) {
+    color: var(--k-on-surface-variant);
+  }
+  .seg-btn :global(.seg-check),
+  .seg-btn[aria-pressed='true'] :global(.seg-icon) {
+    display: none;
+  }
+  .seg-btn[aria-pressed='true'] {
+    background: var(--k-secondary-container);
+    color: var(--k-on-secondary-container);
+  }
+  .seg-btn[aria-pressed='true'] :global(.seg-check) {
+    display: inline-block;
+  }
+  .seg-btn:focus-visible {
+    outline-offset: -3px;
+  }
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    max-width: 560px;
+  }
+  .tm-menu .tiles {
+    gap: 4px;
+  }
+  .tile-btn {
+    position: relative;
+    min-height: 104px;
+    padding: 14px 8px 12px;
+    border-radius: var(--k-r-m);
+    border: 1px solid var(--k-outline-variant);
+    background: var(--k-surface);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    text-align: center;
+  }
+  .tm-menu .tile-btn {
+    min-height: 72px;
+    padding: 8px 2px 6px;
+    border: none;
+    border-radius: var(--k-r-s);
+    background: transparent;
+    gap: 6px;
+  }
+  .sw {
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--k-on-surface) 16%, transparent);
+    flex: none;
+    transition: transform var(--k-dur-fast) var(--k-ease-back);
+  }
+  .tm-menu .sw {
+    width: 32px;
+    height: 32px;
+  }
+  .tile-name {
+    font: 600 14px/20px var(--k-font);
+    color: var(--k-on-surface);
+    text-wrap: balance;
+  }
+  .tm-menu .tile-name {
+    font: 500 12px/16px var(--k-font);
+    letter-spacing: 0.2px;
+  }
+  .tile-blurb {
+    font: 500 12px/16px var(--k-font);
+    color: var(--k-on-surface-variant);
+    margin-top: -6px;
+  }
+  .tile-btn :global(.tile-check) {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    display: none;
+    color: var(--k-on-secondary-container);
+  }
+  .tm-menu .tile-btn :global(.tile-check) {
+    top: 4px;
+  }
+  .tile-btn[aria-pressed='true'] {
+    background: var(--k-secondary-container);
+    border-color: var(--k-secondary-container);
+  }
+  .tile-btn[aria-pressed='true'] .tile-name,
+  .tile-btn[aria-pressed='true'] .tile-blurb {
+    color: var(--k-on-secondary-container);
+  }
+  .tile-btn[aria-pressed='true'] :global(.tile-check) {
+    display: block;
+    animation: pop var(--k-dur-fast) var(--k-ease-back);
+  }
+  .tile-btn:active .sw {
+    transform: scale(0.9);
+  }
+  @keyframes pop {
+    from {
+      transform: scale(0.8);
+    }
+  }
+  .tm-note {
+    padding: 4px 8px 0;
+    text-wrap: pretty;
+  }
+  @media (max-width: 599px) {
+    .tiles {
+      gap: 8px;
+    }
+    .tile-btn {
+      min-height: 96px;
+      padding: 12px 4px 10px;
+    }
+    .sw {
+      width: 32px;
+      height: 32px;
+    }
+  }
+</style>

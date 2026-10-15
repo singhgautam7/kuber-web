@@ -3,8 +3,8 @@ title: "Lent and Borrowed"
 slug: "lent-borrowed"
 category: "Tracking"
 order: 22
-description: "Track money lent to friends or borrowed from others, with smart contact suggestions from previous ledger history and clean settlement tracking."
-pro: false
+description: "Track money lent to friends or borrowed from others, with contact suggestions and clean settlement."
+plan: "free"
 beta: false
 signature: false
 related:

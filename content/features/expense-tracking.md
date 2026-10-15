@@ -4,7 +4,7 @@ slug: "expense-tracking"
 category: "Tracking"
 order: 0
 description: "Add income, expenses and transfers in seconds, with autofill suggestions from your past transactions."
-pro: false
+plan: "free"
 beta: false
 signature: false
 related: [quick-add, recurring-transactions, sms-import]

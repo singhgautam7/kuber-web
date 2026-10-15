@@ -3,8 +3,8 @@ title: "Multi-lingual"
 slug: "multi-lingual"
 category: "Personalization"
 order: 25
-description: "Experience Kuber in your preferred language with beta support for 9 regional Indian languages and English."
-pro: false
+description: "Use Kuber in 9 languages: English and 8 Indian languages."
+plan: "free"
 beta: true
 signature: false
 related:
@@ -21,7 +21,7 @@ navigation:
 
 Manage your personal finances comfortably in your native tongue with extensive regional language support:
 
-- **9 Supported Languages (Beta)**: Choose from a curated selection of Indian regional languages alongside English:
+- **9 Languages (Beta)**: English and 8 Indian languages:
   - **English**
   - **हिन्दी (Hindi)**
   - **मराठी (Marathi)**

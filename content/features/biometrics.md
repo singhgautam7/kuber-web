@@ -3,8 +3,8 @@ title: "Biometric Lock"
 slug: "biometrics"
 category: "Privacy & Security"
 order: 16
-description: "Protect Kuber, sensitive notes, and saved cards behind fingerprint or face unlock with on-device hardware security."
-pro: false
+description: "Lock Kuber, private notes and saved cards behind fingerprint or face unlock, secured by your phone."
+plan: "free"
 beta: false
 signature: false
 related:

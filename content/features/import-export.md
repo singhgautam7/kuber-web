@@ -3,8 +3,8 @@ title: "Import and Export"
 slug: "import-export"
 category: "Data"
 order: 26
-description: "Export statements and full database backups in CSV or JSON, restore previous records, or test features with sandbox mock data."
-pro: false
+description: "Export statements and full backups as CSV or JSON, restore older records, or try features with sample data."
+plan: "free"
 beta: false
 signature: false
 related:

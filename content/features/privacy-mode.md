@@ -3,8 +3,8 @@ title: "Privacy Mode"
 slug: "privacy-mode"
 category: "Privacy & Security"
 order: 15
-description: "Hide sensitive amounts at a glance when others are around."
-pro: false
+description: "Hide amounts at a glance when others are around."
+plan: "free"
 beta: false
 signature: false
 related:

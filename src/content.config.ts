@@ -29,7 +29,10 @@ const features = defineCollection({
     category: z.enum(FEATURE_CATEGORIES),
     order: z.number(),
     description: z.string(),
-    pro: z.boolean().default(false),
+    /** free = fully free; pro = Pro only; both = free with a limit, more with Pro; none = no plan badge (the Kuber Pro page). */
+    plan: z.enum(['free', 'pro', 'both', 'none']).default('free'),
+    /** The free limit, e.g. "Free: 5 imports a week. Pro: unlimited." */
+    limit: z.string().optional(),
     beta: z.boolean().default(false),
     signature: z.boolean().default(false),
     related: z.array(z.string()).optional(),

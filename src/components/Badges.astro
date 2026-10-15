@@ -1,0 +1,23 @@
+---
+/**
+ * Plan and status badges (copy.md, Badges): Free, Pro, the joined Free + Pro
+ * pair for "free with a limit", and Beta alongside any of them.
+ * `plan: 'none'` hides the plan part (the Kuber Pro page itself).
+ */
+interface Props {
+  plan?: 'free' | 'pro' | 'both' | 'none';
+  beta?: boolean;
+}
+const { plan = 'free', beta = false } = Astro.props;
+const label = { free: 'Free', pro: 'Pro only', both: 'Free with a limit, unlimited in Pro' };
+---
+<span class="badges">
+  {plan === 'free' && <span class="badge badge-free" title={label.free}>Free</span>}
+  {plan === 'pro' && <span class="badge badge-pro" title={label.pro}>Pro</span>}
+  {plan === 'both' && (
+    <span class="badge-pair" title={label.both} role="img" aria-label={label.both}>
+      <span class="badge badge-free" aria-hidden="true">Free</span><span class="badge badge-pro" aria-hidden="true">Pro</span>
+    </span>
+  )}
+  {beta && <span class="badge badge-beta">Beta</span>}
+</span>

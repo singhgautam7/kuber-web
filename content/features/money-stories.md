@@ -3,8 +3,8 @@ title: "Money Stories"
 slug: "money-stories"
 category: "Insights"
 order: 11
-description: "Bite-sized, Instagram and WhatsApp-style visual stories about your spending. Fresh stories persist for 48 hours on your home feed, while the Stories Archive preserves your full history."
-pro: false
+description: "Bite-sized visual stories about your spending. New stories stay on Home for 48 hours, and the Stories Archive keeps them all."
+plan: "free"
 beta: false
 signature: false
 related:

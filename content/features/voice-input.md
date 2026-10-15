@@ -3,8 +3,8 @@ title: "Voice Quick Add"
 slug: "voice-input"
 category: "Tracking"
 order: 6
-description: "Say what you spent and Kuber logs it. Accessed directly through Quick Add for effortless, hands-free tracking."
-pro: false
+description: "Say what you spent and Kuber logs it. Built into Quick Add for hands-free tracking."
+plan: "free"
 beta: true
 signature: true
 related:

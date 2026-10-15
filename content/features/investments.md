@@ -3,8 +3,8 @@ title: "Investments"
 slug: "investments"
 category: "Tracking"
 order: 21
-description: "Track your complete investment portfolio across mutual funds, stocks, SIPs, gold, FDs, crypto, and real estate with real-time P&L insights."
-pro: false
+description: "Track mutual funds, stocks, SIPs, gold, FDs, crypto and real estate in one portfolio, with gain and loss based on the values you enter."
+plan: "free"
 beta: false
 signature: false
 related:
@@ -36,7 +36,7 @@ Consolidate all your investments alongside your day-to-day accounts for a comple
   - **Real Estate and Property**: Land, residential, and commercial investments.
   - **Crypto and Web3 Assets**: Cryptocurrencies and digital tokens.
   - **Collectibles and Custom Assets**: Art, watches, vintage items, and other bespoke holdings.
-- **Unrealized Gain and P&L Tracking**: Update current market valuations to instantly view your total portfolio value, invested capital, absolute gains or losses, and percentage returns.
+- **Gain and Loss Tracking**: Enter the current value of each holding whenever you like, and Kuber works out your total portfolio value, invested amount, gain or loss and percentage return from the values you enter. Kuber is offline, so it never fetches market prices.
 - **Automated Monthly SIP Deductions**: Set up recurring SIP investments with automated account debits on your preferred day of the month (days 1 to 28).
 - **Visual Asset Allocation**: View an immediate breakdown of your portfolio across asset classes to ensure your target risk profile stays balanced.
 - **Folio Notes and Investment Details**: Store folio numbers, broker references, maturity dates, and personal investment theses inside individual notes.

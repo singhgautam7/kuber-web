@@ -1,13 +1,13 @@
 ---
 title: "Kuber Pro launch"
 date: 2026-08-17
-version: "5.1.0+53"
+version: "5.1.0"
 latest: true
-summary: "Kuber Pro is here. Unlock SMS Import, Advanced Analytics, unlimited Kuber Notes and Cards, Reminders, automatic backups, Multi-currency and custom accent themes. Start with a 14-day free trial on the yearly plan, or go Lifetime once."
+summary: "Kuber Pro is here. Unlimited SMS Import and Ask Kuber, Advanced Analytics, unlimited Kuber Notes and Cards, Reminders, automatic backups and all the accent themes. Start with a 14-day free trial on the yearly plan, or buy Lifetime once."
 points:
-  - "Pro gating is now live across all 9 gated features. Kuber Signature stays free in light and dark; the other accent families are Pro."
-  - "Restore purchases and Google Play promo-code redemption from Settings."
-  - "Launch offers configured in Play Console are surfaced and applied automatically on the yearly plan."
+  - "Kuber Signature stays free in light and dark. The other accent families are Pro."
+  - "Restore purchases and redeem Google Play promo codes from Settings."
+  - "Launch offers set in Play Console apply automatically on the yearly plan."
   - "No account, no cloud. Cancel anytime through Google Play."
 ---
 

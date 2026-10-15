@@ -3,8 +3,8 @@ title: "Reminders"
 slug: "reminders"
 category: "Productivity"
 order: 9
-description: "Set reminders for bills, EMIs, salary payouts, and dues. Filter by overdue, today, or this week with recurring schedules."
-pro: true
+description: "Reminders for bills, EMIs, salary and dues. Filter by overdue, today or this week, with recurring schedules."
+plan: "pro"
 beta: false
 signature: false
 related:

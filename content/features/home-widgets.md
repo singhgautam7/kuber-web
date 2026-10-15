@@ -3,8 +3,8 @@ title: "In-App Widgets"
 slug: "home-widgets"
 category: "Personalization"
 order: 12
-description: "Customize your dashboard and analytics feeds. Reorder cards with drag-and-drop and toggle widgets on or off to match your workflow."
-pro: false
+description: "Customize your dashboard and analytics. Drag cards to reorder them and switch widgets on or off."
+plan: "free"
 beta: false
 signature: false
 related:

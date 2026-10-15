@@ -3,7 +3,7 @@ title: "Personalization themes"
 date: 2026-01-15
 version: "4.6.0"
 latest: false
-summary: "Seven accent families across Obsidian and Alabaster, plus a redesigned appearance section in Settings."
+summary: "Seven accent families in light and dark, plus a redesigned Appearance section in Settings."
 points:
   - "Seven theme families with light and dark variants."
   - "Modern and standard bottom navigation styles."

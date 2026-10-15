@@ -1,0 +1,30 @@
+---
+/**
+ * A Material Symbols Rounded glyph from the /icons.svg sprite. Decorative by
+ * default; pass `label` for a meaningful icon. Unknown names fail the build:
+ * add them with `bun scripts/fetch-symbols.mjs <name>`.
+ */
+import symbols from '@/lib/symbols.json';
+import { asset } from '@/lib/url';
+
+interface Props {
+  name: string;
+  size?: number;
+  fill?: boolean;
+  label?: string;
+  class?: string;
+}
+const { name, size = 24, fill = false, label, class: className } = Astro.props;
+const id = fill ? `${name}-fill` : name;
+if (!(id in symbols)) throw new Error(`Icon "${id}" is not in src/lib/symbols.json. Run: bun scripts/fetch-symbols.mjs ${id}`);
+---
+<svg
+  class:list={['ic', className]}
+  width={size}
+  height={size}
+  fill="currentColor"
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+  focusable="false"
+><use href={`${asset('/icons.svg')}#${id}`}></use></svg>
