@@ -4,7 +4,6 @@ slug: "sms-import"
 category: "Tracking"
 order: 2
 description: "Turn bank and payment SMS into transactions, parsed on your phone and imported only when you say so."
-plan: "both"
 limit: "Free: 5 imports a week. Pro: unlimited."
 beta: false
 signature: true

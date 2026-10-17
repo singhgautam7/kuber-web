@@ -25,10 +25,10 @@ const fams = FAMILY_IDS;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light dark" />
-    <!-- Theme before first paint: saved {fam, mode} or the system preference.
+    <!-- Theme before first paint: saved {fam, mode}, else Signature light.
          Storage can throw (blocked cookies, private mode), hence the try. -->
     <script is:inline define:vars={{ fams }}>
-      var d = document.documentElement, f = 'signature', m = 'system';
+      var d = document.documentElement, f = 'signature', m = 'light';
       d.classList.add('js');
       try {
         var s = JSON.parse(localStorage.getItem('kuber-theme') || '{}');

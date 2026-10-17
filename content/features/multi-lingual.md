@@ -4,7 +4,6 @@ slug: "multi-lingual"
 category: "Personalization"
 order: 25
 description: "Use Kuber in 9 languages: English and 8 Indian languages."
-plan: "free"
 beta: true
 signature: false
 related:

@@ -4,7 +4,6 @@ slug: "themes"
 category: "Personalization"
 order: 13
 description: "Sixteen accent families in light, dark and system modes, with live recoloring across the app."
-plan: "both"
 limit: "Free: Kuber Signature. Pro: all 16."
 beta: false
 signature: false

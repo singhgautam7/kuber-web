@@ -4,7 +4,6 @@ slug: "shortcuts"
 category: "Productivity"
 order: 17
 description: "Long-press a nav tab or the add button for quick actions, privacy toggles and custom entry options."
-plan: "free"
 beta: false
 signature: false
 related:

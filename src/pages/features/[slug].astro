@@ -34,13 +34,6 @@ const shots = getFeatureShots(f.slug);
 // Social card: the first screenshot (light), as a JPEG.
 const og = shots[0] ? (await getImage({ src: shots[0].light, width: 720, format: 'jpg' })).src : undefined;
 
-// Plan card rows (Web v1 F2).
-const [freeLine, proLine] = (f.limit ?? '').split(/\.\s*/).map((s) => s.replace(/^(Free|Pro):\s*/, ''));
-const planRows: [string, string][] =
-  f.plan === 'both' ? [['free', freeLine], ['pro', proLine]]
-  : f.plan === 'pro' ? [['pro', 'Included'], ['free', f.limit ?? 'Not included']]
-  : f.plan === 'free' ? [['free', 'Included']]
-  : [];
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 const stepIcon = (s: string) => {
@@ -56,6 +49,7 @@ const stepIcon = (s: string) => {
   return null;
 };
 const promo = config.currentPromo;
+const routes = f.navigation ?? [];
 ---
 <BaseLayout title={f.title} description={f.description} ogImage={og} ogType="article">
   <div class="wrap">
@@ -67,13 +61,20 @@ const promo = config.currentPromo;
         <span class="tile tile-pc big"><Icon name={f.iconName ?? 'apps'} size={32} /></span>
         <div class="title">
           <h1 class="t-display">{f.title}</h1>
-          <Badges plan={f.plan} beta={f.beta} />
+          <Badges beta={f.beta} signature={f.signature} />
         </div>
         <p class="t-lead">{f.description}</p>
         <div class="actions">
           <PlayBadge />
           <a href={url('/features')} class="btn btn-text btn-l has-trail sl">All features<Icon name="arrow_forward" size={20} /></a>
         </div>
+        {routes.length > 0 && (
+          <button type="button" class="wtf-btn sl" aria-haspopup="dialog" data-dialog-open="where">
+            <Icon name="explore" size={18} />
+            <span class="t-label">Where to find in app</span>
+            <span class="wtf-count t-cap">{routes.length} {routes.length === 1 ? 'way' : 'ways'}</span>
+          </button>
+        )}
       </div>
     </div>
 
@@ -90,27 +91,6 @@ const promo = config.currentPromo;
         <h2 class="t-title-l">How it works</h2>
         <div class="prose"><Content /></div>
 
-        {f.navigation && f.navigation.length > 0 && (
-          <>
-            <h2 class="t-title-l where">Where to find it in the app</h2>
-            <div class="routes">
-              {f.navigation.map((r) => (
-                <div class="route">
-                  <div class="route-head"><span class="t-title-s">{r.title}</span>{r.note && <span class="t-cap muted">{cap(r.note)}</span>}</div>
-                  <ol class="steps" aria-label={r.title}>
-                    {r.steps.map((s, j) => (
-                      <li>
-                        {j > 0 && <Icon name="chevron_right" size={18} class="muted" />}
-                        <span class="step t-label">{stepIcon(s) && <Icon name={stepIcon(s)!} size={16} />}{s}</span>
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-
         {promo && (
           <div class="card promo">
             <h2 class="t-title-m">Try Pro free</h2>
@@ -125,22 +105,13 @@ const promo = config.currentPromo;
       </article>
 
       <aside class="aside">
-        {planRows.length > 0 && (
-          <div class="card plan">
-            <div class="eyebrow muted">Plan</div>
-            {planRows.map(([k, v]) => (
-              <div class="plan-row"><Badges plan={k as 'free' | 'pro'} /><span class="t-label">{cap(v)}</span></div>
-            ))}
-            <a href={url('/features/pro-plans')} class="link">Compare Free and Pro<Icon name="arrow_forward" size={18} /></a>
-          </div>
-        )}
         {related.length > 0 && (
           <div class="related">
             <div class="eyebrow muted">Related features</div>
             {related.map((r) => (
               <a href={url(`/features/${r.data.slug}`)} class="rel sl">
                 <span class="tile"><Icon name={r.data.iconName ?? 'apps'} size={22} /></span>
-                <span class="rel-text"><span class="t-title-s">{r.data.title}</span><Badges plan={r.data.plan} beta={r.data.beta} /></span>
+                <span class="rel-text"><span class="t-title-s">{r.data.title}</span>{r.data.beta && <span class="t-cap muted">Beta</span>}</span>
                 <Icon name="chevron_right" size={20} class="muted" />
               </a>
             ))}
@@ -149,6 +120,35 @@ const promo = config.currentPromo;
       </aside>
     </div>
   </div>
+
+  {routes.length > 0 && (
+    <dialog class="wtf" id="where" aria-labelledby="where-title">
+      <div class="wtf-head">
+        <div class="wtf-intro">
+          <span class="eyebrow wtf-eyebrow"><Icon name="explore" size={16} />App navigation</span>
+          <h2 id="where-title" class="t-title-l">Where to find {f.title}</h2>
+          <p class="t-body-s muted">Follow any of these navigation paths inside the Kuber Android app:</p>
+        </div>
+        <button type="button" class="ibtn sl" aria-label="Close navigation guide" data-dialog-close><Icon name="close" size={22} /></button>
+      </div>
+      <div class="wtf-list">
+        {routes.map((r, i) => (
+          <div class="route">
+            <div class="route-head"><span class="eyebrow muted">Option {i + 1}</span><span class="t-title-s">{r.title}</span></div>
+            <ol class="steps" aria-label={r.title}>
+              {r.steps.map((st, j) => (
+                <li>
+                  {j > 0 && <Icon name="chevron_right" size={18} class="muted" />}
+                  <span class="step t-label">{stepIcon(st) && <Icon name={stepIcon(st)!} size={18} class="step-ic" />}{st}</span>
+                </li>
+              ))}
+            </ol>
+            {r.note && <div class="note t-cap muted"><span class="dot"></span>{cap(r.note)}</div>}
+          </div>
+        ))}
+      </div>
+    </dialog>
+  )}
 </BaseLayout>
 
 <style>
@@ -212,29 +212,113 @@ const promo = config.currentPromo;
     max-width: 680px;
     min-width: 0;
   }
-  .where {
-    margin-top: 24px;
-  }
-  .routes {
-    background: var(--k-surface-container-low);
+  .wtf-btn {
+    align-self: flex-start;
+    height: 40px;
+    padding: 0 8px 0 12px;
+    border-radius: var(--k-r-full);
     border: 1px solid var(--k-outline-variant);
-    border-radius: var(--k-r-l);
-    overflow: hidden;
+    background: var(--k-surface-container-low);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--k-on-surface);
+    margin-top: 4px;
   }
-  .route {
-    padding: 16px 20px;
+  .wtf-btn :global(.ic) {
+    color: var(--k-primary);
+  }
+  .wtf-count {
+    height: 24px;
+    padding: 0 8px;
+    border-radius: var(--k-r-full);
+    background: var(--k-secondary-container);
+    color: var(--k-on-secondary-container);
+    display: inline-flex;
+    align-items: center;
+    font-weight: 600;
+  }
+  .wtf {
+    width: min(560px, calc(100vw - 32px));
+    max-height: calc(100dvh - 48px);
+    border: 1px solid var(--k-outline-variant);
+    border-radius: 28px;
+    padding: 28px;
+    background: var(--k-surface-container);
+    color: var(--k-on-surface);
+  }
+  .wtf[open] {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
+    animation: wtf-in var(--k-dur-fast) var(--k-ease);
   }
-  .route + .route {
-    border-top: 1px solid var(--k-outline-variant);
+  .wtf::backdrop {
+    background: color-mix(in srgb, var(--k-scrim) 100%, transparent);
+  }
+  @keyframes wtf-in {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+  }
+  .wtf-head {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .wtf-intro {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .wtf-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .ibtn {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--k-r-full);
+    background: var(--k-surface-container-high);
+    color: var(--k-on-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+  }
+  .wtf-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .route {
+    padding: 16px;
+    border-radius: var(--k-r-l);
+    background: var(--k-surface-container-low);
+    border: 1px solid var(--k-outline-variant);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
   .route-head {
     display: flex;
     align-items: baseline;
     gap: 10px;
     flex-wrap: wrap;
+  }
+  .note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--k-warning);
   }
   .steps {
     list-style: none;
@@ -249,6 +333,9 @@ const promo = config.currentPromo;
     display: flex;
     align-items: center;
     gap: 6px;
+  }
+  .step :global(.step-ic) {
+    color: var(--k-primary);
   }
   .step {
     min-height: 32px;
@@ -287,22 +374,6 @@ const promo = config.currentPromo;
     display: flex;
     flex-direction: column;
     gap: 20px;
-  }
-  .plan {
-    border-radius: var(--k-r-l);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .plan-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
-  .plan-row .t-label {
-    text-align: right;
   }
   .related {
     display: flex;

@@ -4,7 +4,6 @@ slug: "money-stories"
 category: "Insights"
 order: 11
 description: "Bite-sized visual stories about your spending. New stories stay on Home for 48 hours, and the Stories Archive keeps them all."
-plan: "free"
 beta: false
 signature: false
 related:

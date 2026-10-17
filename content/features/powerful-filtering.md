@@ -4,7 +4,6 @@ slug: "powerful-filtering"
 category: "Productivity"
 order: 6.5
 description: "Filter by keyword, account, category, tag, amount range, transaction type or custom dates."
-plan: "free"
 beta: false
 signature: false
 related: [expense-tracking, detailed-analytics, quick-add]

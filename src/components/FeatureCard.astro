@@ -2,7 +2,7 @@
 /**
  * Feature card for the Features index (Web v1 F1): cropped first screenshot,
  * icon tile, badges, title, description. Below 600px it becomes a compact row
- * with a small thumbnail. data-* hooks drive the client filter.
+ * with a small thumbnail. data-sig drives the client filter.
  */
 import type { CollectionEntry } from 'astro:content';
 import { url } from '@/lib/url';
@@ -17,14 +17,14 @@ interface Props {
 const { feature: f } = Astro.props;
 const shot = getFeatureShots(f.slug)[0];
 ---
-<a href={url(`/features/${f.slug}`)} class="fc sl" data-feature data-plan={f.plan} data-beta={String(f.beta)} data-sig={String(f.signature)}>
+<a href={url(`/features/${f.slug}`)} class="fc sl" data-feature data-sig={String(f.signature)}>
   {shot && <span class="fc-img" aria-hidden="true"><Screenshot shot={shot} width={180} alt="" /></span>}
   <span class="fc-body">
     <span class="fc-top">
       <span class="tile"><Icon name={f.iconName ?? 'apps'} size={22} /></span>
-      <Badges plan={f.plan} beta={f.beta} />
+      <Badges beta={f.beta} />
     </span>
-    <span class="t-title-m fc-title">{f.title}</span>
+    <span class="fc-name"><span class="t-title-m">{f.title}</span><Badges signature={f.signature} /></span>
     <span class="t-body-s muted">{f.description}</span>
   </span>
 </a>
@@ -76,8 +76,12 @@ const shot = getFeatureShots(f.slug)[0];
     justify-content: space-between;
     gap: 12px;
   }
-  .fc-title {
+  .fc-name {
     margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
   }
   .t-body-s {
     text-wrap: pretty;
@@ -109,8 +113,10 @@ const shot = getFeatureShots(f.slug)[0];
       padding: 16px 92px 16px 16px;
       gap: 6px;
     }
-    .fc-title {
+    .fc-name {
       margin-top: 4px;
+    }
+    .fc-name .t-title-m {
       font-size: 16px;
       line-height: 24px;
     }

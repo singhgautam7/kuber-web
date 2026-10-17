@@ -4,7 +4,6 @@ slug: "quick-add"
 category: "Tracking"
 order: 5
 description: "Type or speak to log several transactions at once. Amounts, merchants and categories are parsed on your phone, from the home widget or full screen."
-plan: "free"
 beta: false
 signature: false
 related:

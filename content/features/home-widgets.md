@@ -4,7 +4,6 @@ slug: "home-widgets"
 category: "Personalization"
 order: 12
 description: "Customize your dashboard and analytics. Drag cards to reorder them and switch widgets on or off."
-plan: "free"
 beta: false
 signature: false
 related:

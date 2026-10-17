@@ -4,7 +4,6 @@ slug: "automatic-backups"
 category: "Data"
 order: 10
 description: "Scheduled backups on your phone that you own. Choose daily, weekly or monthly, and pick the folder."
-plan: "pro"
 limit: "Manual backups are free."
 beta: false
 signature: false

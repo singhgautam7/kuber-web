@@ -85,9 +85,8 @@ Adding content never requires touching code. Just add markdown (and optionally i
                              # Productivity, Data
    order: 27                 # controls position in the list
    description: "One-line summary for the card."
-   plan: "free"              # free | pro | both (free with a limit) | none
-   limit: "Free: 2 notes. Pro: unlimited."   # optional, shown on the Plan card
-   beta: false               # true adds the Beta badge
+   limit: "Free: 2 notes. Pro: unlimited."   # optional, shown on Home Signature cards
+   beta: false               # true adds the Beta badge (no Free/Pro badges: plan detail lives on the Kuber Pro page)
    signature: false          # true flags it as a signature feature
    related: [sms-import, budgets]   # optional, other feature slugs
    iconName: "bolt"          # a Material Symbols name
@@ -176,8 +175,8 @@ Add alt text for new shots to the `ALT` map in `src/lib/screenshots.ts`. The fir
 ## Theme system
 
 - 16 families (Kuber Signature + 15 Mull families, as in the app) x light and dark = 32 palettes, one CSS custom property per M3 role (`--k-primary`, `--k-surface-container-low`, ...).
-- Without JS the site is Signature, following the system light or dark preference.
-- An inline `<head>` script reads `localStorage['kuber-theme']` (`{fam, mode}`, mode `light | dark | system`) inside `try/catch`, falls back to `prefers-color-scheme`, and sets `data-theme` and `data-mode` before the body paints (no flash of the wrong theme).
+- The default is Kuber Signature in light mode (also without JS). Visitors can pick Light, Dark or System.
+- An inline `<head>` script reads `localStorage['kuber-theme']` (`{fam, mode}`, mode `light | dark | system`) inside `try/catch`, defaults to Signature light, and sets `data-theme` and `data-mode` before the body paints (no flash of the wrong theme).
 - The live mockups on Home (hero and Themes) are HTML on the same tokens, so they recolor too.
 - The choice persists across page loads and navigations.
 

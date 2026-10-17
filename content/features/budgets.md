@@ -4,7 +4,6 @@ slug: "budgets"
 category: "Money"
 order: 23
 description: "Category spending limits with live progress, custom alerts and a history of past months."
-plan: "free"
 beta: false
 signature: false
 related:

@@ -4,7 +4,6 @@ slug: "dev-mode"
 category: "Productivity"
 order: 14
 description: "Extra tools and diagnostics for power users."
-plan: "free"
 beta: false
 signature: false
 related:

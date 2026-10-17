@@ -4,7 +4,6 @@ slug: "kuber-notes"
 category: "Productivity"
 order: 4
 description: "A smart notepad that does the math. Type 'total' or '=' to add up, and tap a number to log it as a transaction, loan or ledger entry."
-plan: "both"
 limit: "Free: 2 notes. Pro: unlimited."
 beta: false
 signature: true

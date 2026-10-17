@@ -77,6 +77,8 @@
   --k-cat-orange-fg: #9D4300;
   --k-cat-amber-bg: #FFE4C7;
   --k-cat-amber-fg: #855300;
+  --k-cat-cyan-bg: #D4EBFF;
+  --k-cat-cyan-fg: #006591;
 }
 
 [data-mode="dark"] {
@@ -99,6 +101,8 @@
   --k-cat-orange-fg: #FFB690;
   --k-cat-amber-bg: #523F27;
   --k-cat-amber-fg: #FFB95F;
+  --k-cat-cyan-bg: #334451;
+  --k-cat-cyan-fg: #89CEFF;
 }
 
 :root,
@@ -146,73 +150,6 @@
   --k-viz-3: #81AAFF;
   --k-viz-4: #2573E6;
   --k-viz-5: #004FAB;
-}
-
-@media (prefers-color-scheme: dark) {
-:root:not([data-mode]) {
-  --k-primary: #ADC6FF;
-  --k-on-primary: #002E6A;
-  --k-primary-container: #4D8EFF;
-  --k-on-primary-container: #001C46;
-  --k-inverse-primary: #005AC2;
-  --k-secondary: #B1C6F9;
-  --k-on-secondary: #182F59;
-  --k-secondary-container: #304671;
-  --k-on-secondary-container: #9FB5E7;
-  --k-tertiary: #FFB786;
-  --k-on-tertiary: #502400;
-  --k-tertiary-container: #DF7412;
-  --k-on-tertiary-container: #351600;
-  --k-error: #FFB4AB;
-  --k-on-error: #690005;
-  --k-error-container: #93000A;
-  --k-on-error-container: #FFDAD6;
-  --k-surface: #000000;
-  --k-surface-container-lowest: #000000;
-  --k-surface-container-low: #191B23;
-  --k-surface-container: #1D2027;
-  --k-surface-container-high: #272A31;
-  --k-surface-container-highest: #32353C;
-  --k-on-surface: #E1E2EC;
-  --k-on-surface-variant: #C2C6D6;
-  --k-outline: #8C909F;
-  --k-outline-variant: #424754;
-  --k-inverse-surface: #E1E2EC;
-  --k-inverse-on-surface: #2E3038;
-  --k-income: #91D888;
-  --k-income-container: #0B5314;
-  --k-on-income-container: #ACF4A2;
-  --k-expense: #FFB4AB;
-  --k-expense-container: #93000A;
-  --k-on-expense-container: #FFDAD6;
-  --k-warning: #FFB94E;
-  --k-warning-container: #624000;
-  --k-on-warning-container: #FFDDB2;
-  --k-viz-1: #002E6A;
-  --k-viz-2: #004395;
-  --k-viz-3: #0566D9;
-  --k-viz-4: #699CFF;
-  --k-viz-5: #ADC6FF;
-  --k-icon-bg: #001A42;
-  --k-icon-ink: #ADC6FF;
-  --k-icon-leg: #4D8EFF;
-  --k-cat-red-bg: #583B38;
-  --k-cat-red-fg: #FFB3AD;
-  --k-cat-slate-bg: #374353;
-  --k-cat-slate-fg: #B7C8E1;
-  --k-cat-green-bg: #354636;
-  --k-cat-green-fg: #4AE176;
-  --k-cat-purple-bg: #493E52;
-  --k-cat-purple-fg: #DDB7FF;
-  --k-cat-blue-bg: #3A4254;
-  --k-cat-blue-fg: #ADC6FF;
-  --k-cat-pink-bg: #553B44;
-  --k-cat-pink-fg: #FFB0CD;
-  --k-cat-orange-bg: #573C2E;
-  --k-cat-orange-fg: #FFB690;
-  --k-cat-amber-bg: #523F27;
-  --k-cat-amber-fg: #FFB95F;
-}
 }
 
 [data-theme="signature"][data-mode="dark"] {

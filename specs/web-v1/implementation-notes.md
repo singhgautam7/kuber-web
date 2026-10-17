@@ -2,6 +2,20 @@
 
 Branch `web-v1`. Plan: `specs/web-v1/plan.md`. Performance: `specs/web-v1/performance-review.md`. Screenshots: `specs/web-v1/screenshots/before/` and `after/` (11 page types × 390, 834, 1440 × light and dark), plus `after/themes/` (Home in all 16 themes).
 
+## Round 2 (17 Oct 2026): decisions and changes
+
+Owner decisions: keep 16 themes; Data Deletion wording left to my judgement (kept as written, with the `clearAllDataDesc` and promo-fetch notes below); Google Drive removal confirmed; converter wording fine for now; AA adjustments approved.
+
+Changes:
+- **Free / Pro badges removed** everywhere, per design `open-decisions.md` §18 and the review-round-2 note in `screenshot-map.md`: only Beta and a Signature pill remain. Features index chips are All and Signature (counts computed). The feature-page Plan card is gone ("the plan detail lives on the Kuber Pro page"). The `plan` field is removed from the schema; `limit` stays for the Home Signature cards.
+- **"Where to find in app" is a pop-up again**, as on the design's feature board: a button with the route count under the header opens a native `<dialog>` (Escape, backdrop click and close button; focus returns to the button).
+- **Why Kuber stage 5 now animates** per the Home v3.3 storyboard page 5: the five vignettes (Ask Kuber question and answer, card flip, note to Travel transaction, SIP calculator result, bill reminder with the bell ringing) play in turn, each with its line spotlit, then the five icon tiles. The vignettes were rendered from the design kit (`_kit/home_v33.js` `P5`) with colours as tokens.
+- **Default theme is light** (Kuber Signature light). System mode is still available in the theme menu.
+- **Hero fits the first screen**: panel height is the viewport height minus the nav space and the trust strip, so Offline, Private, Open source, Made in India and Under 17 MB are visible without scrolling (checked at 1440×900, 1440×780, 1280×680, 1920×1080, 834×1112, 390×844, 390×664, 360×640). Headline and spacing shrink on short screens; the phone is clipped at the panel's bottom. On mobile the trust chips are compact, two rows, and the Get the app FAB stays hidden while the hero (which has its own Play badge) is on screen, then shows icon-only.
+- **Money stories rings** in the hero mockup are Instagram-style: each ring is split into one segment per story (Daily 6, Weekly 3, Monthly 3, Insights 6, Yearly 3), read segments in the outline colour first and unread in the accent last (Daily 2 of 6 new, Weekly 2 of 3, Monthly all seen, Insights 3 of 6, Yearly 3 of 3). Segments fade in after the phone (motion.md §1).
+- **6,500+ stat restored** as the sixth Numbers card ("Transactions tested in one database"); it is the developer's figure (design `open-decisions.md` §17).
+- **Press screenshots fixed**: `more-*` and `settings-*` re-rendered from the design kit with the app's real copy ("Kuber Pro · Unlock every feature, no account needed" and "Try Kuber Pro · Unlock every feature, no account needed", from `kuber_pro_settings_section.dart`) instead of the slot placeholders.
+
 ## Review before merge
 
 1. **Data Deletion page (`/docs/data-deletion/`)** is rewritten from the app code. Please read it in full. Things it states that come from the code:
@@ -15,7 +29,7 @@ Branch `web-v1`. Plan: `specs/web-v1/plan.md`. Performance: `specs/web-v1/perfor
    - Beta labels on Ask Kuber, Voice Quick Add and Multi-lingual. The app shows no Beta label anywhere (`betaBadge` string is unused).
    - "Under 17 MB". Not derivable from the code.
    - "Log expenses in under 3 seconds" (About).
-   - The 6,500+ "transactions tested" stat from the design was **not** used (the brief asked for the `copy.md` stat, and it can't be checked). Numbers shows 5 checked figures.
+   - The 6,500+ "transactions tested" stat is the developer's own figure (restored in round 2).
 6. **AA colour adjustments.** Six light Mull palettes from the app fail WCAG AA for some roles. The site lowers the OKLCh lightness of just those roles until they pass (`accessible()` in `src/lib/themes.ts`), so the web differs slightly from the app:
 
    | Palette | Role | App | Site |
@@ -30,21 +44,20 @@ Branch `web-v1`. Plan: `specs/web-v1/plan.md`. Performance: `specs/web-v1/perfor
    | Neon light | primary | #3B964B | #218037 |
 
    These may be worth fixing in the app too (Neon primary is 3.4:1 on its surface there).
-7. **Press screenshots contain placeholder text.** Two of the design's press PNGs show developer slot labels: `more-*.png` ("MorePremiumHeroCard slot (Pro round)") and `settings-*.png` ("KuberProSettingsSection slot (Pro round)"). They need a re-export before the press kit is shared.
+7. ~~Press screenshots contain placeholder text.~~ Fixed in round 2 (re-rendered). The design bundle's own `web-v1/screenshots/press/` files still have the placeholders if you re-copy them.
 
 ## Deviations from the spec, and defaults used
 
 | Area | Spec | Built | Why |
 |---|---|---|---|
 | Themes | `copy.md` says seven in places, `tokens.md` sixteen | 16 | App code (see above) |
-| Badges | `open-decisions` §18 removed Free/Pro badges | Free, Pro, joined Free + Pro, Beta on cards, headers, related cards and Signature cards | Brief asks for them; colours from `gen_web.js` `BADGE` |
-| Kuber Pro page | `plan: free` in design data | `plan: none`, no plan badge | Brief |
+| Badges | `open-decisions` §18 removed Free/Pro badges | Beta and Signature only (round 2) | Owner decision |
 | Feature images | Index cards and Signature cards use `web-v1/mockups/*.png` | First screenshot from `web-v1/screenshots/`, cropped by CSS | Brief: use the screenshots; no `mockups/` import |
 | Dark screenshots | Folder has `-dark` files for most features | Only SMS Import ships dark | The other dark files predate the redraws (different content) |
-| Where to find it | Feature board keeps the modal | Inline list (F2, `page-inventory.md`) | Removes the modal and its JS |
-| Plan card | F2 | Built for every feature except Kuber Pro | |
-| Why Kuber | `motion.md` element storyboard, addendum asks for scroll-scrubbed sticky stages | Plays once at 35% visible: rows written in with stepped clip, blocks rise in sequence, SIP line draws, donut fades in, tools light up in turn, bell rings. No JS counters, typing, FLIP or scroll scrubbing | Robust, CSS only, about 0 KB JS. Rest frame shown with reduced motion or no JS |
-| Hero | Money story rings animate | Chip, lines, lead and phone rise in sequence; rings static | Simplification |
+| Where to find it | Feature board keeps the modal | Pop-up (native `<dialog>`) as on the feature board (round 2) | Owner decision |
+| Plan card | F2 | Removed (round 2): plan detail lives on the Kuber Pro page (§18) | Owner decision |
+| Why Kuber | `motion.md` element storyboard, addendum asks for scroll-scrubbed sticky stages | Plays once at 35% visible: rows written in with stepped clip, blocks rise in sequence, SIP line draws, donut fades in; stage 5 plays all five vignettes with the spotlight, card flip, bell and notification. No JS counters, typing, FLIP or scroll scrubbing | Robust, CSS only. Rest frame shown with reduced motion or no JS |
+| Hero | Money story rings animate | Chip, lines, lead and phone rise in sequence; segmented story rings fade in after the phone; hero sized to the first screen (round 2) | Owner feedback |
 | Category tile colours | Harmonised per family in the app | Fixed per mode (`--k-cat-*`), from the design frames | Simplification |
 | Theme menu | `role="menu"` with radio items | Native `popover` with `aria-pressed` toggle buttons in labelled groups | Valid without arrow-key menu handling; light dismiss and Escape for free |
 | Mobile menu | Bottom sheet | Native `<dialog>` bottom sheet | Focus trap, Escape, inert page for free |
@@ -56,15 +69,15 @@ Branch `web-v1`. Plan: `specs/web-v1/plan.md`. Performance: `specs/web-v1/perfor
 | Press wordmark | "Get from GitHub" | SVG and PNG downloads, light and dark (`public/press/`). Text converted to Inter ExtraBold outlines so the SVG needs no font | Brief |
 | Press screenshots | 6 feature mockups and a ZIP | The 4 press screens (Home, Spaces, Add transaction, Settings), previews follow the site mode, each with Light and Dark PNG downloads. No ZIP | No zip tooling without a new dependency; brief only asks for the new screenshots |
 | Copy buttons | Boilerplate only | Boilerplate and fact sheet, label and icon switch to "Copied" for 2 s, announced via a live region | Brief |
-| Numbers | Six figures incl. 6,500+ | Five: 15 banks, 12 widgets, 18 calculators, 16 themes, 9 languages | Brief (`copy.md` stat) and checkable facts |
+| Numbers | Six figures incl. 6,500+ | Six: 15 banks, 12 widgets, 18 calculators, 16 themes, 9 languages, 6,500+ | As designed (round 2) |
 | Mono font | JetBrains Mono for paths | System monospace stack | `tokens.md`: Inter only |
 | Changelog | `copy.md` rewrites | Applied, but history kept: the January 2026 entry still says seven families (true then); the Pro launch says "all the accent themes"; Multi-currency removed from the Pro list (it is free) | Accuracy |
-| Theme default | Design frames show light | Signature, following the system preference | Brief |
+| Theme default | Design frames show light | Signature light (round 2) | Owner decision |
 | `/404/` canonical | | Unchanged (pre-existing: the 404 page's canonical points to `/404/`, which does not exist) | Brief: keep SEO metadata |
 
 ## Final fact table
 
-App path `kuber/lib/`, read-only. "Site before" is `origin/main`.
+App path `kuber/lib/`, read-only. "Site before" is `origin/main`. Since round 2 the Free/Pro badges are not shown; the gating facts below still drive the Signature limit lines and the Kuber Pro page.
 
 | Claim | Site before | Site now | Verified in |
 |---|---|---|---|
@@ -123,7 +136,7 @@ All runs against `astro preview` of the final build, Chrome 141 headless via pup
 | One `h1` per page, skip link present | Every route |
 | Hard-coded colours in built CSS and HTML outside token declarations | None. (Static brand files keep fixed colours: favicon and the wordmark downloads) |
 | Banned strings in built HTML (em/en dash, Obsidian, Emerald, Alabaster, Google Drive, real-time, 9 regional, over 25, 6,000+, Your words here, FlewTube, loyalty, 20+, 5 languages, 7 themes) | None |
-| Badges | Every feature page matches the fact table |
+| Badges | Only Beta (Ask Kuber, Voice Quick Add, Multi-lingual) and Signature (5 features); no Free/Pro anywhere |
 | Meta | Every page has a description and og:description; every feature page's og:image is its first screenshot (720 px JPEG) |
 | Keyboard | Tab order skip link → brand → 5 nav items → theme → FAB → page; 3 px focus ring on every stop. Theme menu opens with Enter, focus moves in, Escape closes and returns focus. Mobile menu traps focus over 20 tabs, Escape closes, focus returns. FAB fixed 16 px from bottom-right on mobile |
 | No flash | With `{fam: iris, mode: dark}` saved, `data-theme`/`data-mode` are already set when `<body>` is created |
@@ -131,7 +144,9 @@ All runs against `astro preview` of the final build, Chrome 141 headless via pup
 | Theme recolor | All 16 families × light/dark; whole site including both live mockups recolors (`after/themes/`) |
 | Screenshot mode switch | SMS Import shows dark files in dark and light files in light, same box height (no shift); light-only features show light in dark mode |
 | Motion | No stage plays before it is scrolled into view; stages wait at opacity 0 and finish at rest. Reduced motion: all 49 animated elements at rest before any scroll |
-| Lighthouse mobile | Home 100/100/100/100, SMS Import 99/100/100/100, Privacy Policy 100/100/100/100 |
+| Lighthouse mobile (after round 2) | Home 100/100/100/100, SMS Import 99/100/100/100, Privacy Policy 100/100/100/100 |
+| First screen | Trust strip visible without scrolling at 8 viewport sizes from 360×640 to 1920×1080 |
+| Where to find pop-up | Opens; Escape, close button and backdrop click close it; clicks inside keep it open; focus returns |
 
 Not done or limited:
 - Visual comparison against the spec frames was by reading the design source (`gen_web.js`, `gen_inner.js`, frame HTML) and reviewing screenshots of every page type at 390, 834 and 1440 in both modes. I did not render the design boards or pixel-diff (the bundle README asks not to render them).
@@ -144,7 +159,6 @@ Not done or limited:
 - Biometric Lock uses the Settings screen as a substitute; there is no app lock screen design yet (`screenshot-map.md`).
 - Currency Support shows the Settings row, not a currency picker (none designed).
 - Home Widgets shows a "Pinned Suggestions" widget that is not in `widget_catalog.dart`.
-- Press PNGs `more-*` and `settings-*` contain placeholder slot labels (see Review item 7).
 - No ZIP of the press screenshots.
 - Why Kuber is a simplified, play-once version (see Deviations); no scroll scrubbing, typing or counters.
 - `content/pages/developer.md` still has no route (`open-decisions` §9).

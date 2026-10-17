@@ -4,7 +4,6 @@ slug: "upcoming-events"
 category: "Productivity"
 order: 18
 description: "One timeline for what is coming up: card dues, SIPs, loan EMIs, money lent or borrowed, and recurring bills."
-plan: "free"
 beta: false
 signature: false
 related:

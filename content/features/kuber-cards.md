@@ -4,7 +4,6 @@ slug: "kuber-cards"
 category: "Privacy & Security"
 order: 3
 description: "Store your payment card details encrypted on your phone, locked behind your PIN or biometrics. No network, ever."
-plan: "both"
 limit: "Free: 2 cards. Pro: unlimited."
 beta: false
 signature: true

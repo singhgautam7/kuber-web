@@ -4,7 +4,6 @@ slug: "recurring-transactions"
 category: "Tracking"
 order: 19
 description: "Automate repeating income and expenses like salary, rent and subscriptions, with custom frequencies."
-plan: "free"
 beta: false
 signature: false
 related:

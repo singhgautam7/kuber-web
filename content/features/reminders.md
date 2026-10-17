@@ -4,7 +4,6 @@ slug: "reminders"
 category: "Productivity"
 order: 9
 description: "Reminders for bills, EMIs, salary and dues. Filter by overdue, today or this week, with recurring schedules."
-plan: "pro"
 beta: false
 signature: false
 related:

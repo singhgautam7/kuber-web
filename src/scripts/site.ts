@@ -12,7 +12,7 @@ const darkMq = matchMedia('(prefers-color-scheme: dark)');
 
 /* ============ Theme ============ */
 type Pref = 'light' | 'dark' | 'system';
-const state = () => ({ fam: root.dataset.theme || 'signature', mode: (root.dataset.pref || 'system') as Pref });
+const state = () => ({ fam: root.dataset.theme || 'signature', mode: (root.dataset.pref || 'light') as Pref });
 
 function paint(fam: string, mode: Pref) {
   const dark = mode === 'dark' || (mode === 'system' && darkMq.matches);
@@ -73,18 +73,34 @@ pop?.addEventListener('toggle', (e) => {
   if ((e as Event & { newState: string }).newState === 'open') pop.querySelector<HTMLElement>('[aria-pressed="true"]')?.focus();
 });
 
-/* ============ Mobile menu (native dialog) ============ */
+/* ============ Dialogs (native) ============ */
+// True when a click lands on the backdrop, outside the dialog box.
+const outside = (d: HTMLDialogElement, e: MouseEvent) => {
+  const r = d.getBoundingClientRect();
+  return e.target === d && (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom);
+};
+
+/* ============ Mobile menu ============ */
 const sheet = document.querySelector<HTMLDialogElement>('[data-menu]');
 document.querySelector('[data-menu-open]')?.addEventListener('click', () => sheet?.showModal());
 sheet?.addEventListener('click', (e) => {
   const t = e.target as HTMLElement;
-  // Click on the backdrop (the dialog itself), the close button or a link.
-  if (t === sheet || t.closest('[data-menu-close]') || t.closest('a')) sheet.close();
+  if (outside(sheet, e) || t.closest('[data-menu-close]') || t.closest('a')) sheet.close();
+});
+
+/* ============ Other dialogs ("Where to find in app") ============ */
+document.querySelectorAll<HTMLDialogElement>('dialog:not([data-menu])').forEach((d) => {
+  d.addEventListener('click', (e) => {
+    const t = e.target as HTMLElement;
+    if (outside(d, e) || t.closest('[data-dialog-close]')) d.close();
+  });
 });
 
 /* ============ Clicks ============ */
 document.addEventListener('click', async (e) => {
   const t = e.target as HTMLElement;
+  const opener = t.closest<HTMLElement>('[data-dialog-open]');
+  if (opener) return (document.getElementById(opener.dataset.dialogOpen!) as HTMLDialogElement | null)?.showModal();
   const famBtn = t.closest<HTMLElement>('[data-set-fam]');
   if (famBtn) return apply(famBtn.dataset.setFam!, state().mode);
   const modeBtn = t.closest<HTMLElement>('[data-set-mode]');
@@ -156,14 +172,7 @@ chips?.addEventListener('click', (e) => {
   const f = chip.dataset.filter;
   chips.querySelectorAll('[data-filter]').forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
   document.querySelectorAll<HTMLElement>('[data-feature]').forEach((card) => {
-    const { plan, beta, sig } = card.dataset;
-    card.hidden = !(
-      f === 'all' ||
-      (f === 'free' && plan !== 'pro') ||
-      (f === 'pro' && plan !== 'free') ||
-      (f === 'signature' && sig === 'true') ||
-      (f === 'beta' && beta === 'true')
-    );
+    card.hidden = f === 'signature' && card.dataset.sig !== 'true';
   });
   document.querySelectorAll<HTMLElement>('[data-feature-group]').forEach((g) => {
     g.hidden = !g.querySelector('[data-feature]:not([hidden])');

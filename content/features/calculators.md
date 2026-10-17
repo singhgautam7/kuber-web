@@ -4,7 +4,6 @@ slug: "calculators"
 category: "Money"
 order: 7
 description: "18 built-in calculators for borrowing, taxes, investments and planning. Save any calculation to revisit and compare later."
-plan: "free"
 beta: false
 signature: false
 related:

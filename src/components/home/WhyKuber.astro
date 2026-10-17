@@ -177,26 +177,33 @@ const tools = [
     :global(.js) [data-stage='3'].play :global(circle[stroke-dasharray]) {
       animation: fade 600ms var(--k-ease) 1400ms both;
     }
-    /* 5 · Go further: tools light up in turn, the bell rings. */
-    :global(.js) [data-stage='4'] :global(.ic) {
-      opacity: 0;
+    /* 5 · Go further (storyboard page 5, 3740 ms): each vignette in turn,
+       the matching line spotlit, then the five icon tiles. */
+    :global(.js) [data-stage='4'].play :global([data-v]) {
+      animation: vshow 640ms var(--k-ease) both;
     }
-    :global(.js) [data-stage='4'].play :global(div:has(> .ic)) {
-      animation: rise 420ms var(--k-ease) both;
+    :global(.js) [data-stage='4'].play :global([data-v='1']) { animation-delay: 300ms; }
+    :global(.js) [data-stage='4'].play :global([data-v='2']) { animation-delay: 940ms; }
+    :global(.js) [data-stage='4'].play :global([data-v='3']) { animation-delay: 1580ms; }
+    :global(.js) [data-stage='4'].play :global([data-v='4']) { animation-delay: 2220ms; }
+    :global(.js) [data-stage='4'].play :global([data-v='5']) { animation-delay: 2860ms; }
+    :global(.js) [data-stage='4'].play :global([data-v='0']) {
+      animation: fade 240ms var(--k-ease) 3500ms both;
     }
-    :global(.js) [data-stage='4'].play :global(.ic) {
-      animation: fade 300ms var(--k-ease) both;
-    }
-    :global(.js) [data-stage='4'].play :global(div:has(> .ic):nth-child(2) .ic) { animation-delay: 300ms; }
-    :global(.js) [data-stage='4'].play :global(div:has(> .ic):nth-child(3) .ic) { animation-delay: 600ms; }
-    :global(.js) [data-stage='4'].play :global(div:has(> .ic):nth-child(4) .ic) { animation-delay: 900ms; }
-    :global(.js) [data-stage='4'].play :global(div:has(> .ic):nth-child(5) .ic) {
-      animation: fade 300ms var(--k-ease) 1200ms both, bell 270ms linear 1560ms 1;
-    }
+    :global(.js) [data-stage='4'].play :global([data-v='1'] [data-sub='rise']) { animation: rise 150ms var(--k-ease) 780ms both; }
+    :global(.js) [data-stage='4'].play :global([data-sub='flip']) { animation: flip 300ms var(--k-ease) 1100ms both; }
+    :global(.js) [data-stage='4'].play :global([data-v='3'] [data-sub='rise']) { animation: rise 240ms var(--k-ease) 2000ms both; }
+    :global(.js) [data-stage='4'].play :global([data-v='4'] [data-sub='rise']) { animation: rise 240ms var(--k-ease) 2500ms both; }
+    :global(.js) [data-stage='4'].play :global([data-sub='bell']) { animation: bell 270ms linear 2900ms both; }
+    :global(.js) [data-stage='4'].play :global([data-sub='drop']) { animation: drop 260ms var(--k-ease) 3000ms both; }
     :global(.js) .tools[data-stage].play li {
-      animation: spot 600ms var(--k-ease) both;
-      animation-delay: calc(var(--i) * 300ms);
+      animation: spot 640ms var(--k-ease) both;
+      animation-delay: calc(300ms + var(--i) * 640ms);
     }
+  }
+  /* Stage 5 rest frame: only the five icon tiles show without motion. */
+  [data-stage='4'] :global([data-v]:not([data-v='0'])) {
+    opacity: 0;
   }
   @keyframes rise {
     from {
@@ -224,6 +231,9 @@ const tools = [
     }
   }
   @keyframes bell {
+    0% {
+      transform: rotate(0);
+    }
     33% {
       transform: rotate(-10deg);
     }
@@ -234,12 +244,34 @@ const tools = [
       transform: rotate(-10deg);
     }
   }
+  @keyframes vshow {
+    0%,
+    100% {
+      opacity: 0;
+    }
+    23%,
+    77% {
+      opacity: 1;
+    }
+  }
+  @keyframes flip {
+    50% {
+      transform: scaleX(0);
+    }
+  }
+  @keyframes drop {
+    from {
+      opacity: 0;
+      transform: translateY(-16px);
+    }
+  }
   @keyframes spot {
     0%,
     100% {
       background: transparent;
     }
-    40% {
+    23%,
+    77% {
       background: var(--k-secondary-container);
     }
   }

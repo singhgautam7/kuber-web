@@ -390,29 +390,28 @@ const isActive = (href: string) => {
     .brand {
       padding: 0 14px 0 4px;
     }
-    .fab {
+    /* Icon-only, fixed bottom right. On Home it stays hidden while the hero
+       (which has its own Play badge) is on screen, so it never covers the
+       trust strip. */
+    .fab,
+    :global(html.scrolled) .fab {
       position: fixed;
       right: 16px;
       bottom: calc(16px + env(safe-area-inset-bottom));
+      width: 56px;
       height: 56px;
-      width: auto;
-      padding: 0 22px 0 18px;
-      justify-content: flex-start;
+      padding: 0;
+      justify-content: center;
+      transition: opacity var(--k-dur-nav) var(--k-ease), transform var(--k-dur-nav) var(--k-ease),
+        visibility var(--k-dur-nav);
     }
     .fab-label {
-      display: inline;
+      display: none;
     }
-    :global(html.scrolled) .fab {
-      height: 56px;
-      width: auto;
-    }
-    /* Extended on the Home hero only, icon-only everywhere else. */
-    :global(html:not(.at-hero)) .fab {
-      width: 56px;
-      padding: 0 17px;
-    }
-    :global(html:not(.at-hero)) .fab-label {
+    :global(html.at-hero) .fab {
       opacity: 0;
+      transform: scale(0.8);
+      visibility: hidden;
     }
     .theme-pop {
       top: 76px;

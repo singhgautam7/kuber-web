@@ -4,7 +4,6 @@ slug: "multi-currency"
 category: "Money"
 order: 24
 description: "Track in your chosen currency, with native symbol formatting and a built-in converter."
-plan: "free"
 beta: false
 signature: false
 related:

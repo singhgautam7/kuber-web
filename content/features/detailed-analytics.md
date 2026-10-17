@@ -4,7 +4,6 @@ slug: "detailed-analytics"
 category: "Insights"
 order: 8
 description: "Core charts, weekly heatmaps and category breakdowns are free. Advanced Analytics adds health scores and predictive patterns in Pro."
-plan: "both"
 limit: "Free: core charts. Pro: Advanced Analytics."
 beta: false
 signature: false

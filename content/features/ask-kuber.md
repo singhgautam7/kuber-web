@@ -4,7 +4,6 @@ slug: "ask-kuber"
 category: "Tracking"
 order: 1
 description: "Ask about your money in plain words and get answers right on your phone. Or describe a transaction and Kuber drafts it for you to confirm."
-plan: "both"
 limit: "Free: 5 questions a week. Pro: unlimited."
 beta: true
 signature: true

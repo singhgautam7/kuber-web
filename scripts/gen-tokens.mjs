@@ -26,6 +26,7 @@ const PER_MODE = {
     '--k-cat-pink-bg': '#FFE0E9', '--k-cat-pink-fg': '#B4136D',
     '--k-cat-orange-bg': '#FFE2D5', '--k-cat-orange-fg': '#9D4300',
     '--k-cat-amber-bg': '#FFE4C7', '--k-cat-amber-fg': '#855300',
+    '--k-cat-cyan-bg': '#D4EBFF', '--k-cat-cyan-fg': '#006591',
   },
   dark: {
     '--k-icon-bg': '#001A42', '--k-icon-ink': '#ADC6FF', '--k-icon-leg': '#4D8EFF',
@@ -37,6 +38,7 @@ const PER_MODE = {
     '--k-cat-pink-bg': '#553B44', '--k-cat-pink-fg': '#FFB0CD',
     '--k-cat-orange-bg': '#573C2E', '--k-cat-orange-fg': '#FFB690',
     '--k-cat-amber-bg': '#523F27', '--k-cat-amber-fg': '#FFB95F',
+    '--k-cat-cyan-bg': '#334451', '--k-cat-cyan-fg': '#89CEFF',
   },
 };
 
@@ -85,8 +87,6 @@ const css = [
   block(':root,\n[data-mode="light"]', PER_MODE.light),
   block('[data-mode="dark"]', PER_MODE.dark),
   block(':root,\n[data-theme="signature"][data-mode="light"]', roles(palette(sig, 'light'))),
-  // No-JS fallback: follow the system preference.
-  `@media (prefers-color-scheme: dark) {\n${block(':root:not([data-mode])', { ...roles(palette(sig, 'dark')), ...PER_MODE.dark })}\n}`,
   block('[data-theme="signature"][data-mode="dark"]', roles(palette(sig, 'dark'))),
   ...FAMILIES.slice(1).flatMap((f) => ['light', 'dark'].map((m) => block(`[data-theme="${f.id}"][data-mode="${m}"]`, roles(palette(f, m))))),
 ].join('\n\n');

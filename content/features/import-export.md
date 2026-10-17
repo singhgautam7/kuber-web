@@ -4,7 +4,6 @@ slug: "import-export"
 category: "Data"
 order: 26
 description: "Export statements and full backups as CSV or JSON, restore older records, or try features with sample data."
-plan: "free"
 beta: false
 signature: false
 related:

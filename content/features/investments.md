@@ -4,7 +4,6 @@ slug: "investments"
 category: "Tracking"
 order: 21
 description: "Track mutual funds, stocks, SIPs, gold, FDs, crypto and real estate in one portfolio, with gain and loss based on the values you enter."
-plan: "free"
 beta: false
 signature: false
 related:

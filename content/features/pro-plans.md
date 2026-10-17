@@ -4,7 +4,6 @@ slug: "pro-plans"
 category: "Money"
 order: 27
 description: "What Kuber Pro unlocks: Advanced Analytics, unlimited SMS imports, automatic backups and higher limits."
-plan: "none"
 beta: false
 signature: false
 related:

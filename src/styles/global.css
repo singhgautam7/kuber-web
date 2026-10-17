@@ -295,27 +295,15 @@ a {
   letter-spacing: 0.4px;
   white-space: nowrap;
 }
-.badge-free {
-  background: var(--k-secondary-container);
-  color: var(--k-on-secondary-container);
-}
-.badge-pro {
-  background: var(--k-primary-container);
-  color: var(--k-on-primary-container);
-}
 .badge-beta {
   background: var(--k-warning-container);
   color: var(--k-on-warning-container);
 }
-.badge-pair {
-  display: inline-flex;
-  gap: 2px;
-}
-.badge-pair .badge-free {
-  border-radius: 999px 4px 4px 999px;
-}
-.badge-pair .badge-pro {
-  border-radius: 4px 999px 999px 4px;
+.badge-sig {
+  padding: 0 10px 0 6px;
+  gap: 4px;
+  border: 1px solid var(--k-primary);
+  color: var(--k-primary);
 }
 .tile {
   width: 40px;

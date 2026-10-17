@@ -6,13 +6,10 @@ import Icon from '@/components/Icon.astro';
 import FeatureCard from '@/components/FeatureCard.astro';
 
 const features = (await getCollection('features')).map((f) => f.data).sort((a, b) => a.order - b.order);
-// Counts come from the data. Free and Pro both include "free with a limit".
+// Counts come from the data. Chips: All and Signature (design review round 2).
 const chips = [
   ['all', 'All', features.length],
-  ['free', 'Free', features.filter((f) => f.plan === 'free' || f.plan === 'both').length],
-  ['pro', 'Pro', features.filter((f) => f.plan === 'pro' || f.plan === 'both').length],
   ['signature', 'Signature', features.filter((f) => f.signature).length],
-  ['beta', 'Beta', features.filter((f) => f.beta).length],
 ] as const;
 const groups = FEATURE_CATEGORIES.map((c) => ({ c, id: c.toLowerCase().replace(/[^a-z]+/g, '-'), items: features.filter((f) => f.category === c) }));
 const intro = 'A complete picture of what Kuber does. Free features are yours forever. Pro unlocks the rest. Everything runs offline.';
@@ -32,12 +29,6 @@ const intro = 'A complete picture of what Kuber does. Free features are yours fo
             <span class="t-label">{label}</span><span class="t-cap">{n}</span>
           </button>
         ))}
-      </div>
-      <div class="legend t-cap muted">
-        <span><span class="badge badge-free">Free</span> Included free</span>
-        <span><span class="badge-pair"><span class="badge badge-free">Free</span><span class="badge badge-pro">Pro</span></span> Free with a limit, unlimited in Pro</span>
-        <span><span class="badge badge-pro">Pro</span> Pro only</span>
-        <span><span class="badge badge-beta">Beta</span> Still in beta</span>
       </div>
     </header>
     <div class="groups">
@@ -85,17 +76,6 @@ const intro = 'A complete picture of what Kuber does. Free features are yours fo
   }
   .fchip[aria-pressed='true'] :global(.fchip-check) {
     display: inline-block;
-  }
-  .legend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 20px;
-    align-items: center;
-  }
-  .legend > span {
-    display: inline-flex;
-    gap: 8px;
-    align-items: center;
   }
   .groups {
     display: flex;

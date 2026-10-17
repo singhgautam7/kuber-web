@@ -23,20 +23,22 @@ const signature = ['ask-kuber', 'sms-import', 'kuber-cards', 'kuber-notes', 'voi
 
 const trust = [['wifi_off', 'Offline'], ['lock', 'Private'], ['code', 'Open source'], ['flag', 'Made in India'], ['download', 'Under 17 MB']];
 // Checked against the app code: sender_ids.dart, widget_catalog.dart,
-// tool_catalog.dart, theme_families.dart, supported_locales.dart.
+// tool_catalog.dart, theme_families.dart, supported_locales.dart. The 6,500+
+// figure is the developer's own test database (design open-decisions §17).
 const numbers = [
   ['15', 'Banks supported for SMS import, plus UPI apps'],
   ['12', 'Home screen widgets'],
   ['18', 'Built-in calculators'],
   ['16', 'Themes, each in light and dark'],
   ['9', 'Languages'],
+  ['6,500+', 'Transactions tested in one database'],
 ];
 // Bank names as text, not logos (open-decisions §1).
 const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'Kotak Mahindra Bank', 'Punjab National Bank', 'IDFC FIRST Bank', 'Yes Bank'];
 ---
 <BaseLayout title="Kuber">
-  <!-- Hero -->
-  <div class="page-top hero-wrap" data-hero>
+  <!-- Hero and trust strip: together they fill the first screen. -->
+  <div class="hero-screen" data-hero>
     <div class="wrap hero-gutter">
       <div class="panel hero">
         <div class="hero-text">
@@ -48,7 +50,7 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
           <p class="t-lead a-in" style="--d:180ms">Track expenses, read your spending and stay on top of your money. No account, no cloud, no tracking. Your data never leaves your phone.</p>
           <div class="hero-actions a-in" style="--d:180ms">
             <PlayBadge />
-            <a href={url('/features')} class="btn btn-text btn-l has-trail sl">See all features<Icon name="arrow_forward" size={20} /></a>
+            <a href={url('/features')} class="btn btn-text btn-l has-trail sl see-all">See all features<Icon name="arrow_forward" size={20} /></a>
           </div>
         </div>
         <div class="hero-phone a-phone">
@@ -58,13 +60,11 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- Trust strip -->
-  <div class="wrap">
-    <ul class="trust" aria-label="Kuber at a glance">
-      {trust.map(([icon, label]) => <li class="chip"><Icon name={icon} size={18} />{label}</li>)}
-    </ul>
+    <div class="wrap">
+      <ul class="trust" aria-label="Kuber at a glance">
+        {trust.map(([icon, label]) => <li class="chip"><Icon name={icon} size={18} />{label}</li>)}
+      </ul>
+    </div>
   </div>
 
   <WhyKuber />
@@ -82,7 +82,7 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
             <div class="sig-text">
               <div class="sig-top">
                 <span class="tile tile-pc sig-tile"><Icon name={f.iconName ?? 'apps'} size={24} /></span>
-                <Badges plan={f.plan} beta={f.beta} />
+                <Badges beta={f.beta} />
               </div>
               <h3 class="t-title-l">{f.title}</h3>
               <p class="muted">{f.description}</p>
@@ -161,7 +161,7 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
         <div class="avatar" aria-hidden="true">GS</div>
         <div class="dev-text">
           <h2 id="dev" class="eyebrow">Made by one developer</h2>
-          <p class="dev-p">Kuber is built and maintained by {config.developerName}, one developer in India. It started because no expense app felt fast, private and simple enough for daily use. So he built one.</p>
+          <p class="dev-p">Kuber is built and maintained by {config.developerName}, a developer from India. It started because no expense app felt fast, private and simple enough for daily use. So he built one.</p>
           <div class="dev-links">
             <a href={url('/about')} class="link">Read the full letter<Icon name="arrow_forward" size={18} /></a>
             <a href={config.githubUrl} target="_blank" rel="noopener" class="link muted">GitHub<Icon name="north_east" size={18} /></a>
@@ -188,21 +188,38 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
 </BaseLayout>
 
 <style>
-  /* Hero */
+  /* Hero: panel height = first screen minus nav space and trust strip, so the
+     strip is visible without scrolling. Type and spacing shrink on short
+     screens; the phone is clipped at the panel's bottom edge. */
+  .hero-screen {
+    --top: 88px;
+    --trust: 80px;
+    --s: 1;
+    --phone-top: clamp(32px, 6svh, 72px);
+    padding-top: var(--top);
+  }
   .hero {
-    padding: 72px 72px 0;
+    height: calc(100svh - var(--top) - var(--trust));
+    min-height: 480px;
+    /* Never taller than the phone needs. */
+    max-height: calc(796px * var(--s) + var(--phone-top));
+    padding: 0 72px;
     display: grid;
     grid-template-columns: minmax(0, 1.15fr) auto;
+    grid-template-rows: minmax(0, 1fr);
     gap: 48px;
-    align-items: end;
     overflow: hidden;
   }
   .hero-text {
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    padding-bottom: 72px;
+    justify-content: center;
+    gap: clamp(12px, 2.6svh, 24px);
+    padding: clamp(24px, 5svh, 72px) 0;
     max-width: 600px;
+  }
+  .hero .t-hero {
+    font-size: min(var(--k-type-hero), 10.5svh);
   }
   .status {
     align-self: flex-start;
@@ -234,15 +251,16 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
   .hero-phone {
     display: flex;
     justify-content: center;
-    margin-bottom: -150px;
+    padding-top: var(--phone-top);
   }
   .trust {
     list-style: none;
     margin: 0;
-    padding: 32px 0 0;
+    height: var(--trust);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-content: center;
     gap: 12px;
   }
   @media (prefers-reduced-motion: no-preference) {
@@ -361,7 +379,7 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
   /* Numbers */
   .nums {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: 16px;
     margin: 40px 0 0;
   }
@@ -468,15 +486,12 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
   }
 
   @media (max-width: 1023px) {
-    .hero {
-      padding: 56px 40px 0;
-      gap: 24px;
-    }
-    .hero-phone {
+    .hero-screen {
       --s: 0.82;
     }
-    .hero-phone {
-      margin-bottom: -123px;
+    .hero {
+      padding: 0 40px;
+      gap: 24px;
     }
     .themes {
       padding: 48px 40px;
@@ -501,25 +516,67 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
     }
   }
   @media (max-width: 767px) {
+    .hero-screen {
+      --top: 80px;
+      --trust: 96px;
+    }
     .hero {
-      grid-template-columns: 1fr;
-      padding: 40px 20px 0;
-      gap: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding: 0 20px;
+      min-height: 420px;
+      max-height: none;
     }
     .hero-text {
-      padding-bottom: 0;
-      gap: 20px;
+      justify-content: flex-start;
+      padding: clamp(24px, 4svh, 40px) 0 0;
+      gap: clamp(10px, 2svh, 16px);
+      flex: none;
+    }
+    .hero .t-hero {
+      font-size: min(44px, 6.5svh);
+    }
+    .hero .t-lead {
+      font-size: 16px;
+      line-height: 24px;
     }
     .hero-actions {
-      gap: 12px;
+      gap: 4px 8px;
+      margin-top: 4px;
+    }
+    .see-all {
+      padding: 0 8px;
+      font-size: 14px;
+    }
+    .hero-actions :global(.play) {
+      height: 48px;
+      padding: 0 14px 0 12px;
+      gap: 10px;
+    }
+    .hero-actions :global(.play-l) {
+      font-size: 17px;
+      line-height: 20px;
+    }
+    /* The phone takes whatever height is left and is clipped. */
+    .hero-phone {
+      flex: 1;
+      min-height: 0;
+      padding-top: 24px;
+    }
+    .trust {
+      gap: 8px;
+    }
+    .trust .chip {
+      height: 28px;
+      padding: 0 10px;
+      font-size: 12px;
+      gap: 6px;
     }
   }
   @media (max-width: 599px) {
     .hero-gutter {
       padding: 0 12px;
-    }
-    .hero-phone {
-      --s: 0.82;
     }
     .themes {
       padding: 40px 20px;
@@ -558,9 +615,6 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
       gap: 12px;
       margin-top: 32px;
     }
-    .num:last-child {
-      grid-column: span 2;
-    }
     .num {
       padding: 20px;
     }
@@ -590,7 +644,7 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
     }
   }
   @media (max-width: 370px) {
-    .hero-phone,
+    .hero-screen,
     .themes-phone {
       --s: 0.74;
     }
