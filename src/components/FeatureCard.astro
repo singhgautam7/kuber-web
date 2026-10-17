@@ -18,7 +18,7 @@ const { feature: f } = Astro.props;
 const shot = getFeatureShots(f.slug)[0];
 ---
 <a href={url(`/features/${f.slug}`)} class="fc sl" data-feature data-sig={String(f.signature)}>
-  {shot && <span class="fc-img" aria-hidden="true"><Screenshot shot={shot} width={180} alt="" /></span>}
+  {shot && <span class="fc-img" aria-hidden="true"><Screenshot shot={shot} width={180} alt="" class="crop" /></span>}
   <span class="fc-body">
     <span class="tile"><Icon name={f.iconName ?? 'apps'} size={22} /></span>
     <span class="fc-name"><span class="t-title-m">{f.title}</span><Badges signature={f.signature} /></span>
@@ -58,7 +58,6 @@ const shot = getFeatureShots(f.slug)[0];
   }
   .fc-img :global(.shot) {
     width: 180px;
-    border-radius: 20px 20px 0 0;
     align-self: flex-start;
   }
   .fc-body {
@@ -93,12 +92,13 @@ const shot = getFeatureShots(f.slug)[0];
       height: 120px;
       padding: 0;
       border: none;
-      border-radius: 12px 0 0 0;
       background: none;
     }
     .fc-img :global(.shot) {
       width: 72px;
-      border-radius: 12px 0 0 0;
+    }
+    .fc-img :global(.shot-img) {
+      border-top-right-radius: 0;
     }
     .fc-body {
       padding: 16px 92px 16px 16px;

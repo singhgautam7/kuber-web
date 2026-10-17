@@ -86,7 +86,7 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
               <a href={url(`/features/${f.slug}`)} class="link sig-link">Learn more<span class="visually-hidden"> about {f.title}</span><Icon name="arrow_forward" size={18} /></a>
             </div>
             <div class="sig-img" aria-hidden="true">
-              <Screenshot shot={getFeatureShots(f.slug)[0]} width={i === 0 ? 300 : 250} alt="" />
+              <Screenshot shot={getFeatureShots(f.slug)[0]} width={i === 0 ? 300 : 250} alt="" class="crop" />
             </div>
           </article>
         ))}
@@ -359,8 +359,6 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
   }
   .sig-img :global(.shot) {
     width: 250px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
     align-self: flex-start;
   }
   .sig.wide .sig-img {

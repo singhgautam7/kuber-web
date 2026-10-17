@@ -4,6 +4,8 @@
  * variant, both are rendered at the same size and CSS on html[data-mode]
  * shows one: no layout shift, and no flash because the attribute is set
  * before first paint. Lazy-loaded unless `eager`.
+ * Corners follow the hero phone (40px on 376px wide), scaled to the rendered
+ * width. class="crop" squares the bottom corners for cropped previews.
  */
 import { Picture } from 'astro:assets';
 import type { Shot } from '@/lib/screenshots';
@@ -34,16 +36,20 @@ const common = {
 <style>
   .shot {
     display: block;
-    border-radius: var(--k-r-2xl);
-    overflow: hidden;
-    outline: 1px solid var(--k-outline-variant);
-    outline-offset: -1px;
-    background: var(--k-surface-container);
+    container-type: inline-size;
   }
   .shot :global(.shot-img) {
     display: block;
     width: 100%;
     height: auto;
+    border-radius: calc(100cqw * 40 / 376);
+    outline: 1px solid var(--k-outline-variant);
+    outline-offset: -1px;
+    background: var(--k-surface-container);
+  }
+  .shot.crop :global(.shot-img) {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
   }
   .shot :global(picture) {
     display: block;

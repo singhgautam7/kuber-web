@@ -18,6 +18,9 @@ Changes:
 
 ## Round 6 (17 Oct 2026): fix
 
+- **Filter chips are pills** on the Features index (M3), radius full.
+- **Screenshot corners match the hero phone**: every screenshot (feature pages, Features index cards, Home Signature cards, Press) uses the hero mockup's corner proportion, 40 px on a 376 px-wide phone (about 10.6% of the width), scaled to its rendered width with container query units. Cropped previews keep square bottom corners.
+
 - **Mockup icons were drawing black**: the icons converted from the design's live mockups had no `fill`, so SVG used its default black. All icons now take the current text colour (`.ic { fill: currentColor }`). The hero's Ask Kuber icon now matches its label (white in light mode, as the old Pro badge did), and the status bar, eye, bell and Why Kuber stage icons now recolor correctly in dark mode and in every theme.
 
 ## Round 5 (17 Oct 2026): changes
