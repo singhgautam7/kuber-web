@@ -16,6 +16,11 @@ Changes:
 - **6,500+ stat restored** as the sixth Numbers card ("Transactions tested in one database"); it is the developer's figure (design `open-decisions.md` §17).
 - **Press screenshots fixed**: `more-*` and `settings-*` re-rendered from the design kit with the app's real copy ("Kuber Pro · Unlock every feature, no account needed" and "Try Kuber Pro · Unlock every feature, no account needed", from `kuber_pro_settings_section.dart`) instead of the slot placeholders.
 
+## Round 5 (17 Oct 2026): changes
+
+- **Hero phone spacing**: on two-column layouts the whole phone now always fits in the panel and is centred, so the space above and below it is equal (checked at 13 sizes from 834×700 to 1920×1080). The phone scale is the smaller of a width step (1, 0.82 on tablet) and a height step (1 down to 0.5), so the SMS Import card is always visible. The mobile layout keeps its top-aligned peek.
+- **6,500+ stat removed** (owner decision). Numbers shows five cards: 15 banks, 12 widgets, 18 calculators, 16 themes, 9 languages.
+
 ## Round 4 (17 Oct 2026): changes
 
 - **Hero phone shows the SMS Import card**: on two-column layouts the phone scales with the screen height (1 down to 0.6 in steps) and sits closer to the panel top, so the full-width "Import from SMS · Last checked 13m ago" row is always inside the panel. Checked at 1440×900, 1440×780, 1366×768, 1280×680, 1920×1080, 1024×768 and 834×1112; the trust strip stays visible at all of them.
@@ -89,7 +94,7 @@ Changes:
 | Press wordmark | "Get from GitHub" | SVG and PNG downloads, light and dark (`public/press/`). Text converted to Inter ExtraBold outlines so the SVG needs no font | Brief |
 | Press screenshots | 6 feature mockups and a ZIP | The 4 press screens (Home, Spaces, Add transaction, Settings), previews follow the site mode, each with Light and Dark PNG downloads. No ZIP | No zip tooling without a new dependency; brief only asks for the new screenshots |
 | Copy buttons | Boilerplate only | Boilerplate and fact sheet, label and icon switch to "Copied" for 2 s, announced via a live region | Brief |
-| Numbers | Six figures incl. 6,500+ | Six: 15 banks, 12 widgets, 18 calculators, 16 themes, 9 languages, 6,500+ | As designed (round 2) |
+| Numbers | Six figures incl. 6,500+ | Five: 15 banks, 12 widgets, 18 calculators, 16 themes, 9 languages (6,500+ removed in round 5) | Owner decision |
 | Mono font | JetBrains Mono for paths | System monospace stack | `tokens.md`: Inter only |
 | Changelog | `copy.md` rewrites | Applied, but history kept: the January 2026 entry still says seven families (true then); the Pro launch says "all the accent themes"; Multi-currency removed from the Pro list (it is free) | Accuracy |
 | Theme default | Design frames show light | Signature light (round 2) | Owner decision |
