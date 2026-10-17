@@ -16,6 +16,10 @@ Changes:
 - **6,500+ stat restored** as the sixth Numbers card ("Transactions tested in one database"); it is the developer's figure (design `open-decisions.md` §17).
 - **Press screenshots fixed**: `more-*` and `settings-*` re-rendered from the design kit with the app's real copy ("Kuber Pro · Unlock every feature, no account needed" and "Try Kuber Pro · Unlock every feature, no account needed", from `kuber_pro_settings_section.dart`) instead of the slot placeholders.
 
+## Round 6 (17 Oct 2026): fix
+
+- **Mockup icons were drawing black**: the icons converted from the design's live mockups had no `fill`, so SVG used its default black. All icons now take the current text colour (`.ic { fill: currentColor }`). The hero's Ask Kuber icon now matches its label (white in light mode, as the old Pro badge did), and the status bar, eye, bell and Why Kuber stage icons now recolor correctly in dark mode and in every theme.
+
 ## Round 5 (17 Oct 2026): changes
 
 - **Hero phone spacing**: on two-column layouts the whole phone now always fits in the panel and is centred, so the space above and below it is equal (checked at 13 sizes from 834×700 to 1920×1080). The phone scale is the smaller of a width step (1, 0.82 on tablet) and a height step (1 down to 0.5), so the SMS Import card is always visible. The mobile layout keeps its top-aligned peek.

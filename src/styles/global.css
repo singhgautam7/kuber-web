@@ -96,6 +96,9 @@ a {
   flex: none;
   display: inline-block;
   vertical-align: middle;
+  /* Icons take their colour from the text colour (the mockup icons set it
+     inline), never the SVG default of black. */
+  fill: currentColor;
 }
 
 .skip-link {
