@@ -11,7 +11,7 @@ related:
   - detailed-analytics
   - home-widgets
   - budgets
-iconName: "money-stories"
+iconName: "auto_stories"
 navigation:
   - title: "Home feed widget"
     steps: ["Home tab", "Money Stories widget"]

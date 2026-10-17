@@ -12,7 +12,7 @@ related:
   - biometrics
   - privacy-mode
   - sms-import
-iconName: "kuber-cards"
+iconName: "credit_card"
 navigation:
   - title: "Direct menu"
     steps: ["More tab", "Kuber Cards"]

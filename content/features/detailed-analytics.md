@@ -12,7 +12,7 @@ related:
   - money-stories
   - budgets
   - home-widgets
-iconName: "advanced-analytics"
+iconName: "insert_chart"
 navigation:
   - title: "Analytics tab (Free)"
     steps: ["Bottom navigation bar", "Analytics tab"]

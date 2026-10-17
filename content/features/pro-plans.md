@@ -11,7 +11,7 @@ related:
   - sms-import
   - detailed-analytics
   - themes
-iconName: "pro-plans"
+iconName: "workspace_premium"
 navigation:
   - title: "More tab banner"
     steps: ["More tab", "Kuber Pro banner"]

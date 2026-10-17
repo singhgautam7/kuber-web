@@ -11,7 +11,7 @@ related:
   - ask-kuber
   - voice-input
   - shortcuts
-iconName: "quick-add"
+iconName: "bolt"
 navigation:
   - title: "Home widget"
     steps: ["Home tab", "Quick Add widget"]

@@ -4,10 +4,7 @@ import DocLayout from '@/layouts/DocLayout.astro';
 
 export async function getStaticPaths() {
   const docs = await getCollection('docs');
-  return docs.map((entry) => ({
-    params: { slug: entry.data.slug },
-    props: { entry },
-  }));
+  return docs.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
 }
 
 interface Props {
@@ -16,14 +13,11 @@ interface Props {
 const { entry } = Astro.props;
 const { data } = entry;
 const { Content, headings } = await render(entry);
-const toc = headings.map((h) => ({ depth: h.depth, slug: h.slug, text: h.text }));
+// Description: the doc's first paragraph (pages had none before, so this adds one).
+const para = (entry.body ?? '').split(/\n\s*\n/).find((p) => p.trim() && !/^(#|>|-|\d+\.)/.test(p.trim()))?.replace(/\s+/g, ' ').trim() ?? '';
+const firstPara = para.length > 160 ? para.slice(0, para.lastIndexOf(' ', 157)) + '…' : para || undefined;
+const words = (entry.body ?? '').split(/\s+/).filter(Boolean).length;
 ---
-<DocLayout
-  title={data.title}
-  eyebrow="DOCUMENTATION"
-  lastUpdated={data.last_updated}
-  toc={toc}
-  showToc={data.toc}
->
+<DocLayout title={data.title} slug={data.slug} description={firstPara} lastUpdated={data.last_updated} toc={headings} showToc={data.toc} words={words}>
   <Content />
 </DocLayout>

@@ -12,7 +12,7 @@ related:
   - ask-kuber
   - kuber-cards
   - automatic-backups
-iconName: "sms-import"
+iconName: "sms"
 navigation:
   - title: "Direct menu"
     steps: ["More tab", "Import from SMS"]
@@ -26,4 +26,4 @@ navigation:
 Kuber scans messages from recognised Indian bank and payment sender IDs, reads only transaction alerts, and parses the amount, type, date and merchant. You review the list and pick what to import. SMS is read on your phone and only when you open the screen, never in the background.
 
 - **15 Banks and UPI Apps**: Alerts from HDFC Bank, State Bank of India, ICICI Bank, Axis Bank, Kotak Mahindra Bank, IndusInd Bank, Yes Bank, IDFC FIRST Bank, Bank of Baroda, Punjab National Bank, Canara Bank, Union Bank of India, Federal Bank, RBL Bank and AU Small Finance Bank, plus Paytm, PhonePe and Google Pay.
-- **You Decide What Gets Imported**: Scanning and reviewing are always free. The free plan imports 5 transactions a week; Kuber Pro makes it unlimited.
+- **You Decide What Gets Imported**: Scanning and reviewing are always free. The free plan imports 5 transactions a week. Kuber Pro makes it unlimited.

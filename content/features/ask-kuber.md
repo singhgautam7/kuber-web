@@ -12,7 +12,7 @@ related:
   - voice-input
   - quick-add
   - sms-import
-iconName: "ask-kuber"
+iconName: "auto_awesome"
 navigation:
   - title: "Direct menu"
     steps: ["More tab", "Ask Kuber"]

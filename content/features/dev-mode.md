@@ -11,7 +11,7 @@ related:
   - shortcuts
   - import-export
   - automatic-backups
-iconName: "dev-mode"
+iconName: "terminal"
 navigation:
   - title: "Unlock Dev Mode"
     steps: ["More tab", "Settings", "About Kuber", "Tap version 7 times"]

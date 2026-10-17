@@ -11,7 +11,7 @@ related:
   - themes
   - shortcuts
   - home-widgets
-iconName: "multi-lingual"
+iconName: "translate"
 navigation:
   - title: "Direct menu"
     steps: ["More tab", "Settings", "Language"]

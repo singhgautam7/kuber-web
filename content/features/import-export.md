@@ -11,7 +11,7 @@ related:
   - automatic-backups
   - dev-mode
   - privacy-mode
-iconName: "import-export"
+iconName: "swap_vert"
 navigation:
   - title: "Transaction statements"
     steps: ["History tab", "Export icon", "Choose CSV or PDF"]

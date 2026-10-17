@@ -26,6 +26,9 @@ main {
   flex: 1 0 auto;
   width: 100%;
 }
+main:focus {
+  outline: none;
+}
 
 /* Theme switch cross-fade fallback (site.ts adds the class for 240ms). */
 html.k-theming,
@@ -415,7 +418,10 @@ a {
   border-top: 1px solid var(--k-outline-variant);
 }
 .prose table {
-  width: 100%;
+  display: block;
+  overflow-x: auto;
+  width: max-content;
+  max-width: 100%;
   border-collapse: separate;
   border-spacing: 0;
   font: 400 15px/22px var(--k-font);
@@ -438,9 +444,6 @@ a {
 }
 .prose td:first-child {
   font-weight: 500;
-}
-.table-scroll {
-  overflow-x: auto;
 }
 .prose :where(h2, h3) {
   scroll-margin-top: 96px;

@@ -1,39 +1,34 @@
 ---
 /**
- * Copy-to-clipboard button. The site controller (site.ts) handles the click via
- * the data-copy attribute and swaps the label to "Copied" briefly.
+ * Copy-to-clipboard button (text style, Web v1 Press). site.ts copies
+ * data-copy, swaps the label to "Copied" and the icon to a check for 2s;
+ * the live region announces it.
  */
+import Icon from './Icon.astro';
 interface Props {
   text: string;
   label?: string;
-  copiedLabel?: string;
-  variant?: 'accent' | 'muted';
-  class?: string;
+  kind?: 'text' | 'tonal';
+  attrs?: Record<string, string>;
 }
-const { text, label = 'Copy', copiedLabel = 'Copied', variant = 'accent', class: className } = Astro.props;
+const { text, label = 'Copy text', kind = 'text', attrs = {} } = Astro.props;
 ---
-<button
-  type="button"
-  class:list={['copy-btn', `copy-${variant}`, className]}
-  data-copy={text}
-  data-label={label}
-  data-copied-label={copiedLabel}
->{label}</button>
+<button type="button" class:list={['btn btn-s has-icon sl copy', `btn-${kind}`]} data-copy={text} {...attrs}>
+  <Icon name="content_copy" size={18} class="c-idle" />
+  <Icon name="check" size={18} class="c-done" />
+  <span data-copy-label aria-live="polite">{label}</span>
+</button>
 
 <style>
-  .copy-btn {
-    font: 600 12px var(--font-sans);
-    border-radius: 8px;
-    padding: 8px 14px;
-    border: none;
+  .copy :global(.c-done),
+  .copy[data-copied] :global(.c-idle) {
+    display: none;
   }
-  .copy-accent {
-    color: var(--k-on-accent);
-    background: var(--k-accent);
+  .copy[data-copied] :global(.c-done) {
+    display: inline-block;
   }
-  .copy-muted {
-    color: var(--k-text);
-    background: var(--k-muted);
-    border: 1px solid var(--k-border);
+  .copy[data-copied] {
+    background: var(--k-secondary-container);
+    color: var(--k-on-secondary-container);
   }
 </style>

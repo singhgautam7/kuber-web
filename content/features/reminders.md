@@ -11,7 +11,7 @@ related:
   - upcoming-events
   - recurring-transactions
   - kuber-notes
-iconName: "reminders"
+iconName: "notifications"
 navigation:
   - title: "Direct menu"
     steps: ["More tab", "Reminders"]

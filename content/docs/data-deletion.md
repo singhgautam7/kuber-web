@@ -14,7 +14,7 @@ Kuber has no account and no server. Everything you add lives only on your phone,
 ## What Kuber stores on your phone
 
 - **The Kuber database**: transactions, accounts, categories, tags, budgets, recurring transactions, loans, investments, money lent and borrowed, Kuber Notes, reminders, money stories and saved calculations.
-- **Kuber Cards**: your saved cards, encrypted in the same database. The key that unlocks them is derived from your PIN; if you turn on biometric unlock, a copy of that key is kept in your phone's secure Keystore.
+- **Kuber Cards**: your saved cards, encrypted in the same database. The key that unlocks them is derived from your PIN. If you turn on biometric unlock, a copy of that key is kept in your phone's secure Keystore.
 - **Attachments**: images and PDFs you attach to transactions, kept in Kuber's private app storage.
 - **Preferences**: settings such as theme, language and currency.
 - **Backup and export files**: only if you create them. These are saved to a folder you pick, such as Download, and they are your files, outside Kuber's storage.

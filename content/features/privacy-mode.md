@@ -11,7 +11,7 @@ related:
   - biometrics
   - kuber-cards
   - themes
-iconName: "privacy-mode"
+iconName: "visibility_off"
 navigation:
   - title: "Home screen quick toggle"
     steps: ["Home tab", "Tap Eye icon at top right"]

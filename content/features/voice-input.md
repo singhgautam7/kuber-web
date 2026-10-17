@@ -11,7 +11,7 @@ related:
   - quick-add
   - ask-kuber
   - shortcuts
-iconName: "voice-input"
+iconName: "mic"
 navigation:
   - title: "Home widget mic"
     steps: ["Home tab", "Quick Add widget", "Tap Microphone icon"]

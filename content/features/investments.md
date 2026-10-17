@@ -11,7 +11,7 @@ related:
   - loans
   - detailed-analytics
   - multi-currency
-iconName: "investments"
+iconName: "trending_up"
 navigation:
   - title: "Direct menu"
     steps: ["More tab", "Investments"]

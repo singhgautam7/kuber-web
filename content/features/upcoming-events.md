@@ -11,7 +11,7 @@ related:
   - reminders
   - recurring-transactions
   - loans
-iconName: "upcoming-events"
+iconName: "event_upcoming"
 navigation:
   - title: "Home feed widget"
     steps: ["Home tab", "Upcoming Events widget", "Tap \"View all\""]

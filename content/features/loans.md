@@ -11,7 +11,7 @@ related:
   - investments
   - lent-borrowed
   - calculators
-iconName: "loans"
+iconName: "account_balance"
 navigation:
   - title: "Direct menu"
     steps: ["More tab", "Loans"]

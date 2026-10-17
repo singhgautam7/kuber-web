@@ -12,7 +12,7 @@ related:
   - import-export
   - privacy-mode
   - sms-import
-iconName: "automatic-backups"
+iconName: "backup"
 navigation:
   - title: "Direct menu"
     steps: ["More tab", "Data", "Automatic Backups"]

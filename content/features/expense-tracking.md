@@ -8,7 +8,7 @@ plan: "free"
 beta: false
 signature: false
 related: [quick-add, recurring-transactions, sms-import]
-iconName: "expense-tracking"
+iconName: "receipt_long"
 navigation:
   - title: "Quick Add FAB"
     steps: ["Bottom Navigation", "Tap + Button"]

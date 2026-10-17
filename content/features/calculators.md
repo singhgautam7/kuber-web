@@ -11,7 +11,7 @@ related:
   - budgets
   - loans
   - investments
-iconName: "calculators"
+iconName: "calculate"
 navigation:
   - title: "Direct menu"
     steps: ["More tab", "Tools & Calculators"]

@@ -11,7 +11,7 @@ related:
   - reminders
   - upcoming-events
   - budgets
-iconName: "recurring-transactions"
+iconName: "event_repeat"
 navigation:
   - title: "Direct menu"
     steps: ["More tab", "Recurring"]

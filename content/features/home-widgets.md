@@ -11,7 +11,7 @@ related:
   - themes
   - money-stories
   - detailed-analytics
-iconName: "home-widgets"
+iconName: "dashboard_customize"
 navigation:
   - title: "Home tab customize"
     steps: ["Home tab", "Scroll to bottom", "Edit Widgets"]

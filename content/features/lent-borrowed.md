@@ -11,7 +11,7 @@ related:
   - loans
   - upcoming-events
   - reminders
-iconName: "lent-borrowed"
+iconName: "handshake"
 navigation:
   - title: "Direct menu"
     steps: ["More tab", "Ledger"]

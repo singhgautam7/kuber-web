@@ -12,7 +12,7 @@ related:
   - home-widgets
   - privacy-mode
   - money-stories
-iconName: "themes"
+iconName: "palette"
 navigation:
   - title: "Direct menu"
     steps: ["More tab", "Settings", "Theme"]

@@ -11,7 +11,7 @@ related:
   - investments
   - budgets
   - detailed-analytics
-iconName: "multi-currency"
+iconName: "currency_exchange"
 navigation:
   - title: "Settings"
     steps: ["More tab", "Settings", "Currency"]

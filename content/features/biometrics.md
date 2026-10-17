@@ -11,7 +11,7 @@ related:
   - privacy-mode
   - kuber-cards
   - automatic-backups
-iconName: "biometrics"
+iconName: "fingerprint"
 navigation:
   - title: "Direct menu"
     steps: ["More tab", "Settings", "Biometric Lock"]

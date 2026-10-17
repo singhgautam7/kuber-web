@@ -1,15 +1,15 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { getImage } from 'astro:assets';
 import { url } from '@/lib/url';
-import { getFeatureShots, getFeatureOgShot } from '@/lib/screenshots';
+import { getFeatureShots } from '@/lib/screenshots';
 import { config } from '@/config';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import FeatureIcon from '@/components/FeatureIcon.astro';
-import Badge from '@/components/Badge.astro';
+import Icon from '@/components/Icon.astro';
+import Badges from '@/components/Badges.astro';
+import PlayBadge from '@/components/PlayBadge.astro';
 import Screenshot from '@/components/Screenshot.astro';
 import CopyButton from '@/components/CopyButton.astro';
-import MarkdownContent from '@/components/MarkdownContent.astro';
-import WhereToFindModal from '@/components/WhereToFindModal.astro';
 
 export async function getStaticPaths() {
   const features = await getCollection('features');
@@ -18,160 +18,343 @@ export async function getStaticPaths() {
     params: { slug: entry.data.slug },
     props: {
       entry,
-      shots: getFeatureShots(entry.data.slug),
-      ogImage: getFeatureOgShot(entry.data.slug),
-      related: (entry.data.related ?? [])
-        .map((s) => bySlug.get(s))
-        .filter((x): x is CollectionEntry<'features'> => !!x),
+      related: (entry.data.related ?? []).map((s) => bySlug.get(s)).filter((x): x is CollectionEntry<'features'> => !!x),
     },
   }));
 }
 
 interface Props {
   entry: CollectionEntry<'features'>;
-  shots: ReturnType<typeof getFeatureShots>;
-  ogImage: string | null;
   related: CollectionEntry<'features'>[];
 }
-const { entry, shots, ogImage, related } = Astro.props;
-const { data } = entry;
+const { entry, related } = Astro.props;
+const f = entry.data;
 const { Content } = await render(entry);
+const shots = getFeatureShots(f.slug);
+// Social card: the first screenshot (light), as a JPEG.
+const og = shots[0] ? (await getImage({ src: shots[0].light, width: 720, format: 'jpg' })).src : undefined;
 
-const badge: 'Free' | 'Pro' | 'Beta' = data.beta ? 'Beta' : data.pro ? 'Pro' : 'Free';
+// Plan card rows (Web v1 F2).
+const [freeLine, proLine] = (f.limit ?? '').split(/\.\s*/).map((s) => s.replace(/^(Free|Pro):\s*/, ''));
+const planRows: [string, string][] =
+  f.plan === 'both' ? [['free', freeLine], ['pro', proLine]]
+  : f.plan === 'pro' ? [['pro', 'Included'], ['free', f.limit ?? 'Not included']]
+  : f.plan === 'free' ? [['free', 'Included']]
+  : [];
+const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+const stepIcon = (s: string) => {
+  const t = s.toLowerCase();
+  if (t.includes('home tab')) return 'home';
+  if (t.includes('more tab')) return 'grid_view';
+  if (t.includes('history tab')) return 'receipt';
+  if (t.includes('analytics tab')) return 'insert_chart';
+  if (t.includes('search')) return 'search';
+  if (t.includes('setting')) return 'settings';
+  if (t.includes('+') || t.includes('add button')) return 'add';
+  if (t.includes('widget')) return 'widgets';
+  return null;
+};
 const promo = config.currentPromo;
 ---
-<BaseLayout
-  title={data.title}
-  description={data.description}
-  ogImage={ogImage ?? undefined}
-  ogType="article"
-  footerMaxWidth={1000}
->
-  <div class="fd-crumb-wrap">
-    <div class="fd-crumb">
-      <a href={url('/features')}>Features</a>
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
-      <span class="fd-crumb-current">{data.title}</span>
-    </div>
-  </div>
-
-  <header class="fd-header">
-    <div class="fd-icon"><FeatureIcon name={data.iconName ?? data.slug} size={28} /></div>
-    <div>
-      <div class="fd-title-row"><h1 class="fd-title">{data.title}</h1><Badge kind={badge} /></div>
-      <p class="fd-desc">{data.description}</p>
-    </div>
-  </header>
-
-  {data.navigation && data.navigation.length > 0 && (
-    <div class="fd-nav-bar">
-      <button type="button" class="fd-nav-btn" data-open-where-to-find>
-        <span class="fd-nav-btn-icon">
-          <FeatureIcon name="compass" size={15} />
-        </span>
-        <span class="fd-nav-btn-text">Where to find in app</span>
-        <span class="fd-nav-btn-count">{data.navigation.length} {data.navigation.length === 1 ? 'way' : 'ways'}</span>
-      </button>
-    </div>
-  )}
-
-  {shots.length > 0 && (
-    <section class="fd-shots-wrap">
-      <div class="fd-shots-scroll scroll-x">
-        <div class="fd-shots">
-          {shots.map((s, i) => (
-            <Screenshot shot={s} alt={`${data.title} screenshot: ${s.alt}`} frame="phone" width={238} eager={i === 0} />
-          ))}
+<BaseLayout title={f.title} description={f.description} ogImage={og} ogType="article">
+  <div class="wrap">
+    <div class="page-top top">
+      <div class="head">
+        <nav aria-label="Breadcrumb" class="crumbs t-body-s">
+          <a href={url('/features')}>Features</a><Icon name="chevron_right" size={18} /><span aria-current="page">{f.title}</span>
+        </nav>
+        <span class="tile tile-pc big"><Icon name={f.iconName ?? 'apps'} size={32} /></span>
+        <div class="title">
+          <h1 class="t-display">{f.title}</h1>
+          <Badges plan={f.plan} beta={f.beta} />
+        </div>
+        <p class="t-lead">{f.description}</p>
+        <div class="actions">
+          <PlayBadge />
+          <a href={url('/features')} class="btn btn-text btn-l has-trail sl">All features<Icon name="arrow_forward" size={20} /></a>
         </div>
       </div>
-    </section>
-  )}
+    </div>
 
-  <section class="fd-body" data-body>
-    <article class="fd-article">
-      <MarkdownContent>
-        <Content />
-      </MarkdownContent>
+    {shots.length > 0 && (
+      <section aria-label={`${f.title} screenshots`} class="shots-wrap">
+        <div class="shots" style={`--n:${shots.length}`}>
+          {shots.map((s, i) => <Screenshot shot={s} width={238} eager={i === 0} alt={`${f.title} screenshot: ${s.alt}`} />)}
+        </div>
+      </section>
+    )}
 
-      {promo && (
-        <div class="fd-promo">
-          <h2 class="fd-promo-h">Try Pro free</h2>
-          <p class="fd-promo-p">{promo.description}</p>
-          <div class="fd-code">
-            <span class="mono fd-code-text">{promo.code}</span>
-            <CopyButton text={promo.code} label="Copy" />
+    <div class="body">
+      <article class="article">
+        <h2 class="t-title-l">How it works</h2>
+        <div class="prose"><Content /></div>
+
+        {f.navigation && f.navigation.length > 0 && (
+          <>
+            <h2 class="t-title-l where">Where to find it in the app</h2>
+            <div class="routes">
+              {f.navigation.map((r) => (
+                <div class="route">
+                  <div class="route-head"><span class="t-title-s">{r.title}</span>{r.note && <span class="t-cap muted">{cap(r.note)}</span>}</div>
+                  <ol class="steps" aria-label={r.title}>
+                    {r.steps.map((s, j) => (
+                      <li>
+                        {j > 0 && <Icon name="chevron_right" size={18} class="muted" />}
+                        <span class="step t-label">{stepIcon(s) && <Icon name={stepIcon(s)!} size={16} />}{s}</span>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {promo && (
+          <div class="card promo">
+            <h2 class="t-title-m">Try Pro free</h2>
+            <p class="muted">{promo.description}</p>
+            <div class="code"><code class="t-title-s">{promo.code}</code><CopyButton text={promo.code} label="Copy code" /></div>
           </div>
+        )}
+
+        <div class="foot">
+          <a href={url('/docs/privacy-policy')} class="link"><Icon name="shield" size={18} />Read the privacy details</a>
         </div>
-      )}
+      </article>
 
-      <div class="fd-actions">
-        <a href={config.playStoreUrl} target="_blank" rel="noopener" class="fd-try">Try it in Kuber
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-        <a href={url('/docs/privacy-policy')} class="fd-privacy">Read the privacy details</a>
-      </div>
-    </article>
-
-    {related.length > 0 && (
-      <aside class="fd-aside">
-        <div class="fd-aside-sticky">
-          <div class="fd-related-label">RELATED FEATURES</div>
-          <div class="fd-related">
+      <aside class="aside">
+        {planRows.length > 0 && (
+          <div class="card plan">
+            <div class="eyebrow muted">Plan</div>
+            {planRows.map(([k, v]) => (
+              <div class="plan-row"><Badges plan={k as 'free' | 'pro'} /><span class="t-label">{cap(v)}</span></div>
+            ))}
+            <a href={url('/features/pro-plans')} class="link">Compare Free and Pro<Icon name="arrow_forward" size={18} /></a>
+          </div>
+        )}
+        {related.length > 0 && (
+          <div class="related">
+            <div class="eyebrow muted">Related features</div>
             {related.map((r) => (
-              <a href={url(`/features/${r.data.slug}`)} class="fd-related-card">
-                <div class="fd-related-icon"><FeatureIcon name={r.data.iconName ?? r.data.slug} size={16} /></div>
-                <div><div class="fd-related-name">{r.data.title}</div><div class="fd-related-badge">{r.data.beta ? 'Beta' : r.data.pro ? 'Pro' : 'Free'}</div></div>
+              <a href={url(`/features/${r.data.slug}`)} class="rel sl">
+                <span class="tile"><Icon name={r.data.iconName ?? 'apps'} size={22} /></span>
+                <span class="rel-text"><span class="t-title-s">{r.data.title}</span><Badges plan={r.data.plan} beta={r.data.beta} /></span>
+                <Icon name="chevron_right" size={20} class="muted" />
               </a>
             ))}
           </div>
-        </div>
+        )}
       </aside>
-    )}
-  </section>
-
-  {data.navigation && data.navigation.length > 0 && (
-    <WhereToFindModal featureTitle={data.title} routes={data.navigation} />
-  )}
+    </div>
+  </div>
 </BaseLayout>
 
 <style>
-  .fd-crumb-wrap { max-width: 1000px; margin: 0 auto; padding: 34px 22px 0; }
-  .fd-crumb { display: flex; align-items: center; gap: 8px; font: 500 13px var(--font-sans); color: var(--k-text-sec); }
-  .fd-crumb a { color: var(--k-text-sec); }
-  .fd-crumb-current { color: var(--k-text); }
-  .fd-header { max-width: 1000px; margin: 0 auto; padding: 26px 22px 8px; display: flex; gap: 20px; align-items: flex-start; }
-  .fd-icon { width: 60px; height: 60px; border-radius: 14px; background: var(--k-accent-subtle); border: 1px solid var(--k-accent-ring); display: flex; align-items: center; justify-content: center; color: var(--k-accent-text); flex-shrink: 0; }
-  .fd-title-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-  .fd-title { font-family: var(--font-sans); font-weight: 800; font-size: clamp(2rem, 2.8vw, 2.6rem); letter-spacing: -0.038em; margin: 0; }
-  .fd-desc { font: 400 17px/1.5 var(--font-sans); color: var(--k-text-sec); margin: 12px 0 0; max-width: 560px; }
-  .fd-nav-bar { max-width: 1000px; margin: 0 auto; padding: 10px 22px 4px; display: flex; align-items: center; }
-  .fd-nav-btn { display: inline-flex; align-items: center; gap: 8px; background: var(--k-card); border: 1px solid var(--k-border); border-radius: 999px; padding: 7px 14px; font: 600 13px var(--font-sans); color: var(--k-text); cursor: pointer; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15); transition: all 0.18s ease; }
-  .fd-nav-btn:hover { background: var(--k-muted); border-color: var(--k-accent-ring); transform: translateY(-1px); box-shadow: 0 4px 12px var(--k-accent-subtle); }
-  .fd-nav-btn-icon { display: inline-flex; align-items: center; color: var(--k-accent-text); }
-  .fd-nav-btn-text { line-height: 1; }
-  .fd-nav-btn-count { font: 700 11px var(--font-mono); color: var(--k-accent-text); background: var(--k-accent-subtle); padding: 2px 7px; border-radius: 999px; margin-left: 2px; }
-  .fd-shots-wrap { max-width: 1000px; margin: 0 auto; padding: 26px 22px; }
-  .fd-shots-scroll { overflow-x: auto; scrollbar-width: thin; padding-bottom: 10px; width: 100%; }
-  .fd-shots { display: flex; gap: 18px; width: max-content; min-width: 100%; justify-content: center; justify-content: safe center; margin: 0 auto; }
-  .fd-body { max-width: 1000px; margin: 0 auto; padding: 14px 22px 30px; display: grid; grid-template-columns: 1fr 260px; gap: 40px; }
-  .fd-article { min-width: 0; }
-  .fd-promo { margin-top: 32px; }
-  .fd-promo-h { font: 800 24px var(--font-sans); letter-spacing: -0.6px; margin: 0 0 12px; }
-  .fd-promo-p { font: 400 16px/1.75 var(--font-sans); color: var(--k-text); margin: 0 0 14px; }
-  .fd-code { display: inline-flex; align-items: center; gap: 12px; background: var(--k-muted); border: 1px dashed var(--k-border-muted); border-radius: 10px; padding: 12px 16px; }
-  .fd-code-text { font: 600 16px var(--font-mono); letter-spacing: 1px; color: var(--k-text); }
-  .fd-actions { margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--k-border); display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
-  .fd-try { display: inline-flex; align-items: center; gap: 10px; background: var(--k-accent); color: var(--k-on-accent); border-radius: 10px; padding: 12px 20px; font: 700 15px var(--font-sans); }
-  .fd-privacy { font: 600 14px var(--font-sans); color: var(--k-text-sec); }
-  .fd-aside-sticky { position: sticky; top: 84px; }
-  .fd-related-label { font: 700 11px var(--font-sans); letter-spacing: 1.3px; color: var(--k-text-sec); margin-bottom: 14px; }
-  .fd-related { display: flex; flex-direction: column; gap: 10px; }
-  .fd-related-card { display: flex; align-items: center; gap: 12px; background: var(--k-card); border: 1px solid var(--k-border); border-radius: 10px; padding: 12px 14px; color: var(--k-text); transition: border-color 0.2s; }
-  .fd-related-card:hover { border-color: var(--k-accent-ring); opacity: 1; }
-  .fd-related-icon { width: 34px; height: 34px; border-radius: 9px; background: var(--k-accent-subtle); border: 1px solid var(--k-accent-ring); display: flex; align-items: center; justify-content: center; color: var(--k-accent-text); flex-shrink: 0; }
-  .fd-related-name { font: 600 14px var(--font-sans); }
-  .fd-related-badge { font: 400 11.5px var(--font-sans); color: var(--k-text-sec); }
-  @media (max-width: 820px) {
-    .fd-body { grid-template-columns: 1fr; }
+  .head {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 760px;
+  }
+  .crumbs {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    color: var(--k-on-surface-variant);
+  }
+  .crumbs a {
+    color: var(--k-on-surface-variant);
+  }
+  .crumbs [aria-current] {
+    color: var(--k-on-surface);
+  }
+  .big {
+    width: 64px;
+    height: 64px;
+    border-radius: 20px;
+  }
+  .title {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .shots-wrap {
+    padding: 48px 0 16px;
+  }
+  .shots {
+    display: grid;
+    grid-template-columns: repeat(var(--n), minmax(0, 238px));
+    gap: 20px;
+    justify-content: center;
+    align-items: start;
+  }
+  .body {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    gap: 72px;
+    padding: 72px 0 var(--k-section);
+  }
+  .article {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 680px;
+    min-width: 0;
+  }
+  .where {
+    margin-top: 24px;
+  }
+  .routes {
+    background: var(--k-surface-container-low);
+    border: 1px solid var(--k-outline-variant);
+    border-radius: var(--k-r-l);
+    overflow: hidden;
+  }
+  .route {
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .route + .route {
+    border-top: 1px solid var(--k-outline-variant);
+  }
+  .route-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .steps li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .step {
+    min-height: 32px;
+    padding: 4px 12px;
+    border-radius: var(--k-r-xs);
+    background: var(--k-surface-container-high);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .promo {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .code {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .code code {
+    font-family: var(--k-mono);
+    letter-spacing: 1px;
+  }
+  .foot {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding-top: 16px;
+    border-top: 1px solid var(--k-outline-variant);
+    margin-top: 12px;
+  }
+  .aside {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .plan {
+    border-radius: var(--k-r-l);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .plan-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .plan-row .t-label {
+    text-align: right;
+  }
+  .related {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .rel {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: var(--k-r-m);
+    background: var(--k-surface-container-low);
+    border: 1px solid var(--k-outline-variant);
+    color: var(--k-on-surface);
+    text-decoration: none;
+  }
+  .rel-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+  }
+  @media (max-width: 1023px) {
+    .body {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .shots {
+      grid-template-columns: repeat(var(--n), 220px);
+      justify-content: start;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      scroll-snap-type: x proximity;
+    }
+    .shots :global(.shot) {
+      scroll-snap-align: start;
+    }
+  }
+  @media (max-width: 599px) {
+    .shots-wrap {
+      margin: 0 calc(-1 * var(--k-gutter));
+      padding: 32px var(--k-gutter) 8px;
+    }
+    .shots {
+      gap: 12px;
+    }
+    .body {
+      padding-top: 48px;
+      gap: 40px;
+    }
   }
 </style>

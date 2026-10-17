@@ -11,7 +11,7 @@ related:
   - quick-add
   - voice-input
   - kuber-notes
-iconName: "shortcuts"
+iconName: "touch_app"
 navigation:
   - title: "Quick Actions sheet"
     steps: ["Bottom navigation bar", "Long press any tab (Home, History, Analytics, or More)"]
