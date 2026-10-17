@@ -3,12 +3,11 @@ title: "Powerful Filtering"
 slug: "powerful-filtering"
 category: "Productivity"
 order: 6.5
-description: "Filter your finances any way you want—by keyword search, accounts, categories, tags, amount ranges (min/max), transaction types, or custom date ranges."
-pro: false
+description: "Filter by keyword, account, category, tag, amount range, transaction type or custom dates."
 beta: false
 signature: false
 related: [expense-tracking, detailed-analytics, quick-add]
-iconName: "powerful-filtering"
+iconName: "filter_list"
 navigation:
   - title: "History tab filters"
     steps: ["History tab", "Filter button (top bar)"]
@@ -26,4 +25,4 @@ Drill into your spending with total precision. Kuber lets you filter your transa
 - **Tag Filtering**: Isolate specific events or projects with custom tags like `#trip`, `#renovation`, or `#medical`.
 - **Custom Date Ranges**: Select any date interval to compare past periods and audit specific timeframes.
 - **Type Toggles**: Switch between Expenses, Incomes, Transfers, and Recurring items with one tap.
-- **Live Net Totals**: As you filter, the summary header recalculates in real time—showing the exact transaction count, total expenses, total income, and net balance.
+- **Live Net Totals**: As you filter, the summary header recalculates instantly, showing the exact transaction count, total expenses, total income, and net balance.

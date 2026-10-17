@@ -1,0 +1,40 @@
+---
+/** Home reviews (Web v1 H4). Hidden until src/data/reviews.ts has entries. */
+import { reviews } from '@/data/reviews';
+---
+{reviews.length > 0 && (
+  <section class="sec" aria-labelledby="reviews">
+    <div class="wrap">
+      <h2 id="reviews" class="t-headline">What people say</h2>
+      <div class="grid">
+        {reviews.map((r) => (
+          <figure class="card">
+            <blockquote><p>{r.quote}</p></blockquote>
+            <figcaption><span class="t-label">{r.name}</span><span class="t-cap muted">{r.source}</span></figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 32px;
+  }
+  figure {
+    margin: 0;
+  }
+  blockquote {
+    margin: 0;
+    text-wrap: pretty;
+  }
+  figcaption {
+    display: flex;
+    flex-direction: column;
+    margin-top: 18px;
+  }
+</style>

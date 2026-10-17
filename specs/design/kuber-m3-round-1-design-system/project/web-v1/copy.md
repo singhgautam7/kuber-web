@@ -111,7 +111,7 @@ Feature detail bodies:
 | Themes | Make it yours · Seven themes. Light and dark. · Pick an accent family and Kuber recolors, income and expense included. Tap a theme below to try it. The whole site changes with you. · Mode · Accent |
 | Numbers | In numbers · Small app. A lot inside. · 20+ Banks supported for SMS import · 12+ Home screen widgets · 13 Built-in calculators · 7 Themes, each in light and dark · 5 Languages |
 | Banks | SMS import works with 20+ banks, including · HDFC Bank · State Bank of India · ICICI Bank · Axis Bank · Kotak Mahindra Bank · Punjab National Bank · IDFC FIRST Bank · Yes Bank · and more · How SMS import works · Bank names are shown for reference only. Kuber is not affiliated with these banks. |
-| Developer | Made by one developer · Kuber is built and maintained by Gautam Rajeev Singh, one developer in India. It started because no expense app felt fast, private and simple enough for daily use. So he built one. · Read the full letter · GitHub · singhgautam.com |
+| Developer | Made by one developer · Kuber is built and maintained by Gautam Rajeev Singh, one developer from India. It started because no expense app felt fast, private and simple enough for daily use. So he built one. · Read the full letter · GitHub · singhgautam.com |
 | CTA | Start tracking today · Free to download. Under 17 MB. No account needed. |
 | Reviews (hidden) | What people say · real quotes only, with name and source (Google Play · month year) |
 

@@ -1,0 +1,54 @@
+---
+/** "Get it on Google Play" badge (Google brand colours, fixed in every theme). */
+import { config } from '@/config';
+interface Props {
+  lg?: boolean;
+}
+const { lg = false } = Astro.props;
+---
+<a href={config.playStoreUrl} target="_blank" rel="noopener" class:list={['play', { lg }]} aria-label="Get it on Google Play">
+  <svg width="24" height="26" viewBox="0 0 40 44" aria-hidden="true">
+    <path style="fill:var(--k-play-g)" d="M3 3 3 22 15 22Z"></path>
+    <path style="fill:var(--k-play-b)" d="M3 41 3 22 15 22Z"></path>
+    <path style="fill:var(--k-play-r)" d="M3 3 15 22 37 22Z"></path>
+    <path style="fill:var(--k-play-y)" d="M3 41 15 22 37 22Z"></path>
+  </svg>
+  <span class="play-text"><span class="play-s">Get it on</span><span class="play-l">Google Play</span></span>
+</a>
+
+<style>
+  .play {
+    height: 56px;
+    padding: 0 20px 0 16px;
+    border-radius: 12px;
+    background: var(--k-play-bg);
+    border: 1px solid var(--k-play-border);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--k-play-fg);
+    text-decoration: none;
+    flex: none;
+  }
+  .play.lg {
+    height: 60px;
+  }
+  .play:hover {
+    box-shadow: inset 0 0 0 999px color-mix(in srgb, var(--k-play-fg) 8%, transparent);
+  }
+  .play-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .play-s {
+    font: 500 10px/12px var(--k-font);
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+  }
+  .play-l {
+    font: 600 20px/22px var(--k-font);
+    letter-spacing: -0.2px;
+    white-space: nowrap;
+  }
+</style>

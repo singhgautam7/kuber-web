@@ -1,104 +1,115 @@
 ---
 /**
- * Feature card used in the homepage grid and the /features grid.
- * `layout="grid"` = the standard card; the filter grid also sets data-* hooks
- * so the client filter can show/hide without re-rendering.
+ * Feature card for the Features index (Web v1 F1): cropped first screenshot,
+ * icon tile, badges, title, description. Below 600px it becomes a compact row
+ * with a small thumbnail. data-sig drives the client filter.
  */
+import type { CollectionEntry } from 'astro:content';
 import { url } from '@/lib/url';
-import FeatureIcon from './FeatureIcon.astro';
-import Badge from './Badge.astro';
+import { getFeatureShots } from '@/lib/screenshots';
+import Icon from './Icon.astro';
+import Badges from './Badges.astro';
+import Screenshot from './Screenshot.astro';
 
 interface Props {
-  slug: string;
-  title: string;
-  description: string;
-  iconName?: string;
-  pro?: boolean;
-  beta?: boolean;
-  signature?: boolean;
-  showSignature?: boolean;
+  feature: CollectionEntry<'features'>['data'];
 }
-const {
-  slug,
-  title,
-  description,
-  iconName,
-  pro = false,
-  beta = false,
-  signature = false,
-  showSignature = false,
-} = Astro.props;
-
-const badge: 'Free' | 'Pro' | 'Beta' = beta ? 'Beta' : pro ? 'Pro' : 'Free';
+const { feature: f } = Astro.props;
+const shot = getFeatureShots(f.slug)[0];
 ---
-<a
-  href={url(`/features/${slug}`)}
-  class="fcard"
-  data-feature
-  data-badge={badge}
-  data-signature={String(signature)}
->
-  <div class="fcard-top">
-    <div class="fcard-icon">
-      <FeatureIcon name={iconName ?? slug} size={20} />
-    </div>
-    <Badge kind={badge} />
-  </div>
-  <div class="fcard-name-row">
-    <span class="fcard-name">{title}</span>
-    {showSignature && signature && <Badge kind="Signature" />}
-  </div>
-  <div class="fcard-desc">{description}</div>
+<a href={url(`/features/${f.slug}`)} class="fc sl" data-feature data-sig={String(f.signature)}>
+  {shot && <span class="fc-img" aria-hidden="true"><Screenshot shot={shot} width={180} alt="" /></span>}
+  <span class="fc-body">
+    <span class="tile"><Icon name={f.iconName ?? 'apps'} size={22} /></span>
+    <span class="fc-name"><span class="t-title-m">{f.title}</span><Badges signature={f.signature} /></span>
+    <span class="t-body-s muted">{f.description}</span>
+  </span>
 </a>
 
 <style>
-  .fcard {
+  .fc {
     display: flex;
     flex-direction: column;
-    background: var(--k-card);
-    border: 1px solid var(--k-border);
-    border-radius: 12px;
-    padding: 22px;
-    color: var(--k-text);
-    transition: border-color 0.2s ease, background-color 0.35s ease, color 0.35s ease;
-    min-height: 172px;
+    border-radius: var(--k-r-xl);
+    background: var(--k-surface-container-low);
+    border: 1px solid var(--k-outline-variant);
+    overflow: hidden;
+    color: var(--k-on-surface);
+    text-decoration: none;
   }
-  .fcard:hover {
-    border-color: var(--k-accent-ring);
-    opacity: 1;
+  .fc:hover {
+    background: var(--k-surface-container);
+    border-color: var(--k-outline);
   }
-  .fcard[hidden] {
+  .fc:focus-visible {
+    outline-offset: 3px;
+  }
+  .fc[hidden] {
     display: none;
   }
-  .fcard-top {
+  .fc-img {
+    height: 200px;
+    background: var(--k-surface-container);
+    overflow: hidden;
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-  }
-  .fcard-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    background: var(--k-accent-subtle);
-    border: 1px solid var(--k-accent-ring);
-    display: flex;
-    align-items: center;
     justify-content: center;
-    color: var(--k-accent-text);
+    padding-top: 24px;
+    border-bottom: 1px solid var(--k-outline-variant);
   }
-  .fcard-name-row {
+  .fc-img :global(.shot) {
+    width: 180px;
+    border-radius: 20px 20px 0 0;
+    align-self: flex-start;
+  }
+  .fc-body {
+    padding: 20px 24px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .fc-name {
+    margin-top: 8px;
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-top: 16px;
+    flex-wrap: wrap;
   }
-  .fcard-name {
-    font: 700 18px var(--font-sans);
-    letter-spacing: -0.3px;
+  .t-body-s {
+    text-wrap: pretty;
   }
-  .fcard-desc {
-    font: 400 14px/1.55 var(--font-sans);
-    color: var(--k-text-sec);
-    margin-top: 7px;
+  @media (max-width: 599px) {
+    .fc {
+      flex-direction: row-reverse;
+      align-items: flex-start;
+      position: relative;
+      min-height: 112px;
+      border-radius: var(--k-r-l);
+    }
+    .fc-img {
+      position: absolute;
+      right: -6px;
+      top: 14px;
+      width: 72px;
+      height: 120px;
+      padding: 0;
+      border: none;
+      border-radius: 12px 0 0 0;
+      background: none;
+    }
+    .fc-img :global(.shot) {
+      width: 72px;
+      border-radius: 12px 0 0 0;
+    }
+    .fc-body {
+      padding: 16px 92px 16px 16px;
+      gap: 6px;
+    }
+    .fc-name {
+      margin-top: 4px;
+    }
+    .fc-name .t-title-m {
+      font-size: 16px;
+      line-height: 24px;
+    }
   }
 </style>

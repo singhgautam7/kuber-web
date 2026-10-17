@@ -1,0 +1,13 @@
+---
+/**
+ * The Signature pill. No plan or status badges are shown anywhere: visitors
+ * should not see Free / Pro (design open-decisions §18) or Beta (owner
+ * decision, round 3).
+ */
+import Icon from './Icon.astro';
+interface Props {
+  signature?: boolean;
+}
+const { signature = false } = Astro.props;
+---
+{signature && <span class="badge badge-sig"><Icon name="auto_awesome" size={14} fill />Signature</span>}

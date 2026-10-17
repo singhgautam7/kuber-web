@@ -1,5 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="96" fill="#0E397C"/>
-  <circle cx="256" cy="256" r="190" fill="#3B82F6"/>
-  <path fill="#0E397C" d="M176 150H335V172H176ZM176 150H303V178H176ZM259 177H306L316 199H281ZM176 199H335V222H176ZM283 222H315L307 246H259ZM202 245H306L293 260L276 270L247 275H202ZM202 275H247L326 360L280 361Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="108" height="108" viewBox="0 0 108 108">
+  <style>
+    .bg { fill: #D8E2FF } .ink { stroke: #003D88 } .leg { stroke: #2573E6 }
+    @media (prefers-color-scheme: dark) { .bg { fill: #001A42 } .ink { stroke: #ADC6FF } .leg { stroke: #4D8EFF } }
+  </style>
+  <rect class="bg" width="108" height="108" rx="54"/>
+  <g class="ink" fill="none" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M40.4 32.75H67.6"/><path d="M50.6 32.75A12.75 12.75 0 0 1 50.6 58.25H42.1"/><path d="M40.4 45.5H67.6"/>
+  </g>
+  <path class="leg" d="M42.1 58.25L61.65 74.4" fill="none" stroke-width="8.5" stroke-linecap="round"/>
 </svg>

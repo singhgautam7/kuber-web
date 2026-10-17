@@ -3,15 +3,14 @@ title: "Kuber Pro"
 slug: "pro-plans"
 category: "Money"
 order: 27
-description: "Everything Kuber Pro unlocks, including advanced analytics, unlimited SMS imports, automated backups, and expanded usage limits."
-pro: false
+description: "What Kuber Pro unlocks: Advanced Analytics, unlimited SMS imports, automatic backups and higher limits."
 beta: false
 signature: false
 related:
   - sms-import
   - detailed-analytics
   - themes
-iconName: "pro-plans"
+iconName: "workspace_premium"
 navigation:
   - title: "More tab banner"
     steps: ["More tab", "Kuber Pro banner"]
@@ -19,41 +18,41 @@ navigation:
     steps: ["More tab", "Settings", "Kuber Pro"]
 ---
 
-Kuber is crafted as an offline, private financial companion funded directly by user support. Core features stay free forever, while Kuber Pro unlocks advanced analytical tools, automation, and unlimited usage limits:
+Kuber is an offline, private finance app funded directly by the people who use it. Core features stay free forever. Kuber Pro unlocks advanced analytics, automation and higher limits. No account is needed, and nothing moves to the cloud.
 
 ### What Pro Includes
 
 | Feature | Free | Pro |
 | :--- | :--- | :--- |
 | **Advanced Features** | | |
-| Advanced Analytics | Basic charts | Full trends + filters |
+| Advanced Analytics | Basic charts | Full trends and filters |
 | SMS Import | 5 per week | Unlimited |
 | Reminders | Not included | Included |
 | Automatic Backups | Manual only | Automatic |
-| Custom Themes | Signature only | 7 themes |
+| Themes | Kuber Signature | All 16 |
 | **Usage Limits** | | |
 | Kuber Notes | 2 notes | Unlimited |
 | Ask Kuber | 5 per week | Unlimited |
 | Kuber Cards | 2 cards | Unlimited |
 | **Always Free for Everyone** | | |
-| Core Features | All included | All included |
-
----
+| Core features | All included | All included |
 
 ### Key Pro Advantages
 
 - **Unlimited Automation and Intelligence**:
-  - **Unlimited SMS Import**: Parse all your bank alerts automatically every day without weekly caps.
-  - **Unlimited Ask Kuber**: Query your financial assistant anytime for instant spending breakdowns, budget checks, and smart answers.
-  - **Automated Google Drive Backups**: Protect your financial history effortlessly with scheduled background backups.
+  - **Unlimited SMS Import**: Import as many bank alerts as you like, with no weekly cap. SMS is still read only when you open the screen.
+  - **Unlimited Ask Kuber**: Ask about your money any time for spending breakdowns, budget checks and quick answers.
+  - **Automatic Backups to a Folder on Your Phone**: Scheduled daily, weekly or monthly backups, saved to a folder you choose on your phone. Nothing is uploaded anywhere.
 - **Deeper Financial Insights**:
-  - **Advanced Analytics**: Unlock full trend timelines, financial health scores, expense ratio breakdowns, and custom date range filters.
+  - **Advanced Analytics**: Full trend timelines, a financial health score, spending patterns, forecasts and custom date range filters.
 - **Reminders and Customization**:
-  - **Bill and EMI Reminders**: Get timely device notifications for credit cards, loan EMIs, rent, and custom dues.
-  - **7 Handcrafted Themes**: Customize the app with vibrant OLED themes including Obsidian, Emerald, Ruby, Sapphire, Amber, Violet, and Rose.
-- **Uncapped Storage**:
-  - Keep unlimited private notes and store unlimited loyalty or membership cards.
+  - **Bill and EMI Reminders**: Timely notifications on your phone for credit cards, loan EMIs, rent and custom dues.
+  - **All 16 Themes**: Kuber Signature plus the other fifteen accent families (Mull, Vellum, Foxglove, Slate, Clay, Perch, Ember, Fern, Tide, Meadow, Blush, Iris, Coral, Citron and Neon) and the wallpaper palette, each in light and dark.
+- **No Limits on Storage**:
+  - Keep unlimited private notes and store as many payment cards as you need in Kuber Cards.
+- **Free Trial and Plans**:
+  - Monthly, yearly or a one-time Lifetime purchase, billed through Google Play. New yearly customers get a 14-day free trial.
 - **Solo Developer Backing**:
-  - Every subscription directly funds the solo developer building Kuber as a privacy-focused, ad-free, account-free financial tool.
+  - Every purchase directly funds the solo developer building Kuber as a privacy-focused, ad-free, account-free finance app.
 - **Promo Code Redemption**:
-  - Redeem promotional codes directly within the Pro screen for complimentary access.
+  - Redeem Google Play promo codes from Settings.

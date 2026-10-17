@@ -3,15 +3,15 @@ title: "Automatic Backups"
 slug: "automatic-backups"
 category: "Data"
 order: 10
-description: "Scheduled on-device backups you own and control. Choose daily, weekly, or monthly frequency and pick your destination folder."
-pro: true
+description: "Scheduled backups on your phone that you own. Choose daily, weekly or monthly, and pick the folder."
+limit: "Manual backups are free."
 beta: false
 signature: false
 related:
   - import-export
   - privacy-mode
   - sms-import
-iconName: "automatic-backups"
+iconName: "backup"
 navigation:
   - title: "Direct menu"
     steps: ["More tab", "Data", "Automatic Backups"]

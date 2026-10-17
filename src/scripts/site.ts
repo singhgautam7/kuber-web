@@ -1,230 +1,182 @@
 /**
- * Site-wide client controller. Small, dependency-free, deferred, non-blocking.
- * Drives: theme (variant + mode) with localStorage persistence, the theme
- * dropdown, the mobile drawer, the features filter chips, copy-to-clipboard
- * buttons, and the email reveal. All wiring is by data-* attributes so the same
- * script works on every page.
- *
- * Active states (which theme row / mode button is selected) are handled in pure
- * CSS keyed off <html data-theme data-mode>, so they never flash. This script
- * only mutates those two attributes and updates the pill's label text.
+ * Site controller: theme and mode, the theme popover and mobile menu, nav
+ * scroll states, reveal-on-scroll, the features filter, copy buttons and the
+ * email reveal. Wired by data-* attributes; the same script runs on every page.
+ * The head script already applied the saved theme before first paint.
  */
 
-const VARIANT_KEY = 'kuber-theme-variant';
-const MODE_KEY = 'kuber-theme-mode';
+const root = document.documentElement;
+const KEY = 'kuber-theme';
+const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+const darkMq = matchMedia('(prefers-color-scheme: dark)');
 
-const NAMES: Record<string, string> = {
-  signature: 'Kuber Signature',
-  flewtube: 'FlewTube',
-  woofsapp: 'Woofsapp',
-  purrhub: 'Purrhub',
-  honkpe: 'Honkpe',
-  squeakdin: 'Squeakdin',
-  oinkzon: 'Oinkzon',
+/* ============ Theme ============ */
+type Pref = 'light' | 'dark' | 'system';
+const state = () => ({ fam: root.dataset.theme || 'signature', mode: (root.dataset.pref || 'light') as Pref });
+
+function paint(fam: string, mode: Pref) {
+  const dark = mode === 'dark' || (mode === 'system' && darkMq.matches);
+  root.dataset.theme = fam;
+  root.dataset.pref = mode;
+  root.dataset.mode = dark ? 'dark' : 'light';
+  root.style.colorScheme = dark ? 'dark' : 'light';
+  syncPressed();
+}
+
+function apply(fam: string, mode: Pref) {
+  try {
+    localStorage.setItem(KEY, JSON.stringify({ fam, mode }));
+  } catch {
+    /* storage blocked: the choice lasts for this page only */
+  }
+  const run = () => paint(fam, mode);
+  const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown };
+  if (reduced.matches) run();
+  else if (doc.startViewTransition) doc.startViewTransition(run);
+  else {
+    root.classList.add('k-theming');
+    run();
+    setTimeout(() => root.classList.remove('k-theming'), 260);
+  }
+}
+
+function syncPressed() {
+  const { fam, mode } = state();
+  document.querySelectorAll<HTMLElement>('[data-set-fam]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.setFam === fam)));
+  document.querySelectorAll<HTMLElement>('[data-set-mode]').forEach((b) => {
+    // The Home section has no System button: show the resolved mode there.
+    const hasSystem = !!b.parentElement?.querySelector('[data-set-mode="system"]');
+    const on = hasSystem ? b.dataset.setMode === mode : b.dataset.setMode === root.dataset.mode;
+    b.setAttribute('aria-pressed', String(on));
+  });
+}
+
+darkMq.addEventListener('change', () => {
+  if (state().mode === 'system') paint(state().fam, 'system');
+});
+
+/* ============ Theme popover (native popover; we only place it) ============ */
+const pop = document.getElementById('theme-menu');
+const popBtn = document.querySelector<HTMLElement>('[data-theme-toggle]');
+pop?.addEventListener('beforetoggle', (e) => {
+  const open = (e as Event & { newState: string }).newState === 'open';
+  popBtn?.setAttribute('aria-expanded', String(open));
+  if (open && popBtn && innerWidth >= 600) {
+    const r = popBtn.getBoundingClientRect();
+    pop.style.top = `${r.bottom + 12}px`;
+    pop.style.right = `${Math.max(16, innerWidth - r.right - 8)}px`;
+  } else if (open) {
+    pop.style.top = pop.style.right = '';
+  }
+});
+pop?.addEventListener('toggle', (e) => {
+  if ((e as Event & { newState: string }).newState === 'open') pop.querySelector<HTMLElement>('[aria-pressed="true"]')?.focus();
+});
+
+/* ============ Dialogs (native) ============ */
+// True when a click lands on the backdrop, outside the dialog box.
+const outside = (d: HTMLDialogElement, e: MouseEvent) => {
+  const r = d.getBoundingClientRect();
+  return e.target === d && (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom);
 };
-const VALID = Object.keys(NAMES);
 
-function currentVariant(): string {
-  const v = document.documentElement.getAttribute('data-theme') || 'signature';
-  return VALID.includes(v) ? v : 'signature';
-}
-function currentMode(): 'dark' | 'light' {
-  return document.documentElement.getAttribute('data-mode') === 'light' ? 'light' : 'dark';
-}
+/* ============ Mobile menu ============ */
+const sheet = document.querySelector<HTMLDialogElement>('[data-menu]');
+document.querySelector('[data-menu-open]')?.addEventListener('click', () => sheet?.showModal());
+sheet?.addEventListener('click', (e) => {
+  const t = e.target as HTMLElement;
+  if (outside(sheet, e) || t.closest('[data-menu-close]') || t.closest('a')) sheet.close();
+});
 
-function applyVariant(id: string): void {
-  if (!VALID.includes(id)) return;
-  document.documentElement.setAttribute('data-theme', id);
-  try {
-    localStorage.setItem(VARIANT_KEY, id);
-  } catch {
-    /* ignore */
-  }
-  syncLabel();
-}
-function applyMode(mode: 'dark' | 'light'): void {
-  document.documentElement.setAttribute('data-mode', mode);
-  document.documentElement.style.colorScheme = mode;
-  try {
-    localStorage.setItem(MODE_KEY, mode);
-  } catch {
-    /* ignore */
-  }
-}
-
-function syncLabel(): void {
-  const label = NAMES[currentVariant()];
-  document.querySelectorAll<HTMLElement>('[data-theme-name]').forEach((el) => {
-    el.textContent = label;
+/* ============ Other dialogs ("Where to find in app") ============ */
+document.querySelectorAll<HTMLDialogElement>('dialog:not([data-menu])').forEach((d) => {
+  d.addEventListener('click', (e) => {
+    const t = e.target as HTMLElement;
+    if (outside(d, e) || t.closest('[data-dialog-close]')) d.close();
   });
-}
+});
 
-function closeThemeMenus(): void {
-  document.querySelectorAll<HTMLElement>('[data-theme-menu]').forEach((m) => {
-    m.hidden = true;
-  });
-  document.querySelectorAll<HTMLElement>('[data-theme-toggle]').forEach((b) => {
-    b.setAttribute('aria-expanded', 'false');
-  });
-}
+/* ============ Clicks ============ */
+document.addEventListener('click', async (e) => {
+  const t = e.target as HTMLElement;
+  const opener = t.closest<HTMLElement>('[data-dialog-open]');
+  if (opener) return (document.getElementById(opener.dataset.dialogOpen!) as HTMLDialogElement | null)?.showModal();
+  const famBtn = t.closest<HTMLElement>('[data-set-fam]');
+  if (famBtn) return apply(famBtn.dataset.setFam!, state().mode);
+  const modeBtn = t.closest<HTMLElement>('[data-set-mode]');
+  if (modeBtn) return apply(state().fam, modeBtn.dataset.setMode as Pref);
 
-function initThemeControls(): void {
-  // Variant + mode setters (delegated).
-  document.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement;
-
-    const variantBtn = target.closest<HTMLElement>('[data-set-variant]');
-    if (variantBtn) {
-      applyVariant(variantBtn.dataset.setVariant!);
-      closeThemeMenus();
-      return;
-    }
-    const modeBtn = target.closest<HTMLElement>('[data-set-mode]');
-    if (modeBtn) {
-      applyMode(modeBtn.dataset.setMode === 'light' ? 'light' : 'dark');
-      return;
-    }
-
-    // Dropdown toggle.
-    const toggle = target.closest<HTMLElement>('[data-theme-toggle]');
-    if (toggle) {
-      const menu = document.querySelector<HTMLElement>(`#${toggle.getAttribute('aria-controls')}`);
-      if (menu) {
-        const open = menu.hidden;
-        closeThemeMenus();
-        menu.hidden = !open;
-        toggle.setAttribute('aria-expanded', String(open));
-      }
-      return;
-    }
-
-    // Click outside any open theme menu closes it.
-    if (!target.closest('[data-theme-menu]')) closeThemeMenus();
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeThemeMenus();
-      closeDrawer();
-    }
-  });
-}
-
-/* ============ Mobile drawer ============ */
-function openDrawer(): void {
-  const d = document.querySelector<HTMLElement>('[data-drawer]');
-  if (!d) return;
-  d.hidden = false;
-  document.body.style.overflow = 'hidden';
-  d.querySelector<HTMLElement>('a, button')?.focus();
-}
-function closeDrawer(): void {
-  const d = document.querySelector<HTMLElement>('[data-drawer]');
-  if (!d) return;
-  d.hidden = true;
-  document.body.style.overflow = '';
-}
-function initDrawer(): void {
-  document.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement;
-    if (target.closest('[data-drawer-open]')) openDrawer();
-    else if (target.closest('[data-drawer-close]')) closeDrawer();
-  });
-}
-
-/* ============ Feature filter chips ============ */
-function initFilters(): void {
-  const chipRow = document.querySelector<HTMLElement>('[data-filter-chips]');
-  const grid = document.querySelector<HTMLElement>('[data-feature-grid]');
-  if (!chipRow || !grid) return;
-  if (chipRow.dataset.filterInit) return; // guard against double-binding
-  chipRow.dataset.filterInit = '1';
-
-  chipRow.addEventListener('click', (e) => {
-    const chip = (e.target as HTMLElement).closest<HTMLElement>('[data-filter]');
-    if (!chip) return;
-    const filter = chip.dataset.filter!;
-    chipRow.querySelectorAll<HTMLElement>('[data-filter]').forEach((c) => {
-      c.setAttribute('aria-pressed', String(c === chip));
-    });
-    grid.querySelectorAll<HTMLElement>('[data-feature]').forEach((card) => {
-      const badge = card.dataset.badge || 'Free';
-      const sig = card.dataset.signature === 'true';
-      let show = true;
-      if (filter === 'Free') show = badge === 'Free' || badge === 'Beta';
-      else if (filter === 'Pro') show = badge === 'Pro';
-      else if (filter === 'Signature') show = sig;
-      card.hidden = !show;
-    });
-  });
-}
-
-/* ============ Copy to clipboard ============ */
-function initCopy(): void {
-  document.addEventListener('click', async (e) => {
-    const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-copy]');
-    if (!btn) return;
-    const text = btn.dataset.copy!;
+  const copy = t.closest<HTMLButtonElement>('[data-copy]');
+  if (copy) {
     try {
-      await navigator.clipboard.writeText(text);
-    } catch {
-      /* ignore */
-    }
-    const done = btn.dataset.copiedLabel || 'Copied';
-    const original = btn.dataset.label || btn.textContent || 'Copy';
-    btn.textContent = done;
-    window.setTimeout(() => {
-      btn.textContent = original;
-    }, 1600);
-  });
-}
-
-/* ============ Email reveal ============ */
-function initEmailReveal(): void {
-  document.addEventListener('click', (e) => {
-    const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-reveal-email]');
-    if (!btn) return;
-    const encoded = btn.dataset.revealEmail!;
-    let email = '';
-    try {
-      email = atob(encoded);
+      await navigator.clipboard.writeText(copy.dataset.copy!);
     } catch {
       return;
     }
-    const link = document.createElement('a');
+    copy.dataset.copied = '';
+    const label = copy.querySelector('[data-copy-label]');
+    const before = label?.textContent;
+    if (label) label.textContent = 'Copied';
+    setTimeout(() => {
+      delete copy.dataset.copied;
+      if (label) label.textContent = before!;
+    }, 2000);
+    return;
+  }
+
+  const reveal = t.closest<HTMLElement>('[data-reveal-email]');
+  if (reveal) {
+    const email = atob(reveal.dataset.revealEmail!);
+    const box = reveal.closest('[data-email-box]');
+    const link = box?.querySelector<HTMLAnchorElement>('[data-email-link]');
+    const btn = box?.querySelector<HTMLButtonElement>('[data-email-copy]');
+    if (!link || !btn) return;
     link.href = `mailto:${email}`;
-    link.textContent = email;
-    link.className = btn.className;
-    btn.replaceWith(link);
+    link.querySelector('span')!.textContent = email;
+    btn.dataset.copy = email;
+    box!.toggleAttribute('data-revealed', true);
+    link.focus();
+  }
+});
+
+/* ============ Scroll states ============ */
+// Nav shrinks past 24px; on mobile the FAB is extended only while the Home hero shows.
+const sentinel = document.createElement('div');
+sentinel.style.cssText = 'position:absolute;top:24px;height:1px;width:1px;pointer-events:none';
+document.body.prepend(sentinel);
+new IntersectionObserver(([e]) => root.classList.toggle('scrolled', !e.isIntersecting)).observe(sentinel);
+const hero = document.querySelector('[data-hero]');
+if (hero) new IntersectionObserver(([e]) => root.classList.toggle('at-hero', e.isIntersecting), { threshold: 0.4 }).observe(hero);
+
+// Reveal once in view; Why Kuber stages play once 35% visible (motion.md §2).
+const once = (sel: string, cls: string, threshold: number) => {
+  const io = new IntersectionObserver(
+    (entries) =>
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        en.target.classList.add(cls);
+        io.unobserve(en.target);
+      }),
+    { threshold },
+  );
+  document.querySelectorAll(sel).forEach((el) => io.observe(el));
+};
+once('[data-reveal]', 'is-in', 0.15);
+once('[data-stage]', 'play', 0.35);
+
+/* ============ Features filter ============ */
+const chips = document.querySelector<HTMLElement>('[data-filter-chips]');
+chips?.addEventListener('click', (e) => {
+  const chip = (e.target as HTMLElement).closest<HTMLElement>('[data-filter]');
+  if (!chip) return;
+  const f = chip.dataset.filter;
+  chips.querySelectorAll('[data-filter]').forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+  document.querySelectorAll<HTMLElement>('[data-feature]').forEach((card) => {
+    card.hidden = f === 'signature' && card.dataset.sig !== 'true';
   });
-}
+  document.querySelectorAll<HTMLElement>('[data-feature-group]').forEach((g) => {
+    g.hidden = !g.querySelector('[data-feature]:not([hidden])');
+  });
+});
 
-// Document-level delegated listeners: attach exactly once for the session.
-let delegatesAttached = false;
-function attachDelegates(): void {
-  if (delegatesAttached) return;
-  delegatesAttached = true;
-  initThemeControls();
-  initDrawer();
-  initCopy();
-  initEmailReveal();
-}
-
-// Per-page work: runs on first load and after every view-transition swap.
-function perPage(): void {
-  syncLabel();
-  initFilters();
-}
-
-function boot(): void {
-  attachDelegates();
-  perPage();
-}
-
-// astro:page-load fires on first load and after each ClientRouter navigation.
-document.addEventListener('astro:page-load', boot);
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', boot);
-} else {
-  boot();
-}
+syncPressed();

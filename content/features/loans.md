@@ -3,15 +3,14 @@ title: "Loans"
 slug: "loans"
 category: "Tracking"
 order: 20
-description: "Track all types of loans, principal balances, interest rates, and automated EMI deductions with running payment histories."
-pro: false
+description: "Track any loan: principal, interest rate and EMIs, with a running payment history."
 beta: false
 signature: false
 related:
   - investments
   - lent-borrowed
   - calculators
-iconName: "loans"
+iconName: "account_balance"
 navigation:
   - title: "Direct menu"
     steps: ["More tab", "Loans"]

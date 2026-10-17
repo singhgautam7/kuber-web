@@ -1,0 +1,369 @@
+---
+/**
+ * Why Kuber (Web v1 H1, copy.md): the same five ideas as the in-app tour, each
+ * with a stage drawn from the Home v3.3 storyboard rest frame. A stage plays
+ * once when 35% visible (site.ts adds .play); motion.md §2 timings, CSS only.
+ * Without JS or with reduced motion, the rest frame shows as is.
+ */
+import Icon from '@/components/Icon.astro';
+import Stage1 from './Stage1.astro';
+import Stage2 from './Stage2.astro';
+import Stage3 from './Stage3.astro';
+import Stage4 from './Stage4.astro';
+import Stage5 from './Stage5.astro';
+
+const parts = [
+  { title: 'Make noting every expense a habit.', sub: 'Small expenses count too. Noting is easy, and bank SMS add most of them.', h: 324, Stage: Stage1,
+    a11y: 'Three expenses written in a notebook turn into Kuber transactions, each with a category and an account.' },
+  { title: 'Every account. Even credit cards.', sub: 'Bank, cash and cards, with billing cycles and due dates. Add any category.', h: 276, Stage: Stage2,
+    a11y: 'A bank account, cash and a credit card show their balances. The card shows its billing cycle and due date. A new category, Pet care, joins the others.' },
+  { title: 'Track more than spending.', sub: 'Budgets, investments, loans, money lent or borrowed, and subscriptions.', h: 256, Stage: Stage3,
+    a11y: 'A budget fills, an investment grows, a loan EMI is paid, money lent and borrowed shows up, and a subscription renews.' },
+  { title: 'Your spending, at a glance.', sub: 'Every transaction in one searchable history, with many ways to analyze it.', h: 260, Stage: Stage4,
+    a11y: 'A searchable history narrows to food. Then charts show spending by category, by month, and this month against last month.' },
+  { title: 'Go further when you want.', sub: '', h: 150, Stage: Stage5,
+    a11y: 'Ask Kuber answers a question, a card turns over, a note adds up and becomes a transaction, a calculator shows a result, and a bill reminder arrives.' },
+];
+const tools = [
+  ['auto_awesome', 'Ask Kuber', 'Ask about your money, answered on your phone.'],
+  ['credit_card', 'Kuber Cards', 'Your cards, encrypted and kept on your phone.'],
+  ['sticky_note_2', 'Kuber Notes', 'Notes that do the math and add transactions.'],
+  ['calculate', 'Calculators and tools', 'EMI, SIP, tax and more.'],
+  ['notifications', 'Reminders', 'Never miss a bill.'],
+];
+---
+<section class="sec" aria-labelledby="why">
+  <div class="wrap">
+    <div class="shead" data-reveal>
+      <div class="eyebrow">Why Kuber</div>
+      <h2 id="why" class="t-headline">Everything you need to track money, nothing you don't.</h2>
+      <p class="t-lead">The same five ideas as the tour inside the app, from the first expense you note to the tools you use later.</p>
+    </div>
+    <div class="parts">
+      {parts.map((p, i) => (
+        <div class:list={['part', { flip: i % 2 }]}>
+          <div class="panel stage-panel" style={`--h:${p.h}`}>
+            <div class="stage" data-stage={i} role="img" aria-label={p.a11y}>
+              <div class="stage-in"><p.Stage /></div>
+            </div>
+          </div>
+          <div class="text" data-reveal>
+            <span class="t-label step tnum">{String(i + 1).padStart(2, '0')} / 05</span>
+            <h3 class="t-title-l">{p.title}</h3>
+            {p.sub && <p class="t-lead">{p.sub}</p>}
+            {i === 4 && (
+              <ul class="tools" data-stage={i}>
+                {tools.map(([icon, name, line], j) => (
+                  <li style={`--i:${j}`}>
+                    <span class="tile"><Icon name={icon} size={20} fill /></span>
+                    <div><div class="t-title-s">{name}</div><div class="t-body-s muted">{line}</div></div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .parts {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(48px, 9svh, 96px);
+    margin-top: clamp(32px, 6svh, 64px);
+  }
+  .part {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: 64px;
+    align-items: center;
+  }
+  .part.flip {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  }
+  .part.flip .stage-panel {
+    order: 2;
+  }
+  /* Stage scale follows the screen height so each part fits one screen. */
+  .stage-panel {
+    --sc: 1.45;
+    --pad: 120px;
+    height: calc(var(--h) * var(--sc) * 1px + var(--pad));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: var(--k-r-3xl);
+  }
+  .stage {
+    width: calc(320px * var(--sc));
+    height: calc(var(--h) * var(--sc) * 1px);
+    position: relative;
+    flex: none;
+  }
+  .stage-in {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 320px;
+    transform: scale(var(--sc));
+    transform-origin: 0 0;
+    font-family: var(--k-font);
+    line-height: normal;
+  }
+  .text {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 480px;
+  }
+  .step {
+    color: var(--k-primary);
+  }
+  .tools {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .tools li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 8px 12px;
+    margin: 0 -12px;
+    border-radius: var(--k-r-l);
+  }
+  .tools .tile {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* ---------- Stage animation (rest frame is the default) ---------- */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.js) .stage :global([data-a='rise']) {
+      opacity: 0;
+    }
+    :global(.js) .stage.play :global([data-a='rise']) {
+      animation: rise 420ms var(--k-ease) both;
+      animation-delay: calc(var(--i) * 420ms);
+    }
+    /* 1 · Notebook to transactions: rows are written in, then become cards. */
+    :global(.js) [data-stage='0'] :global([data-a='rise']:first-child) {
+      opacity: 1;
+      animation: none;
+    }
+    :global(.js) [data-stage='0'] :global([data-a='write']) {
+      clip-path: inset(0 100% 0 0);
+    }
+    :global(.js) [data-stage='0'].play :global([data-a='write']) {
+      animation: write 700ms steps(18, end) both;
+      animation-delay: calc(var(--w) * 600ms - 400ms);
+    }
+    :global(.js) [data-stage='0'].play :global([data-a='rise']) {
+      animation-delay: calc(1700ms + (var(--i) - 1) * 260ms);
+    }
+    /* 3 · More than spending: rows 560 apart, SIP line draws. */
+    :global(.js) [data-stage='2'].play :global([data-a='rise']) {
+      animation-delay: calc(var(--i) * 560ms);
+    }
+    :global(.js) [data-stage='2'].play :global(path[stroke-dasharray]) {
+      animation: draw 900ms var(--k-ease) 700ms both;
+    }
+    /* 4 · At a glance: donut arcs draw after the list. */
+    :global(.js) [data-stage='3'].play :global(circle[stroke-dasharray]) {
+      animation: fade 600ms var(--k-ease) 1400ms both;
+    }
+    /* 5 · Go further: the app's timeline (why_kuber/widgets/page_features.dart,
+       15.5 s). Each feature holds a 3 s slot starting at 300 + 3000·i ms,
+       fading in and out over 150 ms; its storyboard micro-animation is
+       stretched to the first 2 s of the slot. Icons rest from 15.3 s. */
+    :global(.js) [data-stage='4'].play :global([data-v]) {
+      animation: vslot 3150ms linear both;
+    }
+    :global(.js) [data-stage='4'].play :global([data-v='1']) { animation-delay: 300ms; }
+    :global(.js) [data-stage='4'].play :global([data-v='2']) { animation-delay: 3300ms; }
+    :global(.js) [data-stage='4'].play :global([data-v='3']) { animation-delay: 6300ms; }
+    :global(.js) [data-stage='4'].play :global([data-v='4']) { animation-delay: 9300ms; }
+    :global(.js) [data-stage='4'].play :global([data-v='5']) { animation-delay: 12300ms; }
+    :global(.js) [data-stage='4'].play :global([data-v='0']) { animation: fade 240ms var(--k-ease) 15300ms both; }
+    /* Ask Kuber: question types in, answer rises. */
+    :global(.js) [data-stage='4'].play :global([data-sub='type']) { animation: type 952ms steps(28, end) 776ms both; }
+    :global(.js) [data-stage='4'].play :global([data-v='1'] [data-sub='rise']) { animation: rise 476ms var(--k-ease) 1824ms both; }
+    /* Kuber Cards: the card flips to its masked back. */
+    :global(.js) [data-stage='4'].play :global([data-sub='flip']) { animation: flip 1304ms var(--k-ease) 3996ms both; }
+    :global(.js) [data-stage='4'].play :global([data-sub='back']) { animation: appear 1348ms steps(1, end) 3300ms both; }
+    /* Kuber Notes: the total appears, then becomes a Travel transaction. */
+    :global(.js) [data-stage='4'].play :global([data-sub='result']) { animation: pop-in 455ms var(--k-ease) 7118ms both; }
+    :global(.js) [data-stage='4'].play :global([data-sub='chip']) { animation: chip-in 727ms var(--k-ease) 7573ms both; }
+    /* Calculator: inputs fill in, then the result. */
+    :global(.js) [data-stage='4'].play :global([data-sub='in']) {
+      animation: fade 577ms var(--k-ease) both;
+      animation-delay: calc(9608ms + var(--j) * 192ms);
+    }
+    :global(.js) [data-stage='4'].play :global([data-v='4'] [data-sub='rise']) { animation: rise 923ms var(--k-ease) 10377ms both; }
+    /* Reminders: the bell rings, the notification arrives. */
+    :global(.js) [data-stage='4'].play :global([data-sub='bell']) { animation: bell 1200ms linear 12500ms both; }
+    :global(.js) [data-stage='4'].play :global([data-sub='drop']) { animation: drop 1300ms var(--k-ease) 13000ms both; }
+    /* Lines fade in 50 ms apart, then each is spotlit for its slot. */
+    :global(.js) .tools[data-stage].play li {
+      animation: fade 100ms linear both, spot 3150ms linear both;
+      animation-delay: calc(var(--i) * 50ms), calc(300ms + var(--i) * 3000ms);
+    }
+  }
+  /* Stage 5 rest frame: only the five icon tiles show without motion. */
+  [data-stage='4'] :global([data-v]:not([data-v='0'])) {
+    opacity: 0;
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes write {
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+  @keyframes draw {
+    from {
+      stroke-dashoffset: 110;
+    }
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes bell {
+    0% {
+      transform: rotate(0);
+    }
+    33% {
+      transform: rotate(-10deg);
+    }
+    66% {
+      transform: rotate(10deg);
+    }
+    100% {
+      transform: rotate(-10deg);
+    }
+  }
+  @keyframes vslot {
+    0%,
+    100% {
+      opacity: 0;
+    }
+    4.76%,
+    95.24% {
+      opacity: 1;
+    }
+  }
+  @keyframes type {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+  @keyframes appear {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+  }
+  @keyframes chip-in {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+  }
+  @keyframes flip {
+    50% {
+      transform: scaleX(0);
+    }
+  }
+  @keyframes drop {
+    from {
+      opacity: 0;
+      transform: translateY(-16px);
+    }
+  }
+  @keyframes spot {
+    0%,
+    100% {
+      background: transparent;
+    }
+    4.76%,
+    95.24% {
+      background: var(--k-secondary-container);
+    }
+  }
+
+  @media (max-height: 1000px) {
+    .stage-panel {
+      --sc: 1.2;
+      --pad: 80px;
+    }
+  }
+  @media (max-height: 820px) {
+    .stage-panel {
+      --sc: 1.05;
+      --pad: 64px;
+    }
+  }
+  @media (max-width: 1023px) {
+    .part,
+    .part.flip {
+      gap: 40px;
+    }
+    .stage-panel {
+      --sc: 1.1;
+    }
+  }
+  @media (max-width: 767px) {
+    .part,
+    .part.flip {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+    .part.flip .stage-panel {
+      order: 0;
+    }
+    .parts {
+      gap: 56px;
+      margin-top: 40px;
+    }
+  }
+  @media (max-width: 599px) {
+    .stage-panel {
+      --sc: 1;
+      height: calc(var(--h) * 1px + 64px);
+      border-radius: 28px;
+    }
+  }
+  @media (max-width: 370px) {
+    .stage-panel {
+      --sc: 0.9;
+    }
+  }
+</style>

@@ -3,15 +3,14 @@ title: "Upcoming Events"
 slug: "upcoming-events"
 category: "Productivity"
 order: 18
-description: "A unified timeline aggregating upcoming commitments across credit card dues, investment SIPs, loan EMIs, lent and borrowed debts, and recurring bills."
-pro: false
+description: "One timeline for what is coming up: card dues, SIPs, loan EMIs, money lent or borrowed, and recurring bills."
 beta: false
 signature: false
 related:
   - reminders
   - recurring-transactions
   - loans
-iconName: "upcoming-events"
+iconName: "event_upcoming"
 navigation:
   - title: "Home feed widget"
     steps: ["Home tab", "Upcoming Events widget", "Tap \"View all\""]

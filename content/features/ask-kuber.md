@@ -3,15 +3,15 @@ title: "Ask Kuber"
 slug: "ask-kuber"
 category: "Tracking"
 order: 1
-description: "Describe a transaction in plain words and Kuber drafts it, ready for you to confirm."
-pro: false
+description: "Ask about your money in plain words and get answers right on your phone. Or describe a transaction and Kuber drafts it for you to confirm."
+limit: "Free: 5 questions a week. Pro: unlimited."
 beta: true
 signature: true
 related:
   - voice-input
   - quick-add
   - sms-import
-iconName: "ask-kuber"
+iconName: "auto_awesome"
 navigation:
   - title: "Direct menu"
     steps: ["More tab", "Ask Kuber"]

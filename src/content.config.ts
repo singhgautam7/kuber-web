@@ -29,7 +29,8 @@ const features = defineCollection({
     category: z.enum(FEATURE_CATEGORIES),
     order: z.number(),
     description: z.string(),
-    pro: z.boolean().default(false),
+    /** The free limit, shown on Home Signature cards, e.g. "Free: 5 imports a week. Pro: unlimited." */
+    limit: z.string().optional(),
     beta: z.boolean().default(false),
     signature: z.boolean().default(false),
     related: z.array(z.string()).optional(),

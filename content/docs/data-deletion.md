@@ -2,51 +2,64 @@
 title: "Data Deletion"
 slug: "data-deletion"
 order: 2
-last_updated: 2026-03-28
+last_updated: 2026-10-15
 toc: true
 ---
 
-Kuber is a fully offline app. Your data never leaves your device and is never stored on our servers, so there is nothing to request from us. You are always in full control of your own data.
+Kuber has no account and no server. Everything you add lives only on your phone, so there is nothing to request from us and nothing to wait for. You can delete your data yourself at any time, using the steps below.
 
-> [!INFO] There is nothing to request
-> Because Kuber stores everything on your device, deleting your data is entirely in your hands. No account, no server, no waiting.
+> [!INFO] Nothing is stored with us
+> Kuber does not upload your transactions, accounts, notes, cards or any other records. The only network requests the app makes are to download exchange rates for the Currency Converter and to handle Kuber Pro purchases through Google Play. Neither involves your financial data.
 
-## What data Kuber holds
+## What Kuber stores on your phone
 
-Everything you create in Kuber, such as transactions, accounts, categories, budgets, notes and analytics, is stored locally on your device using an on-device database. None of it is synced to any cloud or third party.
+- **The Kuber database**: transactions, accounts, categories, tags, budgets, recurring transactions, loans, investments, money lent and borrowed, Kuber Notes, reminders, money stories and saved calculations.
+- **Kuber Cards**: your saved cards, encrypted in the same database. The key that unlocks them is derived from your PIN. If you turn on biometric unlock, a copy of that key is kept in your phone's secure Keystore.
+- **Attachments**: images and PDFs you attach to transactions, kept in Kuber's private app storage.
+- **Preferences**: settings such as theme, language and currency.
+- **Backup and export files**: only if you create them. These are saved to a folder you pick, such as Download, and they are your files, outside Kuber's storage.
 
-## Delete everything from inside the app
+## Delete your data from inside the app
 
-The quickest way to start fresh while keeping the app installed:
+Use this to start fresh while keeping Kuber installed.
 
-1. Open Kuber.
-2. Go to Settings.
-3. Choose the data or reset option and confirm.
+1. Open Kuber and go to the **More** tab.
+2. Tap **Data**.
+3. Under **Danger zone**, tap **Clear All Data** and confirm.
+4. Type `reset all` and tap **Reset all**.
 
-This clears your Kuber data while leaving the app in place.
+This permanently erases the Kuber database, including your encrypted Kuber Cards and their Keystore key.
 
-## Clear app data from Android settings
+> [!WARNING] What Clear All Data leaves behind
+> Your preferences, any attachment files and any backup or export files you saved to a folder are not removed by this option. To remove everything, clear Kuber's storage or uninstall the app (below), and delete your backup files.
 
-To wipe all Kuber data without uninstalling:
+## Clear Kuber's storage in Android settings
 
-1. Open your device Settings.
-2. Go to Apps, then Kuber.
-3. Tap Storage.
-4. Tap Clear data (or Clear storage) and confirm.
+This removes everything Kuber keeps in its app storage, including the database, attachments and preferences, without uninstalling.
+
+1. Open your phone's **Settings**.
+2. Go to **Apps**, then **Kuber**.
+3. Tap **Storage** (on some phones, **Storage and cache**).
+4. Tap **Clear storage** (or **Clear data**) and confirm.
 
 ## Uninstall the app
 
-Uninstalling Kuber removes the app and all of its local data from your device:
+Uninstalling removes Kuber and everything in its app storage from your phone.
 
-1. Long-press the Kuber icon, or open Settings, then Apps, then Kuber.
-2. Choose Uninstall and confirm.
+1. Long-press the Kuber icon and choose **Uninstall**, or open **Settings**, then **Apps**, then **Kuber**, then **Uninstall**.
+2. Confirm.
+
+## Delete your backup and export files
+
+Backups and exports are files you own, so Kuber does not delete them. Open your phone's Files app, go to the folder you chose for backups or exports (for example **Download**), and delete the Kuber files. If you copied a backup anywhere else, such as a computer or a cloud drive, delete it there too.
 
 > [!WARNING] This cannot be undone
-> Clearing data and uninstalling are permanent. If you want to keep a copy first, export a backup from inside the app before you delete anything.
+> Clearing data, clearing storage and uninstalling are permanent. If you might want your records later, export a backup first from **More**, then **Data**, and keep the file somewhere safe.
 
-## Keep a backup first
+## Permissions and purchases
 
-If you might want your records later, export a local backup before deleting. You own the backup file and can bring it back with Import at any time.
+- **SMS access**: to stop Kuber reading bank SMS, open **Settings**, then **Apps**, then **Kuber**, then **Permissions**, then **SMS**, and choose **Don't allow**.
+- **Kuber Pro**: purchases are handled by Google Play, which keeps its own record of them. Manage or cancel a subscription from the Play Store's **Payments and subscriptions** screen.
 
 ## Questions
 

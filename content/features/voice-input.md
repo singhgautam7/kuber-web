@@ -3,15 +3,14 @@ title: "Voice Quick Add"
 slug: "voice-input"
 category: "Tracking"
 order: 6
-description: "Say what you spent and Kuber logs it. Accessed directly through Quick Add for effortless, hands-free tracking."
-pro: false
+description: "Say what you spent and Kuber logs it. Built into Quick Add for hands-free tracking."
 beta: true
 signature: true
 related:
   - quick-add
   - ask-kuber
   - shortcuts
-iconName: "voice-input"
+iconName: "mic"
 navigation:
   - title: "Home widget mic"
     steps: ["Home tab", "Quick Add widget", "Tap Microphone icon"]

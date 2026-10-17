@@ -1,363 +1,693 @@
 ---
-import { getCollection, type CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import { config } from '@/config';
-import { url, asset } from '@/lib/url';
-import { THEMES, PALETTES } from '@/lib/theme';
+import { url } from '@/lib/url';
+import { getFeatureShots } from '@/lib/screenshots';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import PromoBanner from '@/components/PromoBanner.astro';
-import HeroPhone from '@/components/HeroPhone.astro';
-import ShowcasePhone from '@/components/ShowcasePhone.astro';
-import FeatureCard from '@/components/FeatureCard.astro';
-import FeatureIcon from '@/components/FeatureIcon.astro';
-import PlayStoreBadge from '@/components/PlayStoreBadge.astro';
+import Icon from '@/components/Icon.astro';
+import PlayBadge from '@/components/PlayBadge.astro';
+import BrandMark from '@/components/BrandMark.astro';
+import Screenshot from '@/components/Screenshot.astro';
+import ThemeMenu from '@/components/ThemeMenu.astro';
+import Phone from '@/components/mockups/Phone.astro';
+import HomeScreen from '@/components/mockups/HomeScreen.astro';
+import HistoryScreen from '@/components/mockups/HistoryScreen.astro';
+import WhyKuber from '@/components/home/WhyKuber.astro';
+import Reviews from '@/components/home/Reviews.astro';
 
-const features = (await getCollection('features')).sort((a, b) => a.data.order - b.data.order);
-const bySlug = new Map(features.map((f) => [f.data.slug, f]));
+const features = await getCollection('features');
+const bySlug = Object.fromEntries(features.map((f) => [f.data.slug, f.data]));
+// Signature order from the design (H1): Ask Kuber is the wide card.
+const signature = ['ask-kuber', 'sms-import', 'kuber-cards', 'kuber-notes', 'voice-input'].map((s) => bySlug[s]);
 
-// Curated "What Kuber does" grid: the six headline capabilities. Cards may
-// override the collection's title/description for the homepage highlight.
-const gridSlugs: Array<{ slug: string; title?: string; description?: string }> = [
-  { slug: 'expense-tracking' },
-  { slug: 'detailed-analytics', description: 'See where your money goes with category breakdowns, budget vs actual, trends and tag analytics.' },
-  { slug: 'sms-import' },
-  { slug: 'quick-add' },
-  { slug: 'voice-input', title: 'Voice Add' },
-  { slug: 'powerful-filtering' },
-];
-interface GridCard {
-  entry: CollectionEntry<'features'>;
-  title?: string;
-  description?: string;
-}
-const gridFeatures: GridCard[] = gridSlugs.flatMap((g) => {
-  const f = bySlug.get(g.slug);
-  return f ? [{ entry: f, title: g.title, description: g.description }] : [];
-});
-
-const signatureFeatures = features.filter((f) => f.data.signature).slice(0, 5);
-
-const trust = ['Offline', 'Private', 'Open Source', 'Made in India', 'Under 17 MB'];
+const trust = [['wifi_off', 'Offline'], ['lock', 'Private'], ['code', 'Open source'], ['flag', 'Made in India'], ['download', 'Under 17 MB']];
+// Checked against the app code: sender_ids.dart, widget_catalog.dart,
+// tool_catalog.dart, theme_families.dart, supported_locales.dart.
 const numbers = [
-  { value: '6,000+', label: 'Transactions handled in production' },
-  { value: '20+', label: 'Banks supported for SMS import' },
-  { value: '5', label: 'Languages' },
-  { value: '12+', label: 'Home screen widgets' },
-  { value: '13', label: 'Built-in calculators' },
+  ['15', 'Banks supported for SMS import, plus UPI apps'],
+  ['12', 'Home screen widgets'],
+  ['18', 'Built-in calculators'],
+  ['16', 'Themes, each in light and dark'],
+  ['9', 'Languages'],
 ];
-const banks = ['hdfc', 'sbi', 'icici', 'axis', 'kotak', 'pnb', 'idfc', 'yesbank'];
-const testimonials = [
-  { text: 'Your words here. Add a real review once the first ones come in.', name: 'Reviewer name', role: 'Play Store' },
-  { text: 'A short quote from a happy user, kept honest and specific.', name: 'Reviewer name', role: 'Reddit' },
-  { text: 'One more placeholder card, ready to swap for the real thing.', name: 'Reviewer name', role: 'Product Hunt' },
-];
+// Bank names as text, not logos (open-decisions §1).
+const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'Kotak Mahindra Bank', 'Punjab National Bank', 'IDFC FIRST Bank', 'Yes Bank'];
 ---
-<BaseLayout title="Kuber" footer="full">
-  <PromoBanner />
-
-  <!-- HERO & TRUST SCREEN -->
-  <div class="hero-screen-wrap">
-    <!-- HERO -->
-    <header class="container hero" data-hero>
-      <div>
-        <div class="hero-pill">
-          <span class="hero-pill-dot"></span>
-          <span class="hero-pill-text">Local-first personal finance, made in India</span>
+<BaseLayout title="Kuber">
+  <!-- Hero and trust strip: together they fill the first screen. -->
+  <div class="hero-screen" data-hero>
+    <div class="wrap hero-gutter">
+      <div class="panel hero">
+        <div class="hero-text">
+          <span class="chip status a-in" style="--d:0ms"><span class="dot"></span>Local-first personal finance, made in India</span>
+          <h1 class="t-hero">
+            <span class="a-in" style="--d:60ms">Fully offline.</span><br />
+            <span class="a-in accent" style="--d:120ms">Fully yours.</span>
+          </h1>
+          <p class="t-lead a-in" style="--d:180ms">Track expenses, read your spending and stay on top of your money. No account, no cloud, no tracking. Your data never leaves your phone.</p>
+          <div class="hero-actions a-in" style="--d:180ms">
+            <PlayBadge />
+            <a href={url('/features')} class="btn btn-text btn-l has-trail sl see-all">See all features<Icon name="arrow_forward" size={20} /></a>
+          </div>
         </div>
-        <h1 class="hero-title">Kuber</h1>
-        <p class="hero-tagline">Fully offline. <span class="serif-italic hero-accent">Fully yours.</span></p>
-        <p class="hero-desc">Track expenses, read your spending and stay on top of your money. No account, no cloud, no tracking. Your data never leaves your phone.</p>
-        <div class="hero-cta">
-          <PlayStoreBadge />
-          <a href={url('/features')} class="hero-link">See all features
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
+        <div class="hero-phone a-phone">
+          <Phone label="Kuber Home screen: July net plus 45,200 rupees, money stories, quick add and SMS import">
+            <HomeScreen />
+          </Phone>
         </div>
       </div>
-      <HeroPhone />
-    </header>
-
-    <!-- TRUST ROW -->
-    <div class="trust">
-      <div class="container trust-inner">
-        {trust.map((t) => <span class="trust-item">{t}</span>)}
-      </div>
+    </div>
+    <div class="wrap">
+      <ul class="trust" aria-label="Kuber at a glance">
+        {trust.map(([icon, label]) => <li class="chip"><Icon name={icon} size={18} />{label}</li>)}
+      </ul>
     </div>
   </div>
 
-  <!-- FEATURE GRID -->
-  <section class="container section">
-    <div class="eyebrow">WHAT KUBER DOES</div>
-    <h2 class="section-h2 wide">Everything you need to track money, nothing you don't.</h2>
-    <div class="fgrid" data-fgrid>
-      {gridFeatures.map(({ entry, title, description }) => (
-        <FeatureCard
-          slug={entry.data.slug}
-          title={title ?? entry.data.title}
-          description={description ?? entry.data.description}
-          iconName={entry.data.iconName}
-          pro={entry.data.pro}
-          beta={entry.data.beta}
-          signature={entry.data.signature}
-        />
-      ))}
-    </div>
-  </section>
+  <WhyKuber />
 
-  <!-- SIGNATURE STRIP -->
-  <section class="sig-section">
-    <div class="container">
-      <div class="eyebrow">SIGNATURE</div>
-      <h2 class="section-h2">The features people switch for</h2>
-    </div>
-    <div class="sig-strip scroll-x" data-sigstrip>
-      {signatureFeatures.map((s) => (
-        <a href={url(`/features/${s.data.slug}`)} class="sig-card">
-          <div class="sig-glow"></div>
-          <div class="sig-icon"><FeatureIcon name={s.data.iconName ?? s.data.slug} size={20} /></div>
-          <div class="sig-name">{s.data.title}</div>
-          <div class="sig-desc">{s.data.description}</div>
-          <div class="sig-more">Learn more
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </div>
-        </a>
-      ))}
-    </div>
-  </section>
-
-  <!-- THEME SHOWCASE -->
-  <section class="showcase">
-    <div class="container showcase-grid" data-showcase>
-      <div>
-        <div class="eyebrow">MAKE IT YOURS</div>
-        <h2 class="section-h2">Seven themes. Light and dark.</h2>
-        <p class="showcase-p">Pick an accent family and Kuber recolors, income and expense included. Tap a theme below to try it. The whole site changes with you.</p>
-        <div class="showcase-mode" role="group" aria-label="Light or dark mode">
-          <span class="showcase-mode-label">MODE</span>
-          <div class="showcase-mode-toggle">
-            <button type="button" class="showcase-mode-btn" data-set-mode="light">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
-              Light
-            </button>
-            <button type="button" class="showcase-mode-btn" data-set-mode="dark">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
-              Dark
-            </button>
-          </div>
-        </div>
-        <div class="showcase-cards-label">ACCENT</div>
-        <div class="showcase-cards">
-          {THEMES.map((t) => (
-            <button
-              type="button"
-              class="showcase-card"
-              data-set-variant={t.id}
-              style={`--sw-dark:${PALETTES[t.id].dark.accent};--sw-light:${PALETTES[t.id].light.accent}`}
-            >
-              <span class="showcase-swatch" aria-hidden="true"></span>
-              <span class="showcase-card-text">
-                <span class="showcase-card-name">{t.name}</span>
-                <span class="showcase-card-label">{t.label}</span>
-              </span>
-            </button>
-          ))}
-        </div>
+  <!-- Signature -->
+  <section class="sec" aria-labelledby="sig">
+    <div class="wrap">
+      <div class="shead" data-reveal>
+        <div class="eyebrow">Signature</div>
+        <h2 id="sig" class="t-headline">The features people switch for</h2>
       </div>
-      <ShowcasePhone />
+      <!-- Design H1: 3-column grid, Ask Kuber as the wide card. The whole card
+           is clickable (the Learn more link stretches over it). -->
+      <div class="sig-grid">
+        {signature.map((f, i) => (
+          <article class:list={['sig', { wide: i === 0 }]} data-reveal>
+            <div class="sig-text">
+              <span class="tile tile-pc sig-tile"><Icon name={f.iconName ?? 'apps'} size={24} /></span>
+              <h3 class="t-title-l">{f.title}</h3>
+              <p class="muted">{f.description}</p>
+              {f.limit && <p class="t-body-s muted">{f.limit}</p>}
+              <a href={url(`/features/${f.slug}`)} class="link sig-link">Learn more<span class="visually-hidden"> about {f.title}</span><Icon name="arrow_forward" size={18} /></a>
+            </div>
+            <div class="sig-img" aria-hidden="true">
+              <Screenshot shot={getFeatureShots(f.slug)[0]} width={i === 0 ? 300 : 250} alt="" />
+            </div>
+          </article>
+        ))}
+      </div>
     </div>
   </section>
 
-  <!-- NUMBERS -->
-  <section class="container section-numbers">
-    <div class="numbers" data-numbers>
-      {numbers.map((n) => (
-        <div class="number-card">
-          <div class="number-value">{n.value}</div>
-          <div class="number-label">{n.label}</div>
+  <!-- Themes -->
+  <section class="sec" aria-labelledby="themes">
+    <div class="wrap hero-gutter">
+      <div class="panel themes">
+        <div class="themes-text">
+          <div class="shead">
+            <div class="eyebrow">Make it yours</div>
+            <h2 id="themes" class="t-headline">Sixteen themes. Light and dark.</h2>
+            <p class="t-lead">Pick an accent family and Kuber recolors, income and expense included. Tap a theme below to try it. The whole site changes with you.</p>
+          </div>
+          <ThemeMenu variant="tiles" />
         </div>
-      ))}
-    </div>
-    <div class="banks">
-      <span class="banks-label">Reads SMS from 20+ banks</span>
-      {banks.map((b) => (
-        <div class="bank"><img src={asset(`/assets/banks/${b}.svg`)} alt="" loading="lazy" /></div>
-      ))}
-    </div>
-  </section>
-
-  <!-- DEVELOPER STORY -->
-  <section class="container section-dev">
-    <div class="dev-card" data-devstory>
-      <div class="dev-avatar">GS</div>
-      <div>
-        <div class="dev-eyebrow">MADE BY ONE DEVELOPER</div>
-        <p class="dev-text">Kuber is built and maintained by {config.developerName}, one developer in India. It started because no expense app felt fast, private and simple enough for daily use. So he built one.</p>
-        <div class="dev-links">
-          <a href={url('/about')} class="dev-link-accent">Read the full letter<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a href={config.githubUrl} target="_blank" rel="noopener" class="dev-link-muted">GitHub</a>
-          <a href={config.portfolioUrl} target="_blank" rel="noopener" class="dev-link-muted">singhgautam.com</a>
+        <div class="themes-phone">
+          <Phone label="Kuber History screen in the selected theme">
+            <HistoryScreen />
+          </Phone>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
-  <section class="container section-testi">
-    <div class="testi-head">
-      <h2 class="section-h2 small">What people say</h2>
-      <span class="testi-note">Real reviews coming soon</span>
-    </div>
-    <div class="testi-grid" data-testi>
-      {testimonials.map((q) => (
-        <div class="testi-card">
-          <div class="testi-quote serif-italic">&ldquo;</div>
-          <p class="testi-text">{q.text}</p>
-          <div class="testi-person">
-            <div class="testi-avatar"></div>
-            <div><div class="testi-name">{q.name}</div><div class="testi-role">{q.role}</div></div>
+  <!-- Numbers -->
+  <section class="sec" aria-labelledby="numbers">
+    <div class="wrap">
+      <div class="shead" data-reveal>
+        <div class="eyebrow">In numbers</div>
+        <h2 id="numbers" class="t-headline">Small app. A lot inside.</h2>
+      </div>
+      <dl class="nums">
+        {numbers.map(([v, l]) => (
+          <div class="card num" data-reveal>
+            <dt class="t-body-s muted">{l}</dt>
+            <dd class="t-stat">{v}</dd>
           </div>
-        </div>
-      ))}
+        ))}
+      </dl>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="container section-cta">
-    <div class="cta-card">
-      <h2 class="cta-h2">Start tracking today</h2>
-      <p class="cta-p">Free to download. Under 17 MB. No account needed.</p>
-      <div class="cta-badge"><PlayStoreBadge size="lg" /></div>
+  <!-- Banks -->
+  <section class="banks-sec" aria-labelledby="banks">
+    <div class="wrap">
+      <div class="banks">
+        <div class="banks-head">
+          <h2 id="banks" class="t-title-m">SMS import works with 15 banks and UPI apps, including</h2>
+          <a href={url('/features/sms-import')} class="link">How SMS import works<Icon name="arrow_forward" size={18} /></a>
+        </div>
+        <ul class="bank-list" aria-label="Supported banks">
+          {banks.map((b) => <li class="chip"><Icon name="account_balance" size={18} />{b}</li>)}
+          <li class="chip">and more</li>
+        </ul>
+        <p class="t-cap muted">Bank names are shown for reference only. Kuber is not affiliated with these banks.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Developer -->
+  <section class="sec" aria-labelledby="dev">
+    <div class="wrap">
+      <div class="card dev" data-reveal>
+        <div class="avatar" aria-hidden="true">GS</div>
+        <div class="dev-text">
+          <h2 id="dev" class="eyebrow">Made by one developer</h2>
+          <p class="dev-p">Kuber is built and maintained by {config.developerName}, a developer from India. It started because no expense app felt fast, private and simple enough for daily use. So he built one.</p>
+          <div class="dev-links">
+            <a href={url('/about')} class="link">Read the full letter<Icon name="arrow_forward" size={18} /></a>
+            <a href={config.githubUrl} target="_blank" rel="noopener" class="link muted">GitHub<Icon name="north_east" size={18} /></a>
+            <a href={config.portfolioUrl} target="_blank" rel="noopener" class="link muted">singhgautam.com<Icon name="north_east" size={18} /></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Reviews />
+
+  <!-- Final call to action -->
+  <section class="sec cta-sec" aria-labelledby="cta">
+    <div class="wrap hero-gutter">
+      <div class="cta" data-reveal>
+        <BrandMark size={72} />
+        <h2 id="cta" class="t-headline">Start tracking today</h2>
+        <p class="t-lead">Free to download. Under 17 MB. No account needed.</p>
+        <PlayBadge lg />
+      </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .eyebrow { font: 700 12px var(--font-sans); letter-spacing: 1.6px; color: var(--k-accent-text); margin-bottom: 12px; }
-  .section-h2 { font-family: var(--font-sans); font-weight: 800; font-size: var(--fs-h2); letter-spacing: -0.035em; margin: 0; }
-  .section-h2.wide { max-width: 640px; }
-  .section-h2.small { font-size: clamp(1.6rem, 2vw, 1.9rem); letter-spacing: -0.03em; }
+  /* Hero: panel height = first screen minus nav space and trust strip, so the
+     strip is visible without scrolling. Type and spacing shrink on short
+     screens; the phone is clipped at the panel's bottom edge. */
+  .hero-screen {
+    --top: 88px;
+    --trust: 80px;
+    /* Phone scale = the smaller of a width step and a height step. */
+    --s-w: 1;
+    --s-h: 1;
+    --s: min(var(--s-w), var(--s-h));
+    --phone-top: clamp(24px, 4svh, 48px);
+    padding-top: var(--top);
+  }
+  .hero {
+    height: calc(100svh - var(--top) - var(--trust));
+    min-height: 480px;
+    /* Never taller than the full-size phone plus space above and below. */
+    max-height: calc(796px * var(--s-w) + 2 * var(--phone-top));
+    padding: 0 72px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) auto;
+    grid-template-rows: minmax(0, 1fr);
+    gap: 48px;
+    overflow: hidden;
+  }
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(12px, 2.6svh, 24px);
+    padding: clamp(24px, 5svh, 72px) 0;
+    max-width: 600px;
+  }
+  .hero .t-hero {
+    font-size: min(var(--k-type-hero), 10.5svh);
+  }
+  .status {
+    align-self: flex-start;
+    background: var(--k-surface);
+    padding: 0 14px 0 10px;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--k-income);
+  }
+  .t-hero .accent {
+    color: var(--k-primary);
+  }
+  .t-hero span {
+    display: inline-block;
+  }
+  .hero .t-lead {
+    max-width: 520px;
+  }
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  /* The phone is centred, so the space above and below it is equal. */
+  .hero-phone {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-block: var(--phone-top);
+  }
+  .trust {
+    list-style: none;
+    margin: 0;
+    height: var(--trust);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    gap: 12px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .a-in {
+      animation: rise-in var(--k-dur-sheet) var(--k-ease) both;
+      animation-delay: var(--d);
+    }
+    .a-phone {
+      animation: rise-in-phone 400ms var(--k-ease) 120ms both;
+    }
+  }
+  @keyframes rise-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+  @keyframes rise-in-phone {
+    from {
+      opacity: 0;
+      transform: translateY(32px);
+    }
+  }
 
-  .hero-screen-wrap {
-    min-height: calc(100vh - 64px);
-    min-height: calc(100dvh - 64px);
+  /* Signature (design H1) */
+  .sig-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 48px;
+  }
+  .sig {
+    position: relative;
+    border-radius: var(--k-r-2xl);
+    background: var(--k-surface-container-low);
+    border: 1px solid var(--k-outline-variant);
+    padding: 32px 32px 0;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    transition: background-color var(--k-dur-fast) var(--k-ease), border-color var(--k-dur-fast) var(--k-ease);
   }
-  .hero {
-    flex: 1;
+  .sig:hover {
+    background: var(--k-surface-container);
+    border-color: var(--k-outline);
+  }
+  .sig:has(.sig-link:focus-visible) {
+    outline: 3px solid var(--k-primary);
+    outline-offset: 3px;
+  }
+  /* Stretch the card's link over the whole card. */
+  .sig-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .sig-link:focus-visible {
+    outline: none;
+  }
+  .sig.wide {
+    grid-column: span 2;
     display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: clamp(32px, 4vw, 64px);
-    align-items: center;
-    padding: clamp(32px, 4vh, 64px) 22px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 32px;
+    align-items: start;
   }
-  .hero-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--k-accent-subtle); border: 1px solid var(--k-accent-ring); border-radius: 999px; padding: 6px 13px; margin-bottom: 24px; }
-  .hero-pill-dot { width: 7px; height: 7px; border-radius: 999px; background: var(--k-income); }
-  .hero-pill-text { font: 600 12.5px var(--font-sans); color: var(--k-accent-text); }
-  .hero-title { font-family: var(--font-sans); font-weight: 900; font-size: var(--fs-hero); letter-spacing: -0.042em; line-height: 0.95; margin: 0; }
-  .hero-tagline { font-family: var(--font-sans); font-weight: 800; font-size: var(--fs-tagline); letter-spacing: -0.028em; margin: 16px 0 0; color: var(--k-text); }
-  .hero-accent { font-weight: 700; color: var(--k-accent-text); }
-  .hero-desc { font-family: var(--font-sans); font-weight: 400; font-size: var(--fs-lead); line-height: 1.6; color: var(--k-text-sec); margin: 18px 0 0; max-width: 460px; }
-  .hero-cta { display: flex; align-items: center; gap: 16px; margin-top: 30px; flex-wrap: wrap; }
-  .hero-link { font: 600 15px var(--font-sans); color: var(--k-text); display: inline-flex; align-items: center; gap: 6px; }
-
-  .trust { border-top: 1px solid var(--k-border); border-bottom: 1px solid var(--k-border); margin-top: auto; width: 100%; }
-  .trust-inner { padding: 18px 22px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 26px; }
-  .trust-item { font: 700 12.5px var(--font-sans); letter-spacing: 1.3px; text-transform: uppercase; color: var(--k-text-sec); }
-
-  .section { padding: 76px 22px 40px; }
-  .fgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
-
-  .sig-section { padding: 36px 0 40px; }
-  /* Full-bleed scroller whose edges line up with the centred container, so the
-     first card sits under the heading and scrollLeft:0 fully reveals it. */
-  .sig-strip {
+  .sig-text {
     display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .sig.wide .sig-text {
+    max-width: 420px;
+    padding-bottom: 32px;
+  }
+  .sig-text h3 {
+    margin-top: 8px;
+  }
+  .sig-text .link {
+    margin-top: 4px;
+    align-self: flex-start;
+  }
+  .sig-tile {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+  }
+  .sig-img {
+    height: 260px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+  }
+  .sig-img :global(.shot) {
+    width: 250px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    align-self: flex-start;
+  }
+  .sig.wide .sig-img {
+    height: 360px;
+    margin: 0;
+    align-self: end;
+  }
+  .sig.wide .sig-img :global(.shot) {
+    width: 300px;
+  }
+
+  /* Themes */
+  .themes {
+    padding: clamp(32px, 6svh, 56px) 56px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 64px;
+    align-items: center;
+  }
+  .themes-text {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-width: 0;
+  }
+  .themes .shead {
+    max-width: 640px;
+  }
+  .themes-phone {
+    --s: 0.8;
+  }
+  @media (max-height: 900px) and (min-width: 1024px) {
+    .themes-phone {
+      --s: 0.72;
+    }
+  }
+
+  /* Numbers */
+  .nums {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 16px;
-    padding: 26px max(22px, calc((100% - var(--k-maxw)) / 2 + 22px)) 12px;
-    overflow-x: auto;
-    scroll-snap-type: x proximity;
-    scroll-padding-left: max(22px, calc((100% - var(--k-maxw)) / 2 + 22px));
+    margin: 40px 0 0;
   }
-  .sig-card { scroll-snap-align: start; flex: 0 0 300px; background: var(--k-card); border: 1px solid var(--k-border); border-radius: 14px; padding: 24px; color: var(--k-text); position: relative; overflow: hidden; }
-  .sig-glow { position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; background: radial-gradient(circle, var(--k-accent-subtle), transparent 70%); }
-  .sig-icon { width: 46px; height: 46px; border-radius: 11px; background: var(--k-accent); display: flex; align-items: center; justify-content: center; color: var(--k-on-accent); position: relative; }
-  .sig-name { font: 800 21px var(--font-sans); letter-spacing: -0.4px; margin-top: 20px; }
-  .sig-desc { font: 400 14px/1.55 var(--font-sans); color: var(--k-text-sec); margin-top: 8px; }
-  .sig-more { font: 700 12.5px var(--font-sans); color: var(--k-accent-text); margin-top: 18px; display: flex; align-items: center; gap: 5px; }
-
-  .showcase { border-top: 1px solid var(--k-border); border-bottom: 1px solid var(--k-border); background: var(--k-card); }
-  .showcase-grid { padding: 70px 22px; display: grid; grid-template-columns: 1fr 0.8fr; gap: 48px; align-items: center; }
-  .showcase-p { font: 400 16px/1.6 var(--font-sans); color: var(--k-text-sec); margin: 16px 0 0; max-width: 440px; }
-  .showcase-mode { display: flex; align-items: center; gap: 14px; margin-top: 26px; }
-  .showcase-mode-label,
-  .showcase-cards-label { font: 700 11px var(--font-sans); letter-spacing: 1.4px; color: var(--k-text-sec); }
-  .showcase-mode-toggle { display: inline-flex; gap: 4px; background: var(--k-bg); border: 1px solid var(--k-border); border-radius: 12px; padding: 4px; }
-  .showcase-mode-btn { display: inline-flex; align-items: center; gap: 7px; padding: 8px 16px; border-radius: 9px; font: 600 13.5px var(--font-sans); color: var(--k-text-sec); background: transparent; border: 1px solid transparent; }
-  /* Active mode highlight (driven by the html attribute, no JS needed). */
-  :global(:root[data-mode='light']) .showcase-mode-btn[data-set-mode='light'],
-  :global(:root[data-mode='dark']) .showcase-mode-btn[data-set-mode='dark'] {
-    color: var(--k-accent-text);
-    background: var(--k-accent-subtle);
-    border-color: var(--k-accent-ring);
+  .num {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: 6px;
   }
-  .showcase-cards-label { margin-top: 22px; margin-bottom: 12px; }
-  .showcase-cards { display: flex; flex-wrap: wrap; gap: 11px; }
-  .showcase-card { display: flex; align-items: center; gap: 11px; padding: 12px 14px; border-radius: 12px; background: var(--k-bg); border: 2px solid var(--k-border); transition: border-color 0.2s; }
-  .showcase-swatch { width: 26px; height: 26px; border-radius: 8px; background: var(--sw-dark); flex-shrink: 0; }
-  .showcase-card-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
-  .showcase-card-name { font: 700 14px var(--font-sans); color: var(--k-text); }
-  .showcase-card-label { font: 500 11.5px var(--font-sans); color: var(--k-text-sec); margin-top: 2px; }
-
-  .section-numbers { padding: 72px 22px 34px; }
-  .numbers { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
-  .number-card { border: 1px solid var(--k-border); border-radius: 12px; padding: 22px 18px; background: var(--k-card); }
-  .number-value { font: 800 34px var(--font-sans); letter-spacing: -1px; color: var(--k-accent-text); }
-  .number-label { font: 500 13px/1.4 var(--font-sans); color: var(--k-text-sec); margin-top: 6px; }
-  .banks { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; margin-top: 34px; padding-top: 28px; border-top: 1px solid var(--k-border); }
-  .banks-label { font: 700 11px var(--font-sans); letter-spacing: 1.3px; color: var(--k-text-sec); text-transform: uppercase; }
-  .bank { height: 26px; display: flex; align-items: center; opacity: 0.85; }
-  .bank img { height: 22px; width: auto; max-width: 74px; object-fit: contain; }
-
-  .section-dev { padding: 44px 22px; }
-  .dev-card { border: 1px solid var(--k-accent-ring); border-radius: 20px; padding: 40px; background: linear-gradient(180deg, var(--k-accent-subtle), transparent 55%), var(--k-card); display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: center; }
-  .dev-avatar { width: 88px; height: 88px; border-radius: 999px; background: linear-gradient(135deg, var(--k-accent), color-mix(in srgb, var(--k-accent) 60%, transparent)); display: flex; align-items: center; justify-content: center; font: 800 30px var(--font-sans); color: #fff; letter-spacing: -0.5px; }
-  .dev-eyebrow { font: 700 11px var(--font-sans); letter-spacing: 1.4px; color: var(--k-accent-text); }
-  .dev-text { font: 500 20px/1.55 var(--font-sans); letter-spacing: -0.3px; margin: 12px 0 0; }
-  .dev-links { display: flex; gap: 20px; margin-top: 18px; flex-wrap: wrap; }
-  .dev-link-accent { font: 600 14px var(--font-sans); color: var(--k-accent-text); display: inline-flex; align-items: center; gap: 5px; }
-  .dev-link-muted { font: 600 14px var(--font-sans); color: var(--k-text-sec); }
-
-  .section-testi { padding: 44px 22px 20px; }
-  .testi-head { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
-  .testi-note { font: 500 13px var(--font-sans); color: var(--k-text-sec); }
-  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 26px; }
-  .testi-card { border: 1px dashed var(--k-border-muted); border-radius: 12px; padding: 24px; background: var(--k-card); }
-  .testi-quote { font-weight: 700; font-size: 44px; line-height: 0.6; color: var(--k-accent-ring); }
-  .testi-text { font: 400 15px/1.6 var(--font-sans); color: var(--k-text-sec); margin: 10px 0 0; }
-  .testi-person { display: flex; align-items: center; gap: 10px; margin-top: 20px; }
-  .testi-avatar { width: 34px; height: 34px; border-radius: 999px; background: var(--k-muted); border: 1px solid var(--k-border); }
-  .testi-name { font: 600 13px var(--font-sans); color: var(--k-text); }
-  .testi-role { font: 400 11.5px var(--font-sans); color: var(--k-text-sec); }
-
-  .section-cta { padding: 40px 22px 70px; }
-  .cta-card { border: 1px solid var(--k-border); border-radius: 20px; padding: clamp(40px, 4vw, 64px) 40px; text-align: center; background: radial-gradient(70% 120% at 50% 0%, var(--k-accent-subtle), transparent 60%), var(--k-card); }
-  .cta-h2 { font-family: var(--font-sans); font-weight: 800; font-size: var(--fs-h2); letter-spacing: -0.035em; margin: 0; }
-  .cta-p { font: 400 16px var(--font-sans); color: var(--k-text-sec); margin: 14px auto 0; max-width: 440px; }
-  .cta-badge { display: flex; justify-content: center; margin-top: 26px; }
-
-  @media (max-width: 900px) {
-    .hero-screen-wrap { min-height: auto; display: block; }
-    .hero { grid-template-columns: 1fr; padding: clamp(40px, 6vw, 64px) 22px 36px; }
-    .trust { margin-top: 0; }
-    .showcase-grid { grid-template-columns: 1fr; }
-    .fgrid { grid-template-columns: repeat(2, 1fr); }
-    .numbers { grid-template-columns: repeat(3, 1fr); }
-    .testi-grid { grid-template-columns: 1fr; }
-    .dev-card { grid-template-columns: 1fr; justify-items: start; }
+  .num dd {
+    margin: 0;
   }
-  @media (max-width: 560px) {
-    .fgrid { grid-template-columns: 1fr; }
-    .numbers { grid-template-columns: 1fr 1fr; }
+
+  /* Banks */
+  .banks-sec {
+    padding-top: 56px;
+  }
+  .banks {
+    border-top: 1px solid var(--k-outline-variant);
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .banks-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .bank-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* Developer */
+  .dev {
+    border-radius: var(--k-r-3xl);
+    padding: 56px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 40px;
+    align-items: center;
+  }
+  .avatar {
+    width: 104px;
+    height: 104px;
+    border-radius: 999px;
+    background: var(--k-primary-container);
+    color: var(--k-on-primary-container);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font: 700 36px/1 var(--k-font);
+    letter-spacing: -0.5px;
+  }
+  .dev-text {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .dev-p {
+    font: 500 var(--k-type-title-l) / 1.3 var(--k-font);
+    letter-spacing: -0.014em;
+    max-width: 760px;
+    text-wrap: pretty;
+  }
+  .dev-links {
+    display: flex;
+    gap: 8px 20px;
+    flex-wrap: wrap;
+    margin-top: 4px;
+  }
+
+  /* CTA */
+  .cta-sec {
+    padding-bottom: var(--k-section);
+  }
+  .cta {
+    border-radius: clamp(32px, 3vw, 48px);
+    background: var(--k-primary-container);
+    color: var(--k-on-primary-container);
+    padding: clamp(40px, 7svh, 72px) 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+  }
+  .cta h2 {
+    margin-top: 8px;
+  }
+  .cta .t-lead {
+    color: var(--k-on-primary-container);
+    max-width: 440px;
+  }
+  .cta :global(.play) {
+    margin-top: 16px;
+  }
+
+  @media (max-width: 1023px) {
+    .sig-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .hero-screen {
+      --s-w: 0.82;
+    }
+    .hero {
+      padding: 0 40px;
+      gap: 24px;
+    }
+    .themes {
+      padding: 48px 40px;
+      gap: 32px;
+    }
+    .themes-phone {
+      --s: 0.78;
+    }
+    .nums {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 899px) {
+    .themes {
+      grid-template-columns: 1fr;
+    }
+    .themes-phone {
+      justify-self: center;
+    }
+  }
+  @media (max-width: 767px) {
+    .hero-screen {
+      --top: 80px;
+      --trust: 96px;
+    }
+    .hero {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding: 0 20px;
+      min-height: 420px;
+      max-height: none;
+    }
+    .hero-text {
+      justify-content: flex-start;
+      padding: clamp(24px, 4svh, 40px) 0 0;
+      gap: clamp(10px, 2svh, 16px);
+      flex: none;
+    }
+    .hero .t-hero {
+      font-size: min(44px, 6.5svh);
+    }
+    .hero .t-lead {
+      font-size: 16px;
+      line-height: 24px;
+    }
+    .hero-actions {
+      gap: 4px 8px;
+      margin-top: 4px;
+    }
+    .see-all {
+      padding: 0 8px;
+      font-size: 14px;
+    }
+    .hero-actions :global(.play) {
+      height: 48px;
+      padding: 0 14px 0 12px;
+      gap: 10px;
+    }
+    .hero-actions :global(.play-l) {
+      font-size: 17px;
+      line-height: 20px;
+    }
+    /* The phone takes whatever height is left and is clipped. */
+    .hero-phone {
+      flex: 1;
+      min-height: 0;
+      align-items: flex-start;
+      padding-top: 24px;
+    }
+    .trust {
+      gap: 8px;
+    }
+    .trust .chip {
+      height: 28px;
+      padding: 0 10px;
+      font-size: 12px;
+      gap: 6px;
+    }
+  }
+  @media (max-width: 599px) {
+    .sig-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .sig,
+    .sig.wide {
+      grid-column: auto;
+      display: flex;
+      padding: 24px 24px 0;
+      border-radius: 28px;
+    }
+    .sig.wide .sig-text {
+      padding-bottom: 0;
+    }
+    .sig-img,
+    .sig.wide .sig-img {
+      height: 240px;
+      margin-top: 24px;
+      align-self: auto;
+    }
+    .sig-img :global(.shot),
+    .sig.wide .sig-img :global(.shot) {
+      width: 240px;
+    }
+    .hero-gutter {
+      padding: 0 12px;
+    }
+    .themes {
+      padding: 40px 20px;
+      gap: 40px;
+    }
+    .themes-phone {
+      --s: 0.8;
+    }
+    .nums {
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 32px;
+    }
+    .num:last-child {
+      grid-column: span 2;
+    }
+    .num {
+      padding: 20px;
+    }
+    .dev {
+      grid-template-columns: 1fr;
+      padding: 28px;
+      gap: 24px;
+      border-radius: 28px;
+    }
+    .avatar {
+      width: 72px;
+      height: 72px;
+      font-size: 26px;
+    }
+    .cta {
+      padding: 48px 24px;
+    }
+    .cta :global(svg:first-child) {
+      width: 56px;
+      height: 56px;
+    }
+    .banks-sec {
+      padding-top: 40px;
+    }
+    .banks {
+      padding-top: 32px;
+    }
+  }
+  @media (max-width: 370px) {
+    .hero-screen {
+      --s-w: 0.74;
+    }
+    .themes-phone {
+      --s: 0.74;
+    }
+  }
+  /* Two-column hero: the whole phone fits in the panel with equal space
+     above and below. Each step is (0.92 × height − 168) / 796 at the bottom of
+     its band: panel = height − nav space − trust strip, minus 2 × 4svh. */
+  @media (min-width: 768px) {
+    @media (max-height: 1059px) { .hero-screen { --s-h: 0.94; } }
+    @media (max-height: 999px) { .hero-screen { --s-h: 0.87; } }
+    @media (max-height: 939px) { .hero-screen { --s-h: 0.8; } }
+    @media (max-height: 879px) { .hero-screen { --s-h: 0.73; } }
+    @media (max-height: 819px) { .hero-screen { --s-h: 0.66; } }
+    @media (max-height: 759px) { .hero-screen { --s-h: 0.59; } }
+    @media (max-height: 699px) { .hero-screen { --s-h: 0.52; } }
+    @media (max-height: 639px) { .hero-screen { --s-h: 0.5; } }
   }
 </style>

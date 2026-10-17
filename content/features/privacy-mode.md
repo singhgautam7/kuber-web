@@ -3,15 +3,14 @@ title: "Privacy Mode"
 slug: "privacy-mode"
 category: "Privacy & Security"
 order: 15
-description: "Hide sensitive amounts at a glance when others are around."
-pro: false
+description: "Hide amounts at a glance when others are around."
 beta: false
 signature: false
 related:
   - biometrics
   - kuber-cards
   - themes
-iconName: "privacy-mode"
+iconName: "visibility_off"
 navigation:
   - title: "Home screen quick toggle"
     steps: ["Home tab", "Tap Eye icon at top right"]

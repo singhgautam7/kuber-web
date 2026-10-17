@@ -3,15 +3,14 @@ title: "Import and Export"
 slug: "import-export"
 category: "Data"
 order: 26
-description: "Export statements and full database backups in CSV or JSON, restore previous records, or test features with sandbox mock data."
-pro: false
+description: "Export statements and full backups as CSV or JSON, restore older records, or try features with sample data."
 beta: false
 signature: false
 related:
   - automatic-backups
   - dev-mode
   - privacy-mode
-iconName: "import-export"
+iconName: "swap_vert"
 navigation:
   - title: "Transaction statements"
     steps: ["History tab", "Export icon", "Choose CSV or PDF"]

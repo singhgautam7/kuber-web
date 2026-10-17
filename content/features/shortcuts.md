@@ -3,15 +3,14 @@ title: "Shortcuts"
 slug: "shortcuts"
 category: "Productivity"
 order: 17
-description: "Long-press bottom navigation tabs or the floating add button for instant quick actions, privacy toggles, and customized entry options."
-pro: false
+description: "Long-press a nav tab or the add button for quick actions, privacy toggles and custom entry options."
 beta: false
 signature: false
 related:
   - quick-add
   - voice-input
   - kuber-notes
-iconName: "shortcuts"
+iconName: "touch_app"
 navigation:
   - title: "Quick Actions sheet"
     steps: ["Bottom navigation bar", "Long press any tab (Home, History, Analytics, or More)"]

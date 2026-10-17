@@ -14,7 +14,7 @@ Yes. Kuber works fully offline. There is no account and no cloud. Your data neve
 
 ## Does Kuber cost anything?
 
-The core app is free. Kuber Pro is an optional upgrade that unlocks extra features like SMS Import, Advanced Analytics, Reminders and the accent themes. See [Kuber Pro](../../features/pro-plans/).
+The core app is free. Kuber Pro is an optional upgrade that unlocks Advanced Analytics, Reminders, automatic backups, all the accent themes, and unlimited SMS Import, Ask Kuber, Kuber Notes and Kuber Cards. See [Kuber Pro](../../features/pro-plans/).
 
 ## How does SMS import work?
 
