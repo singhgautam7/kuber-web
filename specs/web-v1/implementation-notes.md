@@ -16,6 +16,12 @@ Changes:
 - **6,500+ stat restored** as the sixth Numbers card ("Transactions tested in one database"); it is the developer's figure (design `open-decisions.md` §17).
 - **Press screenshots fixed**: `more-*` and `settings-*` re-rendered from the design kit with the app's real copy ("Kuber Pro · Unlock every feature, no account needed" and "Try Kuber Pro · Unlock every feature, no account needed", from `kuber_pro_settings_section.dart`) instead of the slot placeholders.
 
+## Round 4 (17 Oct 2026): changes
+
+- **Hero phone shows the SMS Import card**: on two-column layouts the phone scales with the screen height (1 down to 0.6 in steps) and sits closer to the panel top, so the full-width "Import from SMS · Last checked 13m ago" row is always inside the panel. Checked at 1440×900, 1440×780, 1366×768, 1280×680, 1920×1080, 1024×768 and 834×1112; the trust strip stays visible at all of them.
+- **Signature is the design's grid again** (H1): 3 columns with Ask Kuber as the wide card, 2 columns on tablet, stacked on mobile, design dimensions. This reverses the round 3 one-row layout, so this section is again taller than one laptop screen, as in the design. Every card is clickable as a whole: the "Learn more" link stretches over the card (one link per card for screen readers), with a hover state and a focus ring around the card.
+- **Feature count**: `main` and this branch both have 29 feature files, and the live site's `/features/` and this build link the same 29 slugs. Nothing was missing, so no feature was added.
+
 ## Round 3 (17 Oct 2026): changes
 
 - **Story rings**: Daily 6 of 6 new, Weekly 3 of 3, Monthly 2 of 3, Insights 0 of 6, Yearly 0 of 3 (seen segments first, new last).

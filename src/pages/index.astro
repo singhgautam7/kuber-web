@@ -75,18 +75,20 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
         <div class="eyebrow">Signature</div>
         <h2 id="sig" class="t-headline">The features people switch for</h2>
       </div>
-      <!-- One row of five compact cards so the section fits one screen; a
-           swipeable row below 1024px. -->
+      <!-- Design H1: 3-column grid, Ask Kuber as the wide card. The whole card
+           is clickable (the Learn more link stretches over it). -->
       <div class="sig-grid">
-        {signature.map((f) => (
-          <article class="sig" data-reveal>
-            <span class="tile tile-pc"><Icon name={f.iconName ?? 'apps'} size={22} /></span>
-            <h3 class="t-title-m">{f.title}</h3>
-            <p class="t-body-s muted">{f.description}</p>
-            {f.limit && <p class="t-cap muted">{f.limit}</p>}
-            <a href={url(`/features/${f.slug}`)} class="link">Learn more<span class="visually-hidden"> about {f.title}</span><Icon name="arrow_forward" size={18} /></a>
+        {signature.map((f, i) => (
+          <article class:list={['sig', { wide: i === 0 }]} data-reveal>
+            <div class="sig-text">
+              <span class="tile tile-pc sig-tile"><Icon name={f.iconName ?? 'apps'} size={24} /></span>
+              <h3 class="t-title-l">{f.title}</h3>
+              <p class="muted">{f.description}</p>
+              {f.limit && <p class="t-body-s muted">{f.limit}</p>}
+              <a href={url(`/features/${f.slug}`)} class="link sig-link">Learn more<span class="visually-hidden"> about {f.title}</span><Icon name="arrow_forward" size={18} /></a>
+            </div>
             <div class="sig-img" aria-hidden="true">
-              <Screenshot shot={getFeatureShots(f.slug)[0]} width={170} alt="" />
+              <Screenshot shot={getFeatureShots(f.slug)[0]} width={i === 0 ? 300 : 250} alt="" />
             </div>
           </article>
         ))}
@@ -191,7 +193,7 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
     --top: 88px;
     --trust: 80px;
     --s: 1;
-    --phone-top: clamp(32px, 6svh, 72px);
+    --phone-top: clamp(24px, 4svh, 48px);
     padding-top: var(--top);
   }
   .hero {
@@ -281,47 +283,90 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
     }
   }
 
-  /* Signature */
+  /* Signature (design H1) */
   .sig-grid {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 16px;
-    margin-top: clamp(24px, 4svh, 40px);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 48px;
   }
   .sig {
-    border-radius: var(--k-r-xl);
+    position: relative;
+    border-radius: var(--k-r-2xl);
     background: var(--k-surface-container-low);
     border: 1px solid var(--k-outline-variant);
-    padding: 20px 20px 0;
+    padding: 32px 32px 0;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    min-width: 0;
+    justify-content: space-between;
+    transition: background-color var(--k-dur-fast) var(--k-ease), border-color var(--k-dur-fast) var(--k-ease);
   }
-  .sig h3 {
+  .sig:hover {
+    background: var(--k-surface-container);
+    border-color: var(--k-outline);
+  }
+  .sig:has(.sig-link:focus-visible) {
+    outline: 3px solid var(--k-primary);
+    outline-offset: 3px;
+  }
+  /* Stretch the card's link over the whole card. */
+  .sig-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .sig-link:focus-visible {
+    outline: none;
+  }
+  .sig.wide {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 32px;
+    align-items: start;
+  }
+  .sig-text {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .sig.wide .sig-text {
+    max-width: 420px;
+    padding-bottom: 32px;
+  }
+  .sig-text h3 {
     margin-top: 8px;
   }
-  .sig .t-body-s {
-    text-wrap: pretty;
-  }
-  .sig .link {
+  .sig-text .link {
+    margin-top: 4px;
     align-self: flex-start;
-    margin-top: 2px;
+  }
+  .sig-tile {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
   }
   .sig-img {
-    margin-top: auto;
-    padding-top: 16px;
-    height: clamp(150px, 24svh, 210px);
-    box-sizing: content-box;
+    height: 260px;
     overflow: hidden;
     display: flex;
     justify-content: center;
+    margin-top: 24px;
   }
   .sig-img :global(.shot) {
-    width: 170px;
-    border-radius: 20px 20px 0 0;
+    width: 250px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
     align-self: flex-start;
+  }
+  .sig.wide .sig-img {
+    height: 360px;
+    margin: 0;
+    align-self: end;
+  }
+  .sig.wide .sig-img :global(.shot) {
+    width: 300px;
   }
 
   /* Themes */
@@ -461,18 +506,7 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
 
   @media (max-width: 1023px) {
     .sig-grid {
-      grid-template-columns: none;
-      grid-auto-flow: column;
-      grid-auto-columns: 260px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scroll-padding: 0 var(--k-gutter);
-      margin: clamp(24px, 4svh, 40px) calc(-1 * var(--k-gutter)) 0;
-      padding: 0 var(--k-gutter) 8px;
-      scrollbar-width: thin;
-    }
-    .sig {
-      scroll-snap-align: start;
+      grid-template-columns: 1fr 1fr;
     }
     .hero-screen {
       --s: 0.82;
@@ -560,6 +594,31 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
     }
   }
   @media (max-width: 599px) {
+    .sig-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 32px;
+    }
+    .sig,
+    .sig.wide {
+      grid-column: auto;
+      display: flex;
+      padding: 24px 24px 0;
+      border-radius: 28px;
+    }
+    .sig.wide .sig-text {
+      padding-bottom: 0;
+    }
+    .sig-img,
+    .sig.wide .sig-img {
+      height: 240px;
+      margin-top: 24px;
+      align-self: auto;
+    }
+    .sig-img :global(.shot),
+    .sig.wide .sig-img :global(.shot) {
+      width: 240px;
+    }
     .hero-gutter {
       padding: 0 12px;
     }
@@ -608,5 +667,16 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
     .themes-phone {
       --s: 0.74;
     }
+  }
+  /* Two-column hero: the phone shrinks with the screen height so its screen
+     stays visible down through the SMS Import card (about 720px of 796). */
+  @media (min-width: 768px) {
+    @media (max-height: 959px) { .hero-screen { --s: 0.92; } }
+    @media (max-height: 879px) { .hero-screen { --s: 0.82; } }
+    @media (max-height: 799px) { .hero-screen { --s: 0.78; } }
+    @media (max-height: 759px) { .hero-screen { --s: 0.72; } }
+    @media (max-height: 719px) { .hero-screen { --s: 0.68; } }
+    @media (max-height: 689px) { .hero-screen { --s: 0.64; } }
+    @media (max-height: 649px) { .hero-screen { --s: 0.6; } }
   }
 </style>
