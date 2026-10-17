@@ -16,6 +16,20 @@ Changes:
 - **6,500+ stat restored** as the sixth Numbers card ("Transactions tested in one database"); it is the developer's figure (design `open-decisions.md` §17).
 - **Press screenshots fixed**: `more-*` and `settings-*` re-rendered from the design kit with the app's real copy ("Kuber Pro · Unlock every feature, no account needed" and "Try Kuber Pro · Unlock every feature, no account needed", from `kuber_pro_settings_section.dart`) instead of the slot placeholders.
 
+## Round 3 (17 Oct 2026): changes
+
+- **Story rings**: Daily 6 of 6 new, Weekly 3 of 3, Monthly 2 of 3, Insights 0 of 6, Yearly 0 of 3 (seen segments first, new last).
+- **Hero mockup**, matching the app's Home today:
+  - "Ask Kuber" pill instead of "Kuber Pro".
+  - Balance card as in `dashboard_screen.dart` `_BalanceHeroCard`: net amount in on-surface, income bar and dot in the accent, expense in a **40%** accent tint over surface-container (the app uses 40%, not the 50% mentioned in feedback), legend "+₹65,000" and "−₹19,800".
+  - No Beta badge on Quick add.
+  - "SMS IMPORT" widget instead of Recent transactions (as `sms_import_home_widget.dart`: "Import from SMS · Last checked 13m ago", chevron; no "View all").
+- **No Beta badges anywhere** (owner: visitors should not see payment or beta badges). Only the Signature pill remains. The `beta` front matter field is kept as data but not rendered.
+- **Page transitions**: native cross-document View Transitions (`@view-transition`): the nav stays still, the old page fades out (150 ms) and the new page's content fades and rises in (240 ms). The same entrance runs as a plain CSS animation where view transitions are unsupported (Firefox). Off under reduced motion. Verified in Chrome (`pagereveal` carries a view transition).
+- **Sections fit one screen** (checked at 1440×800 and 1440×900): section spacing scales with screen height; Why Kuber stages scale down on shorter screens (each part about 340 to 410 px at 800 tall); Signature is one row of five compact cards (a swipeable row below 1024 px), 710 px with spacing at 800 tall, down from 1,444; Themes uses an 8-across tile grid and a smaller phone, 741 px, down from 1,099. This departs from the design's 3-column Signature grid with a wide Ask Kuber card and its 4-across theme tiles, which are taller than a laptop screen.
+- **Feature pages** now follow the design's feature-page template exactly: 1000 px column, icon beside the title, description, "Where to find in app" button, screenshots, the article, then "Try it in Kuber" and the privacy link at the end; related features in the side column. The Play badge and "All features" under the description are gone, as is the extra "How it works" heading.
+- **Why Kuber stage 5 timing now matches the app's welcome tour** (`why_kuber/widgets/page_features.dart`): 15.5 s; each feature holds a 3 s slot starting at 300 + 3000·i ms with 150 ms fades, its micro-animation stretched over the first 2 s (question types in then the answer rises; the card flips to its masked back; the note total appears then the Travel transaction; inputs fill in then the result; the bell rings three times then the notification drops); the matching line is spotlit for the same slot; the icons rest from 15.3 s.
+
 ## Review before merge
 
 1. **Data Deletion page (`/docs/data-deletion/`)** is rewritten from the app code. Please read it in full. Things it states that come from the code:
@@ -51,7 +65,7 @@ Changes:
 | Area | Spec | Built | Why |
 |---|---|---|---|
 | Themes | `copy.md` says seven in places, `tokens.md` sixteen | 16 | App code (see above) |
-| Badges | `open-decisions` §18 removed Free/Pro badges | Beta and Signature only (round 2) | Owner decision |
+| Badges | `open-decisions` §18 removed Free/Pro badges | Signature pill only; no Free, Pro or Beta (rounds 2 and 3) | Owner decision |
 | Feature images | Index cards and Signature cards use `web-v1/mockups/*.png` | First screenshot from `web-v1/screenshots/`, cropped by CSS | Brief: use the screenshots; no `mockups/` import |
 | Dark screenshots | Folder has `-dark` files for most features | Only SMS Import ships dark | The other dark files predate the redraws (different content) |
 | Where to find it | Feature board keeps the modal | Pop-up (native `<dialog>`) as on the feature board (round 2) | Owner decision |
@@ -136,7 +150,7 @@ All runs against `astro preview` of the final build, Chrome 141 headless via pup
 | One `h1` per page, skip link present | Every route |
 | Hard-coded colours in built CSS and HTML outside token declarations | None. (Static brand files keep fixed colours: favicon and the wordmark downloads) |
 | Banned strings in built HTML (em/en dash, Obsidian, Emerald, Alabaster, Google Drive, real-time, 9 regional, over 25, 6,000+, Your words here, FlewTube, loyalty, 20+, 5 languages, 7 themes) | None |
-| Badges | Only Beta (Ask Kuber, Voice Quick Add, Multi-lingual) and Signature (5 features); no Free/Pro anywhere |
+| Badges | Only the Signature pill (5 features); no Free, Pro or Beta anywhere |
 | Meta | Every page has a description and og:description; every feature page's og:image is its first screenshot (720 px JPEG) |
 | Keyboard | Tab order skip link → brand → 5 nav items → theme → FAB → page; 3 px focus ring on every stop. Theme menu opens with Enter, focus moves in, Escape closes and returns focus. Mobile menu traps focus over 20 tabs, Escape closes, focus returns. FAB fixed 16 px from bottom-right on mobile |
 | No flash | With `{fam: iris, mode: dark}` saved, `data-theme`/`data-mode` are already set when `<body>` is created |

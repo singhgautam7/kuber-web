@@ -69,7 +69,7 @@ const STATIC = {
   // Layout (tokens.md §3).
   '--k-maxw': '1200px',
   '--k-gutter': 'clamp(20px, 5vw, 40px)',
-  '--k-section': 'clamp(64px, 7vw, 112px)',
+  '--k-section': 'clamp(56px, 9svh, 112px)',
 
   // Motion (tokens.md §7).
   '--k-dur-instant': '90ms', '--k-dur-fast': '150ms', '--k-dur-nav': '220ms',

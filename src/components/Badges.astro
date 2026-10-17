@@ -1,19 +1,13 @@
 ---
 /**
- * Status badges. Free / Pro badges were removed (design open-decisions §18:
- * many features are free with limits; the plan detail lives on the Kuber Pro
- * page), so only Beta and Signature are shown.
+ * The Signature pill. No plan or status badges are shown anywhere: visitors
+ * should not see Free / Pro (design open-decisions §18) or Beta (owner
+ * decision, round 3).
  */
 import Icon from './Icon.astro';
 interface Props {
-  beta?: boolean;
   signature?: boolean;
 }
-const { beta = false, signature = false } = Astro.props;
+const { signature = false } = Astro.props;
 ---
-{(beta || signature) && (
-  <span class="badges">
-    {signature && <span class="badge badge-sig"><Icon name="auto_awesome" size={14} fill />Signature</span>}
-    {beta && <span class="badge badge-beta">Beta</span>}
-  </span>
-)}
+{signature && <span class="badge badge-sig"><Icon name="auto_awesome" size={14} fill />Signature</span>}

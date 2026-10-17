@@ -20,10 +20,7 @@ const shot = getFeatureShots(f.slug)[0];
 <a href={url(`/features/${f.slug}`)} class="fc sl" data-feature data-sig={String(f.signature)}>
   {shot && <span class="fc-img" aria-hidden="true"><Screenshot shot={shot} width={180} alt="" /></span>}
   <span class="fc-body">
-    <span class="fc-top">
-      <span class="tile"><Icon name={f.iconName ?? 'apps'} size={22} /></span>
-      <Badges beta={f.beta} />
-    </span>
+    <span class="tile"><Icon name={f.iconName ?? 'apps'} size={22} /></span>
     <span class="fc-name"><span class="t-title-m">{f.title}</span><Badges signature={f.signature} /></span>
     <span class="t-body-s muted">{f.description}</span>
   </span>
@@ -69,12 +66,6 @@ const shot = getFeatureShots(f.slug)[0];
     display: flex;
     flex-direction: column;
     gap: 8px;
-  }
-  .fc-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
   }
   .fc-name {
     margin-top: 8px;

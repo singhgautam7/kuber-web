@@ -7,7 +7,6 @@ import { config } from '@/config';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Icon from '@/components/Icon.astro';
 import Badges from '@/components/Badges.astro';
-import PlayBadge from '@/components/PlayBadge.astro';
 import Screenshot from '@/components/Screenshot.astro';
 import CopyButton from '@/components/CopyButton.astro';
 
@@ -52,31 +51,27 @@ const promo = config.currentPromo;
 const routes = f.navigation ?? [];
 ---
 <BaseLayout title={f.title} description={f.description} ogImage={og} ogType="article">
-  <div class="wrap">
-    <div class="page-top top">
-      <div class="head">
-        <nav aria-label="Breadcrumb" class="crumbs t-body-s">
-          <a href={url('/features')}>Features</a><Icon name="chevron_right" size={18} /><span aria-current="page">{f.title}</span>
-        </nav>
-        <span class="tile tile-pc big"><Icon name={f.iconName ?? 'apps'} size={32} /></span>
-        <div class="title">
-          <h1 class="t-display">{f.title}</h1>
-          <Badges beta={f.beta} signature={f.signature} />
-        </div>
+  <!-- Feature page template (design: Web v1 Feature Pages, SMS Import P2). -->
+  <div class="wrap fwrap">
+    <nav aria-label="Breadcrumb" class="crumbs t-label">
+      <a href={url('/features')}>Features</a><Icon name="chevron_right" size={18} /><span aria-current="page">{f.title}</span>
+    </nav>
+    <header class="head">
+      <span class="tile big"><Icon name={f.iconName ?? 'apps'} size={32} /></span>
+      <div class="head-text">
+        <div class="title"><h1 class="t-headline">{f.title}</h1><Badges signature={f.signature} /></div>
         <p class="t-lead">{f.description}</p>
-        <div class="actions">
-          <PlayBadge />
-          <a href={url('/features')} class="btn btn-text btn-l has-trail sl">All features<Icon name="arrow_forward" size={20} /></a>
-        </div>
-        {routes.length > 0 && (
-          <button type="button" class="wtf-btn sl" aria-haspopup="dialog" data-dialog-open="where">
-            <Icon name="explore" size={18} />
-            <span class="t-label">Where to find in app</span>
-            <span class="wtf-count t-cap">{routes.length} {routes.length === 1 ? 'way' : 'ways'}</span>
-          </button>
-        )}
       </div>
-    </div>
+    </header>
+    {routes.length > 0 && (
+      <div class="wtf-row">
+        <button type="button" class="wtf-btn sl" aria-haspopup="dialog" data-dialog-open="where">
+          <Icon name="explore" size={18} />
+          <span class="t-label">Where to find in app</span>
+          <span class="wtf-count t-cap">{routes.length} {routes.length === 1 ? 'way' : 'ways'}</span>
+        </button>
+      </div>
+    )}
 
     {shots.length > 0 && (
       <section aria-label={`${f.title} screenshots`} class="shots-wrap">
@@ -88,7 +83,6 @@ const routes = f.navigation ?? [];
 
     <div class="body">
       <article class="article">
-        <h2 class="t-title-l">How it works</h2>
         <div class="prose"><Content /></div>
 
         {promo && (
@@ -100,7 +94,8 @@ const routes = f.navigation ?? [];
         )}
 
         <div class="foot">
-          <a href={url('/docs/privacy-policy')} class="link"><Icon name="shield" size={18} />Read the privacy details</a>
+          <a href={config.playStoreUrl} target="_blank" rel="noopener" class="btn btn-filled btn-l has-trail sl">Try it in Kuber<Icon name="arrow_forward" size={20} /></a>
+          <a href={url('/docs/privacy-policy')} class="link muted">Read the privacy details</a>
         </div>
       </article>
 
@@ -111,7 +106,7 @@ const routes = f.navigation ?? [];
             {related.map((r) => (
               <a href={url(`/features/${r.data.slug}`)} class="rel sl">
                 <span class="tile"><Icon name={r.data.iconName ?? 'apps'} size={22} /></span>
-                <span class="rel-text"><span class="t-title-s">{r.data.title}</span>{r.data.beta && <span class="t-cap muted">Beta</span>}</span>
+                <span class="rel-text"><span class="t-title-s">{r.data.title}</span></span>
                 <Icon name="chevron_right" size={20} class="muted" />
               </a>
             ))}
@@ -152,45 +147,57 @@ const routes = f.navigation ?? [];
 </BaseLayout>
 
 <style>
-  .head {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    max-width: 760px;
+  .fwrap {
+    max-width: calc(1000px + 2 * var(--k-gutter));
+    padding-top: 128px;
   }
   .crumbs {
     display: flex;
     align-items: center;
     gap: 6px;
     flex-wrap: wrap;
+    padding-top: 32px;
     color: var(--k-on-surface-variant);
   }
   .crumbs a {
     color: var(--k-on-surface-variant);
+    text-decoration: none;
   }
   .crumbs [aria-current] {
     color: var(--k-on-surface);
   }
+  .head {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 24px 0 8px;
+  }
   .big {
     width: 64px;
     height: 64px;
-    border-radius: 20px;
+    border-radius: 18px;
+  }
+  .head-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
   .title {
     display: flex;
-    flex-direction: column;
-    gap: 14px;
-    align-items: flex-start;
-  }
-  .actions {
-    display: flex;
-    gap: 12px;
     align-items: center;
+    gap: 12px;
     flex-wrap: wrap;
-    margin-top: 8px;
+  }
+  .head .t-lead {
+    max-width: 560px;
+  }
+  .wtf-row {
+    padding-top: 12px;
   }
   .shots-wrap {
-    padding: 48px 0 16px;
+    padding: 32px 0;
   }
   .shots {
     display: grid;
@@ -201,19 +208,17 @@ const routes = f.navigation ?? [];
   }
   .body {
     display: grid;
-    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
-    gap: 72px;
-    padding: 72px 0 var(--k-section);
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 48px;
+    padding: 16px 0 var(--k-section);
   }
   .article {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    max-width: 680px;
+    gap: 32px;
     min-width: 0;
   }
   .wtf-btn {
-    align-self: flex-start;
     height: 40px;
     padding: 0 8px 0 12px;
     border-radius: var(--k-r-full);
@@ -223,7 +228,6 @@ const routes = f.navigation ?? [];
     align-items: center;
     gap: 8px;
     color: var(--k-on-surface);
-    margin-top: 4px;
   }
   .wtf-btn :global(.ic) {
     color: var(--k-primary);
@@ -364,11 +368,11 @@ const routes = f.navigation ?? [];
   }
   .foot {
     display: flex;
-    gap: 12px;
+    gap: 12px 20px;
     flex-wrap: wrap;
-    padding-top: 16px;
+    align-items: center;
+    padding-top: 24px;
     border-top: 1px solid var(--k-outline-variant);
-    margin-top: 12px;
   }
   .aside {
     display: flex;
@@ -424,8 +428,18 @@ const routes = f.navigation ?? [];
       gap: 12px;
     }
     .body {
-      padding-top: 48px;
+      padding-top: 16px;
       gap: 40px;
+    }
+    .fwrap {
+      padding-top: 96px;
+    }
+    .crumbs {
+      padding-top: 16px;
+    }
+    .big {
+      width: 56px;
+      height: 56px;
     }
   }
 </style>

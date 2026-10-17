@@ -72,8 +72,8 @@ const tools = [
   .parts {
     display: flex;
     flex-direction: column;
-    gap: 96px;
-    margin-top: 64px;
+    gap: clamp(48px, 9svh, 96px);
+    margin-top: clamp(32px, 6svh, 64px);
   }
   .part {
     display: grid;
@@ -87,9 +87,11 @@ const tools = [
   .part.flip .stage-panel {
     order: 2;
   }
+  /* Stage scale follows the screen height so each part fits one screen. */
   .stage-panel {
     --sc: 1.45;
-    height: calc(var(--h) * var(--sc) * 1px + 120px);
+    --pad: 120px;
+    height: calc(var(--h) * var(--sc) * 1px + var(--pad));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -177,28 +179,41 @@ const tools = [
     :global(.js) [data-stage='3'].play :global(circle[stroke-dasharray]) {
       animation: fade 600ms var(--k-ease) 1400ms both;
     }
-    /* 5 · Go further (storyboard page 5, 3740 ms): each vignette in turn,
-       the matching line spotlit, then the five icon tiles. */
+    /* 5 · Go further: the app's timeline (why_kuber/widgets/page_features.dart,
+       15.5 s). Each feature holds a 3 s slot starting at 300 + 3000·i ms,
+       fading in and out over 150 ms; its storyboard micro-animation is
+       stretched to the first 2 s of the slot. Icons rest from 15.3 s. */
     :global(.js) [data-stage='4'].play :global([data-v]) {
-      animation: vshow 640ms var(--k-ease) both;
+      animation: vslot 3150ms linear both;
     }
     :global(.js) [data-stage='4'].play :global([data-v='1']) { animation-delay: 300ms; }
-    :global(.js) [data-stage='4'].play :global([data-v='2']) { animation-delay: 940ms; }
-    :global(.js) [data-stage='4'].play :global([data-v='3']) { animation-delay: 1580ms; }
-    :global(.js) [data-stage='4'].play :global([data-v='4']) { animation-delay: 2220ms; }
-    :global(.js) [data-stage='4'].play :global([data-v='5']) { animation-delay: 2860ms; }
-    :global(.js) [data-stage='4'].play :global([data-v='0']) {
-      animation: fade 240ms var(--k-ease) 3500ms both;
+    :global(.js) [data-stage='4'].play :global([data-v='2']) { animation-delay: 3300ms; }
+    :global(.js) [data-stage='4'].play :global([data-v='3']) { animation-delay: 6300ms; }
+    :global(.js) [data-stage='4'].play :global([data-v='4']) { animation-delay: 9300ms; }
+    :global(.js) [data-stage='4'].play :global([data-v='5']) { animation-delay: 12300ms; }
+    :global(.js) [data-stage='4'].play :global([data-v='0']) { animation: fade 240ms var(--k-ease) 15300ms both; }
+    /* Ask Kuber: question types in, answer rises. */
+    :global(.js) [data-stage='4'].play :global([data-sub='type']) { animation: type 952ms steps(28, end) 776ms both; }
+    :global(.js) [data-stage='4'].play :global([data-v='1'] [data-sub='rise']) { animation: rise 476ms var(--k-ease) 1824ms both; }
+    /* Kuber Cards: the card flips to its masked back. */
+    :global(.js) [data-stage='4'].play :global([data-sub='flip']) { animation: flip 1304ms var(--k-ease) 3996ms both; }
+    :global(.js) [data-stage='4'].play :global([data-sub='back']) { animation: appear 1348ms steps(1, end) 3300ms both; }
+    /* Kuber Notes: the total appears, then becomes a Travel transaction. */
+    :global(.js) [data-stage='4'].play :global([data-sub='result']) { animation: pop-in 455ms var(--k-ease) 7118ms both; }
+    :global(.js) [data-stage='4'].play :global([data-sub='chip']) { animation: chip-in 727ms var(--k-ease) 7573ms both; }
+    /* Calculator: inputs fill in, then the result. */
+    :global(.js) [data-stage='4'].play :global([data-sub='in']) {
+      animation: fade 577ms var(--k-ease) both;
+      animation-delay: calc(9608ms + var(--j) * 192ms);
     }
-    :global(.js) [data-stage='4'].play :global([data-v='1'] [data-sub='rise']) { animation: rise 150ms var(--k-ease) 780ms both; }
-    :global(.js) [data-stage='4'].play :global([data-sub='flip']) { animation: flip 300ms var(--k-ease) 1100ms both; }
-    :global(.js) [data-stage='4'].play :global([data-v='3'] [data-sub='rise']) { animation: rise 240ms var(--k-ease) 2000ms both; }
-    :global(.js) [data-stage='4'].play :global([data-v='4'] [data-sub='rise']) { animation: rise 240ms var(--k-ease) 2500ms both; }
-    :global(.js) [data-stage='4'].play :global([data-sub='bell']) { animation: bell 270ms linear 2900ms both; }
-    :global(.js) [data-stage='4'].play :global([data-sub='drop']) { animation: drop 260ms var(--k-ease) 3000ms both; }
+    :global(.js) [data-stage='4'].play :global([data-v='4'] [data-sub='rise']) { animation: rise 923ms var(--k-ease) 10377ms both; }
+    /* Reminders: the bell rings, the notification arrives. */
+    :global(.js) [data-stage='4'].play :global([data-sub='bell']) { animation: bell 1200ms linear 12500ms both; }
+    :global(.js) [data-stage='4'].play :global([data-sub='drop']) { animation: drop 1300ms var(--k-ease) 13000ms both; }
+    /* Lines fade in 50 ms apart, then each is spotlit for its slot. */
     :global(.js) .tools[data-stage].play li {
-      animation: spot 640ms var(--k-ease) both;
-      animation-delay: calc(300ms + var(--i) * 640ms);
+      animation: fade 100ms linear both, spot 3150ms linear both;
+      animation-delay: calc(var(--i) * 50ms), calc(300ms + var(--i) * 3000ms);
     }
   }
   /* Stage 5 rest frame: only the five icon tiles show without motion. */
@@ -244,14 +259,42 @@ const tools = [
       transform: rotate(-10deg);
     }
   }
-  @keyframes vshow {
+  @keyframes vslot {
     0%,
     100% {
       opacity: 0;
     }
-    23%,
-    77% {
+    4.76%,
+    95.24% {
       opacity: 1;
+    }
+  }
+  @keyframes type {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+  @keyframes appear {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes pop-in {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+  }
+  @keyframes chip-in {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
     }
   }
   @keyframes flip {
@@ -270,16 +313,25 @@ const tools = [
     100% {
       background: transparent;
     }
-    23%,
-    77% {
+    4.76%,
+    95.24% {
       background: var(--k-secondary-container);
     }
   }
 
-  @media (max-width: 1023px) {
-    .parts {
-      gap: 72px;
+  @media (max-height: 1000px) {
+    .stage-panel {
+      --sc: 1.2;
+      --pad: 80px;
     }
+  }
+  @media (max-height: 820px) {
+    .stage-panel {
+      --sc: 1.05;
+      --pad: 64px;
+    }
+  }
+  @media (max-width: 1023px) {
     .part,
     .part.flip {
       gap: 40px;

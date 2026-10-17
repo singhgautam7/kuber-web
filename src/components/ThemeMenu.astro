@@ -39,7 +39,6 @@ const modes = [
         <button type="button" class="tile-btn sl" data-set-fam={f.id} aria-pressed="false" aria-label={`${f.name}, ${f.blurb}`}>
           <span class="sw" style={`background:var(--k-swatch-${f.id})`}></span>
           <span class="tile-name">{f.name}</span>
-          {!menu && <span class="tile-blurb">{f.blurb}</span>}
           <Icon name="check_circle" fill size={menu ? 16 : 18} class="tile-check" />
         </button>
       ))}
@@ -111,19 +110,19 @@ const modes = [
   .seg-btn:focus-visible {
     outline-offset: -3px;
   }
+  /* Home section: 8 across (2 rows), so the section fits one screen. */
   .tiles {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 10px;
-    max-width: 560px;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 8px;
   }
   .tm-menu .tiles {
     gap: 4px;
   }
   .tile-btn {
     position: relative;
-    min-height: 104px;
-    padding: 14px 8px 12px;
+    min-height: 84px;
+    padding: 12px 4px 10px;
     border-radius: var(--k-r-m);
     border: 1px solid var(--k-outline-variant);
     background: var(--k-surface);
@@ -143,8 +142,8 @@ const modes = [
     gap: 6px;
   }
   .sw {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border-radius: 999px;
     box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--k-on-surface) 16%, transparent);
     flex: none;
@@ -155,18 +154,13 @@ const modes = [
     height: 32px;
   }
   .tile-name {
-    font: 600 14px/20px var(--k-font);
+    font: 600 12px/16px var(--k-font);
     color: var(--k-on-surface);
     text-wrap: balance;
   }
   .tm-menu .tile-name {
     font: 500 12px/16px var(--k-font);
     letter-spacing: 0.2px;
-  }
-  .tile-blurb {
-    font: 500 12px/16px var(--k-font);
-    color: var(--k-on-surface-variant);
-    margin-top: -6px;
   }
   .tile-btn :global(.tile-check) {
     position: absolute;
@@ -182,8 +176,7 @@ const modes = [
     background: var(--k-secondary-container);
     border-color: var(--k-secondary-container);
   }
-  .tile-btn[aria-pressed='true'] .tile-name,
-  .tile-btn[aria-pressed='true'] .tile-blurb {
+  .tile-btn[aria-pressed='true'] .tile-name {
     color: var(--k-on-secondary-container);
   }
   .tile-btn[aria-pressed='true'] :global(.tile-check) {
@@ -202,17 +195,12 @@ const modes = [
     padding: 4px 8px 0;
     text-wrap: pretty;
   }
+  .tm-menu .tiles {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
   @media (max-width: 599px) {
     .tiles {
-      gap: 8px;
-    }
-    .tile-btn {
-      min-height: 96px;
-      padding: 12px 4px 10px;
-    }
-    .sw {
-      width: 32px;
-      height: 32px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
 </style>
