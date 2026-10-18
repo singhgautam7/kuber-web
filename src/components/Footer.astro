@@ -6,7 +6,11 @@ import BrandMark from './BrandMark.astro';
 import PlayBadge from './PlayBadge.astro';
 
 const cols = [
-  ['Product', [['Features', url('/features')], ['Kuber Pro', url('/features/pro-plans')], ['Changelog', url('/changelog')]]],
+  ['Product', [
+    ['Features', url('/features')],
+    ['Kuber Pro', url('/features/pro-plans')],
+    // ['Changelog', url('/changelog')],
+  ]],
   ['Help', [['Docs', url('/docs')], ['FAQ', url('/docs/faq')], ['Support', config.githubUrl]]],
   ['Legal', [['Privacy Policy', url('/docs/privacy-policy')], ['Data Deletion', url('/docs/data-deletion')]]],
   ['Kuber', [['About', url('/about')], ['Press kit', url('/press')], ['GitHub', config.githubUrl], ['Developer site', config.portfolioUrl]]],
