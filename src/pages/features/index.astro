@@ -4,6 +4,7 @@ import { FEATURE_CATEGORIES } from '@/content.config';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Icon from '@/components/Icon.astro';
 import FeatureCard from '@/components/FeatureCard.astro';
+import { url } from '@/lib/url';
 
 const features = (await getCollection('features')).map((f) => f.data).sort((a, b) => a.order - b.order);
 // Counts come from the data. Chips: All and Signature (design review round 2).
@@ -22,6 +23,7 @@ const intro = 'A complete picture of what Kuber does. Free features are yours fo
         <h1 class="t-display">Every tool, one app</h1>
         <p class="t-lead">{intro}</p>
       </div>
+      <a href={`${url('/')}#tour`} class="btn btn-tonal has-icon sl tour-btn"><Icon name="play_circle" size={20} />Watch the 3 minute tour</a>
       <div class="chips" role="group" aria-label="Filter features" data-filter-chips>
         {chips.map(([id, label, n], i) => (
           <button type="button" class="fchip sl" data-filter={id} aria-pressed={i === 0 ? 'true' : 'false'}>
@@ -47,6 +49,10 @@ const intro = 'A complete picture of what Kuber does. Free features are yours fo
     display: flex;
     flex-direction: column;
     gap: 20px;
+  }
+  .tour-btn {
+    align-self: flex-start;
+    margin-top: 4px;
   }
   .chips {
     display: flex;

@@ -111,7 +111,7 @@ Feature detail bodies:
 | Themes | Make it yours · Seven themes. Light and dark. · Pick an accent family and Kuber recolors, income and expense included. Tap a theme below to try it. The whole site changes with you. · Mode · Accent |
 | Numbers | In numbers · Small app. A lot inside. · 20+ Banks supported for SMS import · 12+ Home screen widgets · 13 Built-in calculators · 7 Themes, each in light and dark · 5 Languages |
 | Banks | SMS import works with 20+ banks, including · HDFC Bank · State Bank of India · ICICI Bank · Axis Bank · Kotak Mahindra Bank · Punjab National Bank · IDFC FIRST Bank · Yes Bank · and more · How SMS import works · Bank names are shown for reference only. Kuber is not affiliated with these banks. |
-| Developer | Made by one developer · Kuber is built and maintained by Gautam Rajeev Singh, one developer from India. It started because no expense app felt fast, private and simple enough for daily use. So he built one. · Read the full letter · GitHub · singhgautam.com |
+| Developer | Made by one developer · Kuber is built and maintained by Gautam Rajeev Singh, one developer in India. It started because no expense app felt fast, private and simple enough for daily use. So he built one. · Read the full letter · GitHub · singhgautam.com |
 | CTA | Start tracking today · Free to download. Under 17 MB. No account needed. |
 | Reviews (hidden) | What people say · real quotes only, with name and source (Google Play · month year) |
 
@@ -161,3 +161,21 @@ Versions show the marketing version only (5.1.0, not 5.1.0+53). "Weekday vs week
 ## Mockup sample data
 
 Generic names only: Your Bank, Rewards Card, Savings Bank, Savings Account, Wallet, Food delivery, Streaming plan, ACME LTD; sender ID AD-YRBANK. Real bank names appear only in the Banks section as a factual list.
+
+
+## Launch film (video-embed.md)
+
+| Key | Copy |
+|---|---|
+| Home section | See it in action · The whole app in 3 minutes · A short tour of Kuber, from adding an expense to SMS import, Ask Kuber and Kuber Notes. Music only, no voiceover. |
+| Play button | Play the tour · 3:03 (aria-label: Play the Kuber feature tour, 3 minutes) |
+| Loading | Loading |
+| Chapters | Jump to · Add a transaction · Accounts and cards · Budgets, loans and more · Import from SMS · Ask Kuber · Kuber Cards · Kuber Notes · Calculators · Languages and themes (aria-label: Play from 1:01, Import from SMS) |
+| Privacy line | Plays from YouTube. Nothing from YouTube loads until you press play. |
+| Link | Watch on YouTube |
+| Offline | You are offline. Connect to the internet to watch the tour. |
+| Press kit | Launch film · The Kuber feature tour. Free to embed or link in your coverage. · About the film · Length · Format · Sound · Chapters · Copy link · Link copied |
+| Features index | Watch the 3 minute tour |
+| Iframe title | Kuber feature tour |
+| Hero text button | Watch the tour (scrolls to #tour) |
+| YouTube thumbnail | Kuber · Fully offline. Fully yours. · The full tour · Offline money app. Made in India. |

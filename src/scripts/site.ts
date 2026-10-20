@@ -1,7 +1,7 @@
 /**
  * Site controller: theme and mode, the theme popover and mobile menu, nav
- * scroll states, reveal-on-scroll, the features filter, copy buttons and the
- * email reveal. Wired by data-* attributes; the same script runs on every page.
+ * scroll states, reveal-on-scroll, the features filter, copy buttons, the
+ * email reveal and the launch film facade. Wired by data-* attributes; the same script runs on every page.
  * The head script already applied the saved theme before first paint.
  */
 
@@ -106,6 +106,22 @@ document.addEventListener('click', async (e) => {
   const modeBtn = t.closest<HTMLElement>('[data-set-mode]');
   if (modeBtn) return apply(state().fam, modeBtn.dataset.setMode as Pref);
 
+  if (t.closest('[data-yt] > button')) return playFilm();
+  const chap = t.closest<HTMLElement>('[data-yt-start]');
+  if (chap) {
+    chap.closest('ul')?.querySelector('[aria-current]')?.removeAttribute('aria-current');
+    chap.setAttribute('aria-current', 'true');
+    return playFilm(Number(chap.dataset.ytStart), false);
+  }
+  // Hero "Watch the tour": scroll to #tour ourselves (a fragment jump would
+  // reset focus) and land focus on play. CSS scroll-behavior handles motion.
+  if (t.closest('a[href="#tour"]')) {
+    e.preventDefault();
+    document.getElementById('tour')?.scrollIntoView();
+    document.querySelector<HTMLElement>('[data-yt] > button')?.focus({ preventScroll: true });
+    return history.pushState(null, '', '#tour');
+  }
+
   const copy = t.closest<HTMLButtonElement>('[data-copy]');
   if (copy) {
     try {
@@ -116,7 +132,7 @@ document.addEventListener('click', async (e) => {
     copy.dataset.copied = '';
     const label = copy.querySelector('[data-copy-label]');
     const before = label?.textContent;
-    if (label) label.textContent = 'Copied';
+    if (label) label.textContent = copy.dataset.copiedLabel ?? 'Copied';
     setTimeout(() => {
       delete copy.dataset.copied;
       if (label) label.textContent = before!;
@@ -138,6 +154,49 @@ document.addEventListener('click', async (e) => {
     link.focus();
   }
 });
+
+/* ============ Launch film (video-embed.md §2) ============ */
+// Click-to-load: the youtube-nocookie iframe is created only here, on a click.
+// Once it exists, chapters seek through the player's postMessage API.
+const YT = 'https://www.youtube-nocookie.com';
+function playFilm(start = 0, focusPlayer = true) {
+  const box = document.querySelector<HTMLElement>('[data-yt]');
+  if (!box) return;
+  const old = box.querySelector('iframe');
+  if (old) {
+    const cmd = (func: string, args: unknown[] = []) => old.contentWindow?.postMessage(JSON.stringify({ event: 'command', func, args }), YT);
+    cmd('seekTo', [start, true]);
+    cmd('playVideo');
+    return;
+  }
+  const btn = box.querySelector('button')!;
+  const off = box.querySelector('[role="status"]')!;
+  if (!navigator.onLine) {
+    box.dataset.state = 'offline';
+    off.textContent = 'You are offline. Connect to the internet to watch the tour.';
+    return;
+  }
+  off.textContent = '';
+  box.dataset.state = 'loading';
+  btn.disabled = true;
+  btn.setAttribute('aria-busy', 'true');
+  const f = document.createElement('iframe');
+  f.src = `${YT}/embed/${box.dataset.yt}?autoplay=1&rel=0&playsinline=1&enablejsapi=1${start ? `&start=${start}` : ''}`;
+  f.title = 'Kuber feature tour';
+  f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+  f.referrerPolicy = 'strict-origin-when-cross-origin';
+  f.allowFullscreen = true;
+  f.addEventListener(
+    'load',
+    () => {
+      box.dataset.state = 'playing';
+      btn.removeAttribute('aria-busy');
+      if (focusPlayer) f.focus();
+    },
+    { once: true },
+  );
+  box.append(f);
+}
 
 /* ============ Scroll states ============ */
 // Nav shrinks past 24px; on mobile the FAB is extended only while the Home hero shows.

@@ -8,6 +8,8 @@ import Icon from '@/components/Icon.astro';
 import BrandMark from '@/components/BrandMark.astro';
 import Screenshot from '@/components/Screenshot.astro';
 import CopyButton from '@/components/CopyButton.astro';
+import VideoPlayer from '@/components/VideoPlayer.astro';
+import poster from '@/assets/video/kuber-tour-thumbnail.png';
 
 // Boilerplate lives in content/pages/press-kit.md (two paragraphs).
 const press = await getEntry('pages', 'press-kit');
@@ -31,6 +33,13 @@ const facts = [
   ['Developer', config.developerName],
 ];
 const factText = facts.map(([k, v]) => `${k}: ${v}`).join('\n');
+const filmUrl = `https://www.youtube.com/watch?v=${config.tourVideoId}`;
+const film = [
+  ['Length', '3:03'],
+  ['Format', '16:9, 1080p, 60 fps'],
+  ['Sound', 'Music only, no voiceover'],
+  ['Chapters', '9, listed on YouTube'],
+];
 const wordmarks = [
   ['SVG, light', '/press/kuber-wordmark-light.svg'],
   ['SVG, dark', '/press/kuber-wordmark-dark.svg'],
@@ -82,6 +91,26 @@ const wordmarks = [
             </figcaption>
           </figure>
         ))}
+      </div>
+    </section>
+
+    <section class="block" aria-labelledby="film-h">
+      <div><h2 id="film-h" class="t-title-l">Launch film</h2><p class="muted film-p">The Kuber feature tour. Free to embed or link in your coverage.</p></div>
+      <div>
+        <div class="film">
+          <VideoPlayer poster={poster} width={690} />
+          <div class="card film-card">
+            <h3 class="eyebrow muted">About the film</h3>
+            <dl class="film-dl">
+              {film.map(([k, v]) => <div><dt class="t-body-s muted">{k}</dt><dd class="t-label">{v}</dd></div>)}
+            </dl>
+            <div class="dl-row">
+              <a href={filmUrl} target="_blank" rel="noopener" class="btn btn-outlined btn-s sl">Watch on YouTube<Icon name="north_east" size={18} /></a>
+              <CopyButton text={filmUrl} label="Copy link" attrs={{ 'data-copied-label': 'Link copied' }} />
+            </div>
+          </div>
+        </div>
+        <div class="vp-note"><p class="t-cap muted"><Icon name="info" size={16} />Plays from YouTube. Nothing from YouTube loads until you press play.</p></div>
       </div>
     </section>
 
@@ -191,6 +220,36 @@ const wordmarks = [
     font-weight: 600;
     min-height: 24px;
   }
+  .film-p {
+    margin-top: 6px;
+  }
+  .film {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: 24px;
+    align-items: start;
+  }
+  .film-card {
+    border-radius: var(--k-r-2xl);
+    padding: 32px;
+  }
+  .film-dl {
+    margin: 12px 0 20px;
+  }
+  .film-dl div {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 0;
+  }
+  .film-dl div + div {
+    border-top: 1px solid var(--k-outline-variant);
+  }
+  .film-dl dd {
+    margin: 0;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
   .boiler {
     padding: 40px;
   }
@@ -213,6 +272,10 @@ const wordmarks = [
     margin: 8px 0 0;
   }
   @media (max-width: 1023px) {
+    .film {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
     .shots {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -230,7 +293,8 @@ const wordmarks = [
   }
   @media (max-width: 599px) {
     .big,
-    .boiler {
+    .boiler,
+    .film-card {
       padding: 24px;
     }
     .wordmark {

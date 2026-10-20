@@ -73,6 +73,9 @@ html.k-theming *::before {
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
   @view-transition {
     navigation: none;
   }
@@ -356,6 +359,27 @@ a {
 .panel {
   background: var(--k-surface-container-low);
   border-radius: clamp(32px, 3vw, 48px);
+}
+
+/* Launch film note row, under the player (Home, Press kit). */
+.vp-note {
+  margin-top: 16px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+.vp-note p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+@media (max-width: 599px) {
+  .vp-note {
+    padding: 0 8px;
+  }
 }
 
 /* ============ Reveal on scroll (site.ts adds .is-in) ============ */

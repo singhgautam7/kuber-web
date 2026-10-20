@@ -23,6 +23,8 @@ export interface SiteConfig {
   developerEmail: string;
   developerName: string;
   portfolioUrl: string;
+  /** YouTube id of the 3:03 feature tour (the launch film). */
+  tourVideoId: string;
   /** Set to null, or omit entirely, to hide the promo banner everywhere. */
   currentPromo?: Promo | null;
 }
@@ -36,6 +38,7 @@ export const config: SiteConfig = {
   developerEmail: 'hello@singhgautam.com',
   developerName: 'Gautam Rajeev Singh',
   portfolioUrl: 'https://www.singhgautam.com/',
+  tourVideoId: 'gdgvbxTNrRA',
   // currentPromo: {
   //   code: 'KUBERLAUNCH',
   //   description: 'Launch discount on Kuber Pro. Use this code at checkout.',

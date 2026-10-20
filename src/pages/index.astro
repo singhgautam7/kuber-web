@@ -14,6 +14,8 @@ import HomeScreen from '@/components/mockups/HomeScreen.astro';
 import HistoryScreen from '@/components/mockups/HistoryScreen.astro';
 import WhyKuber from '@/components/home/WhyKuber.astro';
 import Reviews from '@/components/home/Reviews.astro';
+import VideoPlayer from '@/components/VideoPlayer.astro';
+import poster from '@/assets/video/kuber-tour-thumbnail.png';
 
 const features = await getCollection('features');
 const bySlug = Object.fromEntries(features.map((f) => [f.data.slug, f.data]));
@@ -31,6 +33,19 @@ const numbers = [
   ['9', 'Languages'],
 ];
 // Bank names as text, not logos (open-decisions §1).
+// The film's chapters, as listed on YouTube.
+const chapters: [number, string][] = [
+  [0, 'Meet Kuber and quick add'],
+  [23, 'Accounts and categories'],
+  [36, 'Budgets, recurring, loans and investments'],
+  [61, 'Import from SMS'],
+  [80, 'Ask Kuber'],
+  [90, 'Kuber Cards and Kuber Notes'],
+  [111, 'Reminders and calculators'],
+  [132, 'Backups, languages and themes'],
+  [165, 'And more'],
+];
+const mmss = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'Kotak Mahindra Bank', 'Punjab National Bank', 'IDFC FIRST Bank', 'Yes Bank'];
 ---
 <BaseLayout title="Kuber">
@@ -48,6 +63,7 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
           <div class="hero-actions a-in" style="--d:180ms">
             <PlayBadge />
             <a href={url('/features')} class="btn btn-text btn-l has-trail sl see-all">See all features<Icon name="arrow_forward" size={20} /></a>
+            <a href="#tour" class="btn btn-text btn-l sl see-all"><Icon name="play_circle" size={20} />Watch the tour</a>
           </div>
         </div>
         <div class="hero-phone a-phone">
@@ -65,6 +81,34 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
   </div>
 
   <WhyKuber />
+
+  <!-- Launch film: click-to-load, nothing from YouTube before play. -->
+  <section id="tour" class="sec tour" aria-labelledby="tour-h">
+    <div class="wrap">
+      <div class="shead" data-reveal>
+        <div class="eyebrow">See it in action</div>
+        <h2 id="tour-h" class="t-headline">The whole app in 3 minutes</h2>
+        <p class="t-lead">A short tour of Kuber, from adding an expense to SMS import, Ask Kuber and Kuber Notes. Music only, no voiceover.</p>
+      </div>
+    </div>
+    <div class="wrap hero-gutter">
+      <div class="tour-panel">
+        <VideoPlayer poster={poster} width={830} />
+        <div class="chap">
+          <div class="eyebrow muted chap-h" aria-hidden="true">Jump to</div>
+          <ul aria-label="Chapters">
+            {chapters.map(([s, n]) => (
+              <li><button type="button" class="sl" data-yt-start={s} aria-label={`Play from ${mmss(s)}, ${n}`}><span class="t-label chap-t">{mmss(s)}</span><span class="chap-n">{n}</span><Icon name="graphic_eq" size={18} class="chap-eq" /></button></li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div class="vp-note">
+        <p class="t-cap muted"><Icon name="info" size={16} />Plays from YouTube. Nothing from YouTube loads until you press play.</p>
+        <a href={`https://www.youtube.com/watch?v=${config.tourVideoId}`} target="_blank" rel="noopener" class="link">Watch on YouTube<Icon name="north_east" size={18} /></a>
+      </div>
+    </div>
+  </section>
 
   <!-- Signature -->
   <section class="sec" aria-labelledby="sig">
@@ -283,6 +327,115 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
     from {
       opacity: 0;
       transform: translateY(32px);
+    }
+  }
+
+  /* See it in action (video-embed.md §4) */
+  .tour {
+    padding-bottom: var(--k-section);
+  }
+  .tour-panel {
+    margin-top: 48px;
+    border-radius: var(--k-r-3xl);
+    background: var(--k-surface-container-low);
+    border: 1px solid var(--k-outline-variant);
+    padding: 24px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 24px;
+    align-items: start;
+  }
+  .chap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+  }
+  .chap-h {
+    padding: 6px 12px 4px;
+  }
+  .chap ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .chap button {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+    color: var(--k-on-surface);
+  }
+  .chap-t {
+    width: 36px;
+    flex: none;
+    color: var(--k-primary);
+    font-variant-numeric: tabular-nums;
+  }
+  .chap-n {
+    flex: 1;
+    font: 400 14px/20px var(--k-font);
+  }
+  .chap :global(.chap-eq) {
+    display: none;
+  }
+  .chap button[aria-current] {
+    background: var(--k-secondary-container);
+    border-color: var(--k-secondary-container);
+    color: var(--k-on-secondary-container);
+    --sl: var(--k-on-secondary-container);
+  }
+  .chap button[aria-current] .chap-t {
+    color: inherit;
+  }
+  .chap button[aria-current] .chap-n {
+    font-weight: 600;
+  }
+  .chap button[aria-current] :global(.chap-eq) {
+    display: inline-block;
+  }
+  /* Below desktop the chapters become a sideways row of chips. */
+  @media (max-width: 1023px) {
+    .tour-panel {
+      display: block;
+    }
+    .chap-h {
+      display: none;
+    }
+    .chap ul {
+      margin: 12px -24px 0;
+      padding: 0 24px 2px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .chap li {
+      flex: none;
+    }
+    .chap button {
+      min-height: 36px;
+      padding: 0 12px;
+      gap: 8px;
+      border-radius: var(--k-r-xs);
+      border: 1px solid var(--k-outline-variant);
+    }
+    .chap-t {
+      width: auto;
+    }
+    .chap-n {
+      font: 600 14px/20px var(--k-font);
+      white-space: nowrap;
+    }
+    .chap button[aria-current] .chap-n {
+      font-weight: 600;
+    }
+    .chap button[aria-current] :global(.chap-eq) {
+      display: none;
     }
   }
 
@@ -623,6 +776,15 @@ const banks = ['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'K
     }
     .hero-gutter {
       padding: 0 12px;
+    }
+    .tour-panel {
+      margin-top: 32px;
+      border-radius: 28px;
+      padding: 12px;
+    }
+    .chap ul {
+      margin: 12px -12px 0;
+      padding: 0 12px 2px;
     }
     .themes {
       padding: 40px 20px;
