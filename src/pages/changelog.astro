@@ -18,7 +18,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-IN', { day: 'numeric', month: 
           <li class="entry">
             <div class="meta">
               <span class="t-label">{fmt(e.data.date)}</span>
-              {e.data.version && <span class="t-cap muted mono">v{e.data.version}</span>}
+              {e.data.version && <span class="t-cap muted mono">v{e.data.version.replace(/\+.*/, '')}</span>}
             </div>
             <div class="content">
               <div class="title">
