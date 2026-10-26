@@ -67,6 +67,8 @@ const changelog = defineCollection({
     summary: z.string().optional(),
     latest: z.boolean().default(false),
     points: z.array(z.string()).optional(),
+    new: z.array(z.string()).optional(),
+    bugsFixed: z.array(z.string()).optional(),
   }),
 });
 

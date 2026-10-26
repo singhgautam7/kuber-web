@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 
 const entries = (await getCollection('changelog')).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-const fmt = (d: Date) => d.toLocaleDateString('en-IN', { month: 'long', year: 'numeric' });
+const fmt = (d: Date) => d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
 ---
 <BaseLayout title="Changelog" description="Every Kuber release, newest first. No account, no cloud, no surprises.">
   <div class="wrap">
@@ -26,7 +26,25 @@ const fmt = (d: Date) => d.toLocaleDateString('en-IN', { month: 'long', year: 'n
                 {e.data.latest && <span class="badge latest">Latest</span>}
               </div>
               {e.data.summary && <p class="muted">{e.data.summary}</p>}
-              {e.data.points && <ul>{e.data.points.map((p) => <li>{p}</li>)}</ul>}
+              {e.data.new && e.data.new.length > 0 && (
+                <div class="changelog-section">
+                  <span class="section-label">New:</span>
+                  <ul class="bullet-list">
+                    {e.data.new.map((p) => <li>{p}</li>)}
+                  </ul>
+                </div>
+              )}
+              {e.data.bugsFixed && e.data.bugsFixed.length > 0 && (
+                <div class="changelog-section">
+                  <span class="section-label">Bugs fixed:</span>
+                  <ul class="bullet-list">
+                    {e.data.bugsFixed.map((p) => <li>{p}</li>)}
+                  </ul>
+                </div>
+              )}
+              {e.data.points && (!e.data.new || e.data.new.length === 0) && (!e.data.bugsFixed || e.data.bugsFixed.length === 0) && (
+                <ul>{e.data.points.map((p) => <li>{p}</li>)}</ul>
+              )}
             </div>
           </li>
         ))}
@@ -76,6 +94,23 @@ const fmt = (d: Date) => d.toLocaleDateString('en-IN', { month: 'long', year: 'n
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
+  }
+  .changelog-section {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .section-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--k-on-surface);
+  }
+  .bullet-list {
+    margin: 0;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
   ul {
     padding-left: 20px;
