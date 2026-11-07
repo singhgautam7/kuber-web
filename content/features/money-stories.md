@@ -16,7 +16,7 @@ navigation:
     steps: ["Home tab", "Money Stories widget"]
     note: "fresh stories stay visible for 48 hours"
   - title: "Stories Archive"
-    steps: ["More tab", "Money Stories Archive"]
+    steps: ["More tab", "Settings", "Activity", "Money Stories Archive"]
     note: "browse past stories anytime"
   - title: "In-app search"
     steps: ["More tab", "Search icon", "Type \"Stories\""]

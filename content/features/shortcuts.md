@@ -18,11 +18,14 @@ navigation:
   - title: "Add New additions sheet"
     steps: ["Floating Action Button (+)", "Long press the blue + button"]
     note: "shows all entry options like loans, notes, investments, cards, and recurring"
+  - title: "Path sheet"
+    steps: ["Any page with a back button", "Tap the page title, or long-press back"]
+    note: "shows how you got here, tap any earlier page to jump straight back"
   - title: "In-app search"
     steps: ["More tab", "Search icon", "Type \"Shortcuts\""]
 ---
 
-Speed up your daily workflow with two distinct long-press shortcut systems:
+Speed up your daily workflow with three shortcut systems:
 
 ### 1. Quick Actions (Long Press Any Tab)
 Long-press on any tab in the bottom navigation bar (Home, History, Analytics, or More) to reveal a dedicated quick controls hub:
@@ -37,3 +40,9 @@ While a regular tap on the floating action button (+) opens standard transaction
 - **Comprehensive Creation Options**: Instantly create an Expense, Income, Transfer, Note, Recurring transaction, Loan, Investment, or Lend/Borrow entry.
 - **Fully Customizable**: Rearrange and curate which addition options appear so your frequent logging workflows stay front and center.
 
+### 3. Path Sheet (Tap a Page Title)
+Deep inside Settings or a loan? See how you got there and jump back in one tap, without pressing back again and again:
+
+- **See Your Path**: The sheet shows every page you came through, like Home, More, Settings, Look and feel, Theme, with the current page marked.
+- **Jump Straight Back**: Tap any earlier page to go right to it. The pages in between close.
+- **Two Ways to Open**: Tap the page title in the header, or long-press the back button.

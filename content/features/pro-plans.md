@@ -29,7 +29,7 @@ Kuber is an offline, private finance app funded directly by the people who use i
 | SMS Import | 5 per week | Unlimited |
 | Reminders | Not included | Included |
 | Automatic Backups | Manual only | Automatic |
-| Themes | Kuber Signature | All 16 |
+| Themes | Kuber Signature | All 17 |
 | **Usage Limits** | | |
 | Kuber Notes | 2 notes | Unlimited |
 | Ask Kuber | 5 per week | Unlimited |
@@ -47,7 +47,7 @@ Kuber is an offline, private finance app funded directly by the people who use i
   - **Advanced Analytics**: Full trend timelines, a financial health score, spending patterns, forecasts and custom date range filters.
 - **Reminders and Customization**:
   - **Bill and EMI Reminders**: Timely notifications on your phone for credit cards, loan EMIs, rent and custom dues.
-  - **All 16 Themes**: Kuber Signature plus the other fifteen accent families (Mull, Vellum, Foxglove, Slate, Clay, Perch, Ember, Fern, Tide, Meadow, Blush, Iris, Coral, Citron and Neon) and the wallpaper palette, each in light and dark.
+  - **All 17 Themes**: Kuber Signature plus the other sixteen accent families (Mull, Vellum, Foxglove, Slate, Clay, Perch, Ember, Fern, Tide, Blush, Iris, Citron, Neon, Saffron, Sky and Ruby) and the wallpaper palette, each in light and dark.
 - **No Limits on Storage**:
   - Keep unlimited private notes and store as many payment cards as you need in Kuber Cards.
 - **Free Trial and Plans**:

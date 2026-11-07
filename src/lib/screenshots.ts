@@ -67,6 +67,7 @@ const ALT: Record<string, string> = {
   'reminders/02-new-reminder': 'New reminder form with amount, date, time and repeat options',
   'shortcuts/01-quick-actions': 'Quick Actions sheet over Home with controls and shortcuts',
   'shortcuts/02-add-new-shortcuts': 'Add New sheet over Home with custom entry options',
+  'shortcuts/03-path-sheet': 'Path sheet showing Home, More, Settings, Look and feel and Theme, with the current page marked',
   'sms-import/01-sms-inbox': 'Import from SMS listing detected bank transactions to review',
   'sms-import/02-otp-protection': 'Paste an SMS sheet that detects an OTP message and skips it',
   'sms-import/03-review-transaction': 'Review SMS sheet with the parsed amount, account, category and date',

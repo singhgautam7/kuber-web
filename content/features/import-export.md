@@ -15,7 +15,7 @@ navigation:
   - title: "Transaction statements"
     steps: ["History tab", "Export icon", "Choose CSV or PDF"]
   - title: "Data management"
-    steps: ["More tab", "Settings", "Data Management"]
+    steps: ["More tab", "Settings", "Data and backup"]
   - title: "Direct menu"
     steps: ["More tab", "Export / Import"]
 ---

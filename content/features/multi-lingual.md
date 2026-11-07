@@ -13,7 +13,7 @@ related:
 iconName: "translate"
 navigation:
   - title: "Direct menu"
-    steps: ["More tab", "Settings", "Language"]
+    steps: ["More tab", "Settings", "App preferences", "Language"]
   - title: "In-app search"
     steps: ["More tab", "Search icon", "Type \"Language\""]
 ---

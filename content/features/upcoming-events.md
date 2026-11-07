@@ -16,7 +16,7 @@ navigation:
     steps: ["Home tab", "Upcoming Events widget", "Tap \"View all\""]
     note: "timeline widget on your dashboard"
   - title: "Direct menu"
-    steps: ["More tab", "Upcoming Events"]
+    steps: ["More tab", "Settings", "Activity", "Upcoming Events"]
   - title: "In-app search"
     steps: ["More tab", "Search icon", "Type \"Upcoming Events\""]
 ---

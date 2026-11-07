@@ -13,7 +13,7 @@ related:
 iconName: "currency_exchange"
 navigation:
   - title: "Settings"
-    steps: ["More tab", "Settings", "Currency"]
+    steps: ["More tab", "Settings", "App preferences", "Currency"]
   - title: "Tools hub"
     steps: ["More tab", "Tools & Calculators", "Currency Converter"]
 ---

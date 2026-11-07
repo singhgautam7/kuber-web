@@ -13,8 +13,7 @@ related:
 iconName: "fingerprint"
 navigation:
   - title: "Direct menu"
-    steps: ["More tab", "Settings", "Biometric Lock"]
-    note: "under the Security section"
+    steps: ["More tab", "Settings", "Privacy and security", "Biometric Lock"]
   - title: "Notes protection"
     steps: ["More tab", "Notes", "Lock icon"]
     note: "protect private calculation notes"

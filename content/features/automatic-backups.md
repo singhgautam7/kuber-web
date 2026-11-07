@@ -14,7 +14,7 @@ related:
 iconName: "backup"
 navigation:
   - title: "Direct menu"
-    steps: ["More tab", "Data", "Automatic Backups"]
+    steps: ["More tab", "Settings", "Data and backup", "Automatic Backups"]
   - title: "In-app search"
     steps: ["More tab", "Search icon", "Type \"Backups\""]
 ---
