@@ -20,9 +20,10 @@ navigation:
     note: "shows all entry options like loans, notes, investments, cards, and recurring"
   - title: "Path sheet"
     steps: ["Any page with a back button", "Tap the page title, or long-press back"]
-    note: "shows how you got here, tap any earlier page to jump straight back"
+    note: "shows how you got here as a tree, tap any earlier page to jump straight back"
   - title: "In-app search"
     steps: ["More tab", "Search icon", "Type \"Shortcuts\""]
+    note: "finds settings, accounts, categories, tags, money plans, people, card names, note titles and tools by name"
 ---
 
 Speed up your daily workflow with three shortcut systems:
@@ -43,6 +44,6 @@ While a regular tap on the floating action button (+) opens standard transaction
 ### 3. Path Sheet (Tap a Page Title)
 Deep inside Settings or a loan? See how you got there and jump back in one tap, without pressing back again and again:
 
-- **See Your Path**: The sheet shows every page you came through, like Home, More, Settings, Look and feel, Theme, with the current page marked.
+- **See Your Path**: The sheet shows every page you came through as a tree, like Home, More, Settings, Look and feel, Theme, with "You are here" on the current page.
 - **Jump Straight Back**: Tap any earlier page to go right to it. The pages in between close.
 - **Two Ways to Open**: Tap the page title in the header, or long-press the back button.
