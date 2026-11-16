@@ -3,13 +3,13 @@ title: "Kuber Pro"
 slug: "pro-plans"
 category: "Money"
 order: 27
-description: "What Kuber Pro unlocks: Advanced Analytics, unlimited SMS imports, automatic backups and higher limits."
+description: "What Kuber Pro unlocks: Advanced Analytics, Custom Dashboard, unlimited SMS imports, automatic backups and higher limits."
 beta: false
 signature: false
 related:
   - sms-import
   - detailed-analytics
-  - themes
+  - custom-dashboard
 iconName: "workspace_premium"
 navigation:
   - title: "More tab banner"
@@ -26,6 +26,7 @@ Kuber is an offline, private finance app funded directly by the people who use i
 | :--- | :--- | :--- |
 | **Advanced Features** | | |
 | Advanced Analytics | Basic charts | Full trends and filters |
+| Custom Dashboard | Not included | Filters, charts and saved views |
 | SMS Import | 5 per week | Unlimited |
 | Reminders | Not included | Included |
 | Automatic Backups | Manual only | Automatic |
@@ -45,6 +46,7 @@ Kuber is an offline, private finance app funded directly by the people who use i
   - **Automatic Backups to a Folder on Your Phone**: Scheduled daily, weekly or monthly backups, saved to a folder you choose on your phone. Nothing is uploaded anywhere.
 - **Deeper Financial Insights**:
   - **Advanced Analytics**: Full trend timelines, a financial health score, spending patterns, forecasts and custom date range filters.
+  - **Custom Dashboard**: Filter every transaction with and, or and brackets, group the results, add donut, bar, stacked, line and calendar heatmap charts, and save the whole view. [Learn more](/features/custom-dashboard/).
 - **Reminders and Customization**:
   - **Bill and EMI Reminders**: Timely notifications on your phone for credit cards, loan EMIs, rent and custom dues.
   - **All 17 Themes**: Kuber Signature plus the other sixteen accent families (Mull, Vellum, Foxglove, Slate, Clay, Perch, Ember, Fern, Tide, Blush, Iris, Citron, Neon, Saffron, Sky and Ruby) and the wallpaper palette, each in light and dark.
