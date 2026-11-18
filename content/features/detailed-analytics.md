@@ -28,7 +28,7 @@ Gain a complete understanding of your money habits with a mix of free core visua
 ### Core Analytics (Free for Everyone)
 The dedicated Analytics tab in Kuber provides instant, interactive insights without requiring a paid subscription:
 
-- **Income and Expense Comparisons**: Toggle between Day, Week, or Month scales, and switch between Bar or Line charts to track net cash flow across any date range.
+- **Income and Expense Chart**: One column per period. The higher of income and expense sits on top, so green on top means you saved and red means you overspent. Tap or long-press a column for the exact amounts, switch between Bar and Line, pick Day, Week or Month, and scroll back through older periods. On Home, the same chart shows the last 7 days, 6 months or a year.
 - **Average Weekly Heatmap**: See which days of the week you spend the most, complete with intensity blocks and precise daily average figures.
 - **Transaction Size Distribution**: Understand your spending profile across ticket sizes: Small (<₹500), Medium (₹500 - ₹2,000), and Large (>₹2,000).
 - **Spending by Category and Group**: Interactive donut charts highlighting category share percentages, totals, and group-level rollups.
