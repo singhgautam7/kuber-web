@@ -53,7 +53,8 @@ Kuber is an offline, private finance app funded directly by the people who use i
 - **No Limits on Storage**:
   - Keep unlimited private notes and store as many payment cards as you need in Kuber Cards.
 - **Free Trial and Plans**:
-  - Monthly, yearly or a one-time Lifetime purchase, billed through Google Play. New yearly customers get a 14-day free trial.
+  - Try every Pro feature free for 14 days, once per phone. New users get it when setup ends; existing free users can claim it from Home or the Kuber Pro page. No payment and nothing to cancel. When it ends, your data stays and Pro features go back to their free limits.
+  - Monthly, yearly or a one-time Lifetime purchase, billed through Google Play. Buying during the trial starts your plan straight away.
 - **Solo Developer Backing**:
   - Every purchase directly funds the solo developer building Kuber as a privacy-focused, ad-free, account-free finance app.
 - **Promo Code Redemption**:
